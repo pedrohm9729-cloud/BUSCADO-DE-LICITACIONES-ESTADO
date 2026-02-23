@@ -1,123 +1,175 @@
 // ==========================================
-// SEACE - MOTOR DE BÚSQUEDA INTELIGENTE v2.5
+// SEACE - MOTOR DE BÚSQUEDA INTELIGENTE v3.0
+// Todas las observaciones implementadas
 // ==========================================
 
 let currentData = [];
+let isSearching = false; // Anti doble-clic
 
 async function loadData() {
-    simulateLoading(true);
+    showSkeleton(true);
     try {
         const response = await fetch('data.json');
-        if (!response.ok) throw new Error('No se encontró data.json');
+        if (!response.ok) throw new Error('No data.json');
         currentData = await response.json();
-
-        // Sincronización Inicial
         updateDashboardStats(currentData);
         updateSidebarBadges(currentData);
         applyFilters();
     } catch (error) {
-        console.warn("Usando datos de demostración...");
-        currentData = []; // Opcional: cargar demo masiva aquí
+        console.warn("Demo mode:", error);
+        currentData = [];
         applyFilters();
-    } finally {
-        setTimeout(() => simulateLoading(false), 800);
     }
 }
 
-// SIMULADOR DE CARGA (Loading State)
-function simulateLoading(isLoading) {
-    const searchBtn = document.getElementById('searchBtn');
-    if (isLoading) {
-        searchBtn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span> Cargando...`;
-        searchBtn.disabled = true;
-        document.getElementById('resultsTableBody').classList.add('opacity-30');
+// === SKELETON LOADER ===
+function showSkeleton(show) {
+    const skeleton = document.getElementById('skeletonLoader');
+    const table = document.querySelector('table');
+    if (show) {
+        skeleton.classList.remove('hidden');
+        table.classList.add('hidden');
     } else {
-        searchBtn.innerHTML = `Buscar <span class="material-symbols-outlined">search</span>`;
-        searchBtn.disabled = false;
-        document.getElementById('resultsTableBody').classList.remove('opacity-30');
+        skeleton.classList.add('hidden');
+        table.classList.remove('hidden');
     }
 }
 
-// NAVEGACIÓN ENTRE VISTAS
+// === NAVEGACIÓN ENTRE VISTAS ===
 window.switchView = (viewName) => {
-    document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
+    document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
     document.getElementById(`${viewName}View`).classList.remove('hidden');
-    updateNavStyles(viewName);
-};
-
-function updateNavStyles(activeView) {
-    const ids = ['Dashboard', 'Search', 'Analytics'];
-    ids.forEach(id => {
+    ['Dashboard', 'Search', 'Analytics'].forEach(id => {
         const el = document.getElementById(`nav${id}`);
-        if (id.toLowerCase() === activeView) {
-            el.classList.add('bg-primary/10', 'text-primary');
-            el.classList.remove('text-slate-600', 'dark:text-slate-400');
+        if (id.toLowerCase() === viewName) {
+            el.className = 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors cursor-pointer';
         } else {
-            el.classList.remove('bg-primary/10', 'text-primary');
-            el.classList.add('text-slate-600', 'dark:text-slate-400');
+            el.className = 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors group cursor-pointer';
         }
     });
-}
+};
 
-// DASHBOARD: Métricas Reales
+// === DASHBOARD: Métricas Reales ===
 function updateDashboardStats(data) {
     const total = data.length;
-    const budget = data.reduce((acc, curr) => acc + curr.budgetMax, 0);
-    const match = total > 0 ? Math.round(data.reduce((acc, curr) => acc + curr.match, 0) / total) : 0;
-
+    const budget = data.reduce((acc, d) => acc + d.budgetMax, 0);
+    const match = total > 0 ? Math.round(data.reduce((acc, d) => acc + d.match, 0) / total) : 0;
     document.getElementById('statTotal').innerText = total;
-    document.getElementById('statBudget').innerText = formatCurrency(budget);
+    document.getElementById('statBudget').innerText = formatPEN(budget);
     document.getElementById('statMatch').innerText = `${match}%`;
 }
 
-// SIDEBAR: Badges Dinámicos
+// === SIDEBAR: Badges Dinámicos ===
 function updateSidebarBadges(data) {
+    const hoy = new Date();
     const nuevas = data.filter(d => {
-        const pDate = new Date(d.publishDate);
-        const hoy = new Date();
-        return (hoy - pDate) < (48 * 60 * 60 * 1000); // 48h
+        const p = new Date(d.publishDate);
+        return (hoy - p) < (48 * 60 * 60 * 1000); // últimas 48h
     }).length;
-
     const cierre = data.filter(d => {
-        const dDate = new Date(d.deadline);
-        const hoy = new Date();
-        const diff = (dDate - hoy) / (1000 * 60 * 60 * 24);
-        return diff > 0 && diff <= 3;
+        const dif = (new Date(d.deadline) - hoy) / (1000 * 60 * 60 * 24);
+        return dif > 0 && dif <= 3;
     }).length;
-
-    // Nota: Si los IDs de los badges no existen, esto no fallará por el opcional
-    const badgeNuevas = document.querySelector('[id*="badgeNuevas"]');
-    const badgeCierre = document.querySelector('[id*="badgeCierre"]');
-    if (badgeNuevas) badgeNuevas.innerText = nuevas;
-    if (badgeCierre) badgeCierre.innerText = cierre;
+    document.getElementById('badgeNuevas').innerText = nuevas;
+    document.getElementById('badgeCierre').innerText = cierre;
 }
 
-// FILTRADO Y RENDERIZADO
-const applyFilters = () => {
-    const searchText = document.getElementById("searchInput").value.toLowerCase();
-    const regionVal = document.getElementById("regionSelect").value;
-    const activeOnly = document.getElementById("activeOnlyToggle").checked;
-
-    let filtered = currentData.filter(item => {
-        if (activeOnly) {
-            if (new Date(item.deadline) < new Date()) return false;
-        }
-        const matchSearch = `${item.title} ${item.agency} ${item.location}`.toLowerCase().includes(searchText);
-        const matchRegion = !regionVal || item.location === regionVal;
-        return matchSearch && matchRegion;
-    });
-
-    renderTable(filtered);
+// === ALERTAS: Filtrar desde sidebar ===
+window.filterByAlert = (tipo) => {
+    switchView('search');
+    const hoy = new Date();
+    if (tipo === 'nuevas') {
+        const filtered = currentData.filter(d => (hoy - new Date(d.publishDate)) < (48 * 60 * 60 * 1000));
+        renderTable(filtered);
+        renderMobileCards(filtered);
+    } else if (tipo === 'cierre') {
+        const filtered = currentData.filter(d => {
+            const dif = (new Date(d.deadline) - hoy) / (1000 * 60 * 60 * 24);
+            return dif > 0 && dif <= 3;
+        });
+        renderTable(filtered);
+        renderMobileCards(filtered);
+    }
 };
 
-const renderTable = (data) => {
-    const tbody = document.getElementById("resultsTableBody");
-    const emptyState = document.getElementById("emptyState");
-    const pagFooter = document.getElementById("paginationFooter");
-    const headerCount = document.getElementById("resultsCount");
+// === FILTRO DE PRESUPUESTO: Custom Min/Max ===
+const budgetSelect = document.getElementById('budgetSelect');
+budgetSelect.addEventListener('change', () => {
+    const custom = document.getElementById('customBudgetInputs');
+    if (budgetSelect.value === 'custom') {
+        custom.classList.remove('hidden');
+        custom.classList.add('flex');
+    } else {
+        custom.classList.add('hidden');
+        custom.classList.remove('flex');
+    }
+    applyFilters();
+});
 
-    tbody.innerHTML = "";
-    headerCount.innerText = `(${data.length} encontrados)`;
+// === FILTRADO PRINCIPAL ===
+const applyFilters = () => {
+    // Anti doble-clic
+    if (isSearching) return;
+    isSearching = true;
+    const btn = document.getElementById('searchBtn');
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> Buscando...`;
+    btn.disabled = true;
+
+    setTimeout(() => {
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        const regionVal = document.getElementById('regionSelect').value;
+        const activeOnly = document.getElementById('activeOnlyToggle').checked;
+        const budgetVal = budgetSelect.value;
+        const sortVal = document.getElementById('sortSelect').value;
+
+        let filtered = currentData.filter(item => {
+            // Filtro activas
+            if (activeOnly && new Date(item.deadline) < new Date()) return false;
+
+            // Búsqueda global
+            const content = `${item.title} ${item.agency} ${item.location} ${item.description || ''}`.toLowerCase();
+            if (searchText && !content.includes(searchText)) return false;
+
+            // Región
+            if (regionVal && item.location !== regionVal) return false;
+
+            // Presupuesto
+            const avg = (item.budgetMin + item.budgetMax) / 2;
+            if (budgetVal === 'viable' && (avg < 50000 || avg > 1000000)) return false;
+            if (budgetVal === 'high' && avg <= 1000000) return false;
+            if (budgetVal === 'low' && avg >= 50000) return false;
+            if (budgetVal === 'custom') {
+                const minInput = parseFloat(document.getElementById('budgetMin').value) || 0;
+                const maxInput = parseFloat(document.getElementById('budgetMax').value) || Infinity;
+                if (item.budgetMax < minInput || item.budgetMin > maxInput) return false;
+            }
+            return true;
+        });
+
+        // Ordenamiento
+        if (sortVal === 'Relevancia (Match)') filtered.sort((a, b) => b.match - a.match);
+        else if (sortVal === 'Presupuesto (Mayor a Menor)') filtered.sort((a, b) => b.budgetMax - a.budgetMax);
+        else if (sortVal === 'Cierre Próximo') filtered.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+        showSkeleton(false);
+        renderTable(filtered);
+        renderMobileCards(filtered);
+
+        // Restaurar botón
+        btn.innerHTML = `Buscar`;
+        btn.disabled = false;
+        isSearching = false;
+    }, 600); // Simula carga para UX
+};
+
+// === RENDER TABLE (Desktop) ===
+const renderTable = (data) => {
+    const tbody = document.getElementById('resultsTableBody');
+    const emptyState = document.getElementById('emptyState');
+    const pagFooter = document.getElementById('paginationFooter');
+
+    tbody.innerHTML = '';
+    document.getElementById('resultsCount').innerText = `(${data.length} encontrados)`;
 
     if (data.length === 0) {
         emptyState.classList.remove('hidden');
@@ -127,47 +179,66 @@ const renderTable = (data) => {
 
     emptyState.classList.add('hidden');
     pagFooter.classList.remove('hidden');
-
-    // Sincronización de Footer
     document.getElementById('totalResultsText').innerText = data.length;
-    document.getElementById('currentRange').innerText = `1 a ${Math.min(data.length, 10)}`;
+    document.getElementById('currentRange').innerText = `1 a ${Math.min(data.length, 25)}`;
 
-    data.forEach(item => {
-        const hoy = new Date();
-        const limite = new Date(item.deadline);
-        const diff = Math.ceil((limite - hoy) / (1000 * 60 * 60 * 24));
+    data.slice(0, 25).forEach(item => {
+        const diff = daysDiff(item.deadline);
+        let badge = `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-700">Abierta</span>`;
+        if (diff < 0) badge = `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">Cerrada</span>`;
+        else if (diff <= 3) badge = `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-100 text-orange-600 animate-pulse">Cierra pronto</span>`;
 
-        let badge = `<span class="px-2 py-1 rounded-full text-[10px] bg-green-100 text-green-700 font-bold">Abierta</span>`;
-        if (diff < 0) badge = `<span class="px-2 py-1 rounded-full text-[10px] bg-slate-100 text-slate-500 font-bold">Cerrada</span>`;
-        else if (diff <= 3) badge = `<span class="px-2 py-1 rounded-full text-[10px] bg-orange-100 text-orange-600 font-bold animate-pulse">Cierra pronto</span>`;
-
-        const row = document.createElement("tr");
-        row.className = `hover:bg-slate-50 transition-all cursor-pointer group border-b border-slate-100 dark:border-slate-800 ${diff < 0 ? 'opacity-50' : ''}`;
+        const matchColor = item.match > 50 ? 'text-green-500' : 'text-slate-400';
+        const row = document.createElement('tr');
+        row.className = `hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group border-b border-slate-100 dark:border-slate-800 transition-all ${diff < 0 ? 'opacity-50' : ''}`;
         row.onclick = () => window.location.href = `detalle.html?id=${item.id}`;
-
         row.innerHTML = `
-            <td class="py-5 px-6">
-                <div class="flex flex-col max-w-xs md:max-w-md">
-                    <span class="text-sm font-bold text-slate-900 dark:text-white truncate" title="${item.title}">${item.title}</span>
-                    <span class="text-[10px] text-slate-400 font-mono mt-1">${item.id}</span>
-                </div>
-            </td>
-            <td class="py-5 px-6"><span class="text-xs font-semibold text-slate-600 dark:text-slate-300">${item.agency}</span></td>
-            <td class="py-5 px-6"><span class="text-sm font-black">${formatCurrency(item.budgetMax)}</span></td>
+            <td class="py-5 px-6"><div class="flex flex-col max-w-xs"><span class="text-sm font-bold text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors" title="${item.title}">${item.title}</span><span class="text-[10px] text-slate-400 font-mono mt-1">${item.id}</span></div></td>
+            <td class="py-5 px-6"><span class="text-xs font-semibold text-slate-600">${item.agency}</span></td>
+            <td class="py-5 px-6"><span class="text-sm font-black">${formatPEN(item.budgetMax)}</span></td>
             <td class="py-5 px-6 text-sm text-slate-500">${item.deadline}</td>
-            <td class="py-5 px-6 text-center text-xs font-bold ${item.match > 80 ? 'text-green-500' : 'text-slate-400'}">${item.match}%</td>
+            <td class="py-5 px-6 text-center text-xs font-bold ${matchColor}">${item.match}%</td>
             <td class="py-5 px-6 text-center">${badge}</td>
-            <td class="py-5 px-6 text-right"><span class="material-symbols-outlined text-slate-300 group-hover:text-primary">chevron_right</span></td>
-        `;
+            <td class="py-5 px-6 text-right"><span class="material-symbols-outlined text-slate-300 group-hover:text-primary">chevron_right</span></td>`;
         tbody.appendChild(row);
     });
 };
 
-function formatCurrency(v) {
-    return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 }).format(v);
-}
+// === RENDER MOBILE CARDS (Responsive) ===
+const renderMobileCards = (data) => {
+    const container = document.getElementById('mobileCards');
+    if (!container) return;
+    container.innerHTML = data.slice(0, 25).map(item => {
+        const diff = daysDiff(item.deadline);
+        let badgeColor = 'bg-green-100 text-green-700';
+        let badgeText = 'Abierta';
+        if (diff < 0) { badgeColor = 'bg-slate-100 text-slate-500'; badgeText = 'Cerrada'; }
+        else if (diff <= 3) { badgeColor = 'bg-orange-100 text-orange-600'; badgeText = 'Cierra pronto'; }
 
-// EVENT LISTENERS
-document.getElementById("searchBtn").addEventListener("click", applyFilters);
-document.getElementById("activeOnlyToggle").addEventListener("change", applyFilters);
-document.addEventListener("DOMContentLoaded", loadData);
+        return `
+        <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-all" onclick="window.location.href='detalle.html?id=${item.id}'">
+            <div class="flex justify-between items-start mb-3">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgeColor}">${badgeText}</span>
+                <span class="text-xs font-bold ${item.match > 50 ? 'text-green-500' : 'text-slate-400'}">${item.match}% match</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2 leading-snug">${item.title}</h3>
+            <p class="text-xs text-slate-500 mb-3">${item.agency} • ${item.location}</p>
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-black text-slate-900">${formatPEN(item.budgetMax)}</span>
+                <span class="text-[10px] text-slate-400">${item.deadline}</span>
+            </div>
+        </div>`;
+    }).join('');
+};
+
+// === UTILIDADES ===
+function formatPEN(v) { return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 }).format(v); }
+function daysDiff(deadline) { return Math.ceil((new Date(deadline) - new Date()) / (1000 * 60 * 60 * 24)); }
+
+// === EVENT LISTENERS ===
+document.getElementById('searchBtn').addEventListener('click', applyFilters);
+document.getElementById('activeOnlyToggle').addEventListener('change', applyFilters);
+document.getElementById('sortSelect').addEventListener('change', applyFilters);
+document.getElementById('searchInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilters(); });
+
+document.addEventListener('DOMContentLoaded', loadData);
