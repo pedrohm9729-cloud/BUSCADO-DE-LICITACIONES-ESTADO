@@ -68,21 +68,28 @@ function updatePipelineBadge() {
 function renderKanban() {
     const pipeline = getPipeline();
     const byStage = { evaluar: [], cotizar: [], presentada: [], adjudicada: [] };
-
     Object.values(pipeline).forEach(item => {
         if (byStage[item.stage]) byStage[item.stage].push(item);
     });
+
+    const STAGE_BADGE = {
+        evaluar: { label: 'Por Evaluar', cls: 'text-blue-600 bg-blue-50 border-blue-100' },
+        cotizar: { label: 'En Cotización', cls: 'text-amber-600 bg-amber-50 border-amber-100' },
+        presentada: { label: 'Presentada', cls: 'text-purple-600 bg-purple-50 border-purple-100' },
+        adjudicada: { label: 'Adjudicada', cls: 'text-green-700 bg-green-50 border-green-100' },
+    };
 
     STAGES.forEach(stage => {
         const col = document.getElementById(`kanban${stage.charAt(0).toUpperCase() + stage.slice(1)}`);
         const counter = document.getElementById(`count${stage.charAt(0).toUpperCase() + stage.slice(1)}`);
         if (!col) return;
-
         const items = byStage[stage];
-        if (counter) counter.textContent = items.length;
+        if (counter) counter.textContent = `(${items.length})`;
 
         if (!items.length) {
-            col.innerHTML = `<p class="text-[11px] text-slate-300 text-center pt-6 italic">Sin procesos aquí</p>`;
+            col.innerHTML = `<div class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center">
+                <p class="text-xs text-slate-400 italic">Sin procesos aquí</p>
+            </div>`;
             return;
         }
 
@@ -90,29 +97,79 @@ function renderKanban() {
             const diff = daysDiff(item.deadline);
             const urgent = diff >= 0 && diff <= 3;
             const closed = diff < 0;
+            const badge = STAGE_BADGE[stage];
+            // Move-to buttons (next stage)
+            const nextStage = STAGES[STAGES.indexOf(stage) + 1];
+            const prevStage = STAGES[STAGES.indexOf(stage) - 1];
+
             return `
-            <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-                onclick="openDrawer('${item.id}'); switchView('search');">
-                <p class="text-[10px] font-mono text-slate-400 mb-1">${item.id}</p>
-                <p class="text-xs font-bold text-slate-800 leading-snug mb-2 group-hover:text-primary transition-colors">${item.title}</p>
-                <p class="text-[10px] text-slate-500 mb-3">${item.agency}</p>
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-black tabular-nums text-slate-700">${formatPEN(item.budget)}</span>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${urgent ? 'bg-orange-100 text-orange-600' : closed ? 'bg-slate-100 text-slate-400' : 'bg-green-100 text-green-700'}">
-                        ${closed ? 'Cerrada' : urgent ? '⚡ ' + diff + 'd' : diff + ' días'}
-                    </span>
+            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border ${stage === 'cotizar' ? 'border-primary/30 shadow-lg shadow-primary/5' : 'border-slate-200 dark:border-slate-800 shadow-sm'} hover:border-primary/40 transition-all group">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider ${stage === 'cotizar' ? 'text-primary' : 'text-slate-400'}">${item.id}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badge.cls}">${badge.label}</span>
                 </div>
-                <button onclick="event.stopPropagation(); removePipelineItem('${item.id}')" 
-                    class="mt-2 w-full text-[10px] text-slate-300 hover:text-red-400 transition-colors text-center">
-                    Quitar del pipeline
-                </button>
+                <h4 class="font-black text-slate-800 dark:text-slate-100 leading-snug mb-1 text-sm group-hover:text-primary transition-colors">${item.title}</h4>
+                <p class="text-xs text-slate-500 mb-3">${item.agency}</p>
+
+                <div class="flex items-center gap-2 text-xs font-bold mb-3 px-2.5 py-2 rounded-lg ${urgent ? 'text-amber-700 bg-amber-50 border border-amber-100' : closed ? 'text-slate-400 bg-slate-50 border border-slate-100' : 'text-slate-600 bg-slate-50 border border-slate-100'}">
+                    <span class="material-symbols-outlined text-sm">${urgent ? 'event' : 'schedule'}</span>
+                    ${closed ? 'Cerrada' : urgent ? `⚡ Cierra en ${diff} día${diff !== 1 ? 's' : ''}` : `Límite: ${fmtShortDate(item.deadline)}`}
+                </div>
+
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm font-black text-slate-800">${formatPEN(item.budget)}</span>
+                    <span class="text-[10px] font-bold ${item.match >= 50 ? 'text-green-600' : 'text-slate-400'}">${item.match}% match</span>
+                </div>
+
+                <div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3 gap-2">
+                    <button onclick="openDrawer('${item.id}'); switchView('search');"
+                        class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">visibility</span> Ver detalle
+                    </button>
+                    <div class="flex gap-1">
+                        ${nextStage ? `<button onclick="event.stopPropagation(); moveStage('${item.id}','${nextStage}')" title="Mover a ${STAGE_LABELS[nextStage]}" class="p-1 rounded text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-sm">arrow_forward</span></button>` : ''}
+                        <button onclick="event.stopPropagation(); removePipelineItem('${item.id}')" title="Quitar del pipeline" class="p-1 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                    </div>
+                </div>
             </div>`;
         }).join('');
     });
 
-    const total = Object.keys(pipeline).length;
+    // Footer Stats
+    const all = Object.values(pipeline);
+    const total = all.length;
+    const totalValor = all.reduce((s, i) => s + (i.budget || 0), 0);
+    const cotizando = byStage.cotizar.length;
+    const urgentes = all.filter(i => { const d = daysDiff(i.deadline); return d >= 0 && d <= 3; }).length;
+    const avgMatch = total > 0 ? Math.round(all.reduce((s, i) => s + (i.match || 0), 0) / total) : 0;
+
     const totalEl = document.getElementById('pipelineTotal');
     if (totalEl) totalEl.textContent = `${total} proceso${total !== 1 ? 's' : ''} activo${total !== 1 ? 's' : ''}`;
+    const valEl = document.getElementById('pipelineValor');
+    if (valEl) valEl.textContent = formatPEN(totalValor);
+    const cotEl = document.getElementById('pipelineCotizando');
+    if (cotEl) cotEl.textContent = cotizando;
+    const urgEl = document.getElementById('pipelineUrgentes');
+    if (urgEl) urgEl.textContent = urgentes;
+    const matchEl = document.getElementById('pipelineMatchAvg');
+    if (matchEl) matchEl.textContent = `${avgMatch}%`;
+}
+
+window.moveStage = (id, newStage) => {
+    const pipeline = getPipeline();
+    if (!pipeline[id]) return;
+    pipeline[id].stage = newStage;
+    savePipeline(pipeline);
+    renderKanban();
+    updatePipelineBadge();
+    showToast('info', `Licitación movida a "${STAGE_LABELS[newStage]}".`);
+};
+
+function fmtShortDate(d) {
+    if (!d) return '---';
+    return new Date(d + 'T12:00:00').toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: '2-digit' });
 }
 
 window.removePipelineItem = (id) => {
@@ -151,6 +208,7 @@ function onDataLoaded(data) {
     updateDashboardStats(currentData);
     updateSidebarBadges(currentData);
     updateTopMaterials(currentData);
+    populateAgencyFilter(currentData);
     applyFilters();
 }
 
@@ -249,6 +307,7 @@ window.switchView = (v) => {
             : 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors group cursor-pointer';
     });
     if (v === 'pipeline') renderKanban();
+    if (v === 'analytics') renderAnalytics();
 };
 
 // === DASHBOARD ===
@@ -287,38 +346,66 @@ window.suggestSearch = (term) => {
     applyFilters();
 };
 
-// === CUSTOM BUDGET ===
-const budgetSelect = document.getElementById('budgetSelect');
-budgetSelect?.addEventListener('change', () => {
-    const box = document.getElementById('customBudgetInputs');
-    if (budgetSelect.value === 'custom') { box.classList.remove('hidden'); box.classList.add('flex'); }
-    else { box.classList.add('hidden'); box.classList.remove('flex'); }
+// === CUSTOM BUDGET (now always visible range inputs) ===
+// No dropdown needed — inputs are always shown.
+
+// === POPULATE AGENCY FILTER ===
+function populateAgencyFilter(data) {
+    const select = document.getElementById('agencySelect');
+    if (!select) return;
+    const agencies = [...new Set(data.map(d => d.agency))].sort();
+    select.innerHTML = '<option value="">Organismo: Todos</option>' +
+        agencies.map(a => `<option value="${a}">${a}</option>`).join('');
+}
+
+// === CLEAR FILTERS ===
+window.clearFilters = () => {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('regionSelect').value = '';
+    document.getElementById('agencySelect').value = '';
+    document.getElementById('budgetMin').value = '';
+    document.getElementById('budgetMax').value = '';
+    document.getElementById('matchSelect').value = '';
+    document.getElementById('statusSelect').value = '';
+    document.getElementById('activeOnlyToggle').checked = false;
+    document.getElementById('sortSelect').value = document.getElementById('sortSelect').options[0].value;
     applyFilters();
-});
+    showToast('info', 'Filtros limpiados.');
+};
 
 // === FILTERS ===
 const applyFilters = () => {
     if (isSearching) return;
     isSearching = true;
     const btn = document.getElementById('searchBtn');
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> Buscando...`;
-    btn.disabled = true;
+    if (btn) { btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> Buscando...`; btn.disabled = true; }
 
     setTimeout(() => {
-        const search = sanitizeSearch(document.getElementById('searchInput').value);
-        const region = document.getElementById('regionSelect').value;
-        const active = document.getElementById('activeOnlyToggle').checked;
-        const budget = budgetSelect.value;
-        const sort = document.getElementById('sortSelect').value;
+        const search = sanitizeSearch(document.getElementById('searchInput')?.value || '');
+        const region = document.getElementById('regionSelect')?.value || '';
+        const agency = document.getElementById('agencySelect')?.value || '';
+        const budgetMinVal = parseFloat(document.getElementById('budgetMin')?.value) || 0;
+        const budgetMaxVal = parseFloat(document.getElementById('budgetMax')?.value) || Infinity;
+        const matchMin = parseInt(document.getElementById('matchSelect')?.value) || 0;
+        const statusFilter = document.getElementById('statusSelect')?.value || '';
+        const active = document.getElementById('activeOnlyToggle')?.checked || false;
+        const sort = document.getElementById('sortSelect')?.value || '';
         const discarded = getDiscarded();
 
         let filtered = currentData.filter(item => {
             if (discarded.includes(item.id)) return false;
-            if (active && new Date(item.deadline) < new Date()) return false;
+
+            // Estatus
+            const diff = daysDiff(item.deadline);
+            if (statusFilter === 'abierta' && (diff < 0 || diff <= 3)) return false;
+            if (statusFilter === 'cierre' && !(diff >= 0 && diff <= 3)) return false;
+            if (statusFilter === 'cerrada' && diff >= 0) return false;
+            if (active && diff < 0) return false;
+
+            // Búsqueda texto
+            const rawInput = document.getElementById('searchInput')?.value.trim() || '';
             const txt = `${item.title} ${item.agency} ${item.location} ${item.description || ''}`.toLowerCase();
-            // Búsqueda exacta con comillas: "fierro negro" busca la frase completa
             if (search) {
-                const rawInput = document.getElementById('searchInput').value.trim();
                 if (rawInput.startsWith('"') && rawInput.endsWith('"')) {
                     const exactPhrase = rawInput.slice(1, -1).toLowerCase();
                     if (!txt.includes(exactPhrase)) return false;
@@ -326,16 +413,20 @@ const applyFilters = () => {
                     if (!txt.includes(search)) return false;
                 }
             }
+
+            // Región
             if (region && item.location.toLowerCase() !== region.toLowerCase()) return false;
-            const avg = (item.budgetMin + item.budgetMax) / 2;
-            if (budget === 'viable' && (avg < 50000 || avg > 1000000)) return false;
-            if (budget === 'high' && avg <= 1000000) return false;
-            if (budget === 'low' && avg >= 50000) return false;
-            if (budget === 'custom') {
-                const mn = parseFloat(document.getElementById('budgetMin').value) || 0;
-                const mx = parseFloat(document.getElementById('budgetMax').value) || Infinity;
-                if (item.budgetMax < mn || item.budgetMin > mx) return false;
-            }
+
+            // Organismo
+            if (agency && item.agency !== agency) return false;
+
+            // Presupuesto (rango libre)
+            if (budgetMinVal > 0 && item.budgetMax < budgetMinVal) return false;
+            if (budgetMaxVal < Infinity && item.budgetMin > budgetMaxVal) return false;
+
+            // Match mínimo
+            if (matchMin > 0 && item.match < matchMin) return false;
+
             return true;
         });
 
@@ -347,11 +438,27 @@ const applyFilters = () => {
         showSkeleton(false);
         renderTable(filtered);
         renderMobileCards(filtered);
-        btn.innerHTML = `Buscar`;
-        btn.disabled = false;
+        renderActiveFilterChips({ region, agency, budgetMinVal, budgetMaxVal, matchMin, statusFilter });
+        if (btn) { btn.innerHTML = `Buscar`; btn.disabled = false; }
         isSearching = false;
-    }, 400);
+    }, 300);
 };
+
+// === CHIPS DE FILTROS ACTIVOS ===
+function renderActiveFilterChips({ region, agency, budgetMinVal, budgetMaxVal, matchMin, statusFilter }) {
+    const container = document.getElementById('activeFilters');
+    if (!container) return;
+    const chips = [];
+    if (region) chips.push({ label: `Región: ${region}`, clear: () => { document.getElementById('regionSelect').value = ''; applyFilters(); } });
+    if (agency) chips.push({ label: `Organismo: ${agency}`, clear: () => { document.getElementById('agencySelect').value = ''; applyFilters(); } });
+    if (budgetMinVal > 0) chips.push({ label: `S/ Mín: ${budgetMinVal.toLocaleString()}`, clear: () => { document.getElementById('budgetMin').value = ''; applyFilters(); } });
+    if (budgetMaxVal < Infinity) chips.push({ label: `S/ Máx: ${budgetMaxVal.toLocaleString()}`, clear: () => { document.getElementById('budgetMax').value = ''; applyFilters(); } });
+    if (matchMin > 0) chips.push({ label: `Match ${matchMin}%+`, clear: () => { document.getElementById('matchSelect').value = ''; applyFilters(); } });
+    if (statusFilter) chips.push({ label: `Estatus: ${statusFilter}`, clear: () => { document.getElementById('statusSelect').value = ''; applyFilters(); } });
+    container.innerHTML = chips.map((c, i) =>
+        `<span class="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">${c.label}<button onclick="(${c.clear.toString()})()" class="ml-1 hover:text-red-500 transition-colors">&times;</button></span>`
+    ).join('');
+}
 
 // === RELATIVE DATE ("Quedan 3 días") ===
 function relativeDate(deadline) {
@@ -574,6 +681,114 @@ function formatPEN(v) {
 }
 function daysDiff(d) { return Math.ceil((new Date(d) - new Date()) / 86400000); }
 
+// =========================
+// ANALYTICS
+// =========================
+function renderAnalytics() {
+    const data = currentData;
+    if (!data.length) return;
+
+    // KPIs
+    const totalBudget = data.reduce((s, d) => s + d.budgetMax, 0);
+    const avgMatch = Math.round(data.reduce((s, d) => s + d.match, 0) / data.length);
+    const pipelineCount = Object.keys(getPipeline()).length;
+    const elQ = document.getElementById('kpiTotal'); if (elQ) elQ.textContent = data.length;
+    const elV = document.getElementById('kpiValor'); if (elV) elV.textContent = formatPENShort(totalBudget);
+    const elM = document.getElementById('kpiMatch'); if (elM) elM.textContent = `${avgMatch}%`;
+    const elP = document.getElementById('kpiPipeline'); if (elP) elP.textContent = pipelineCount;
+
+    // Agency Bar Chart (top 7)
+    const agencyCounts = {};
+    data.forEach(d => { agencyCounts[d.agency] = (agencyCounts[d.agency] || 0) + 1; });
+    const topAgencies = Object.entries(agencyCounts).sort((a, b) => b[1] - a[1]).slice(0, 7);
+    const maxCount = Math.max(...topAgencies.map(a => a[1]));
+    const chart = document.getElementById('agencyBarChart');
+    if (chart) {
+        chart.innerHTML = topAgencies.map(([name, count]) => {
+            const pct = Math.round((count / maxCount) * 100);
+            const abbr = name.split(' ').filter(w => w.length > 3).slice(0, 2).map(w => w[0]).join('').toUpperCase() || name.slice(0, 2).toUpperCase();
+            return `<div class="flex-1 flex flex-col items-center gap-2">
+                <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group h-full">
+                    <div class="absolute bottom-0 w-full bg-primary/40 hover:bg-primary rounded-t-lg transition-all" style="height:${pct}%" title="${name}: ${count}"></div>
+                </div>
+                <span class="text-[9px] font-black text-slate-400 uppercase tracking-wider">${abbr}</span>
+            </div>`;
+        }).join('');
+    }
+
+    // Donut (match distribution)
+    const high = data.filter(d => d.match >= 75).length;
+    const med = data.filter(d => d.match >= 25 && d.match < 75).length;
+    const low = data.filter(d => d.match < 25).length;
+    const circ = 2 * Math.PI * 14; // circumference
+    const highPct = high / data.length;
+    const medPct = med / data.length;
+    const highDash = circ * highPct;
+    const medDash = circ * medPct;
+    const donutH = document.getElementById('donutHigh');
+    const donutM = document.getElementById('donutMed');
+    if (donutH) { donutH.setAttribute('stroke-dasharray', `${highDash.toFixed(2)} ${circ.toFixed(2)}`); donutH.setAttribute('stroke-dashoffset', '0'); }
+    if (donutM) { donutM.setAttribute('stroke-dasharray', `${medDash.toFixed(2)} ${circ.toFixed(2)}`); donutM.setAttribute('stroke-dashoffset', `${-highDash.toFixed(2)}`); }
+    const donutL = document.getElementById('donutLabel'); if (donutL) donutL.textContent = `${Math.round(highPct * 100)}%`;
+    const elHigh = document.getElementById('matchHigh'); if (elHigh) elHigh.textContent = high;
+    const elMed = document.getElementById('matchMed'); if (elMed) elMed.textContent = med;
+    const elLow = document.getElementById('matchLow'); if (elLow) elLow.textContent = low;
+
+    // Top Agencies Table
+    const table = document.getElementById('topAgenciesTable');
+    if (table) {
+        const top5 = Object.entries(agencyCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        table.innerHTML = top5.map(([name, count], i) => {
+            const abbr = name.split(' ').filter(w => w.length > 3).slice(0, 2).map(w => w[0]).join('').toUpperCase() || name.slice(0, 2).toUpperCase();
+            const prob = i === 0 ? { label: 'Alta Probabilidad', cls: 'text-green-600' } : i < 3 ? { label: 'Media Probabilidad', cls: 'text-amber-600' } : { label: 'Baja Probabilidad', cls: 'text-slate-400' };
+            return `<div class="p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm font-black text-slate-500">${abbr}</div>
+                    <div><p class="text-sm font-bold text-slate-900 dark:text-white">${name.split(' ').slice(0, 3).join(' ')}</p>
+                    <p class="text-xs text-slate-500">${count} licitaciones detectadas</p></div>
+                </div>
+                <div class="text-right"><p class="text-sm font-black text-slate-900 dark:text-white">${count} Licit.</p><p class="text-[10px] font-bold ${prob.cls}">${prob.label}</p></div>
+            </div>`;
+        }).join('');
+    }
+
+    // Insights
+    const insights = document.getElementById('insightsPanel');
+    if (insights) {
+        const topRegion = (() => { const rc = {}; data.forEach(d => { rc[d.location] = (rc[d.location] || 0) + 1; }); return Object.entries(rc).sort((a, b) => b[1] - a[1])[0]; })();
+        const highBudget = data.filter(d => d.budgetMax > 1000000).length;
+        insights.innerHTML = `
+        <div class="flex gap-4">
+            <div class="w-1.5 shrink-0 bg-primary rounded-full"></div>
+            <div><p class="text-sm font-bold text-slate-900 dark:text-white">Mayor actividad en ${topRegion ? topRegion[0] : 'Lima'}</p>
+            <p class="text-xs text-slate-600 mt-1">${topRegion ? topRegion[1] : 0} procesos en esa región. Prioridad alta para INPROMETAL.</p></div>
+        </div>
+        <div class="flex gap-4">
+            <div class="w-1.5 shrink-0 bg-green-500 rounded-full"></div>
+            <div><p class="text-sm font-bold text-slate-900 dark:text-white">${highBudget} megaproyecto${highBudget !== 1 ? 's' : ''} detectado${highBudget !== 1 ? 's' : ''}</p>
+            <p class="text-xs text-slate-600 mt-1">Contratos sobre S/ 1M. Evaluar consorcio o SGR para carta fianza.</p></div>
+        </div>`;
+    }
+
+    // Top Material
+    const matEl = document.getElementById('topMaterialInsight');
+    const matCnt = document.getElementById('topMaterialCount');
+    if (matEl && currentData.length) {
+        const terms = ['acero', 'fierro', 'metal', 'tuber', 'panel', 'baranda', 'techo'];
+        const counts = terms.map(t => ({ t, c: data.filter(d => `${d.title} ${d.description || ''}`.toLowerCase().includes(t)).length }));
+        const top = counts.sort((a, b) => b.c - a.c)[0];
+        matEl.textContent = top.t.charAt(0).toUpperCase() + top.t.slice(1);
+        if (matCnt) matCnt.textContent = `${top.c} procesos`;
+    }
+}
+
+function formatPENShort(v) {
+    if (v >= 1e9) return `S/ ${(v / 1e9).toFixed(1)}B`;
+    if (v >= 1e6) return `S/ ${(v / 1e6).toFixed(1)}M`;
+    if (v >= 1e3) return `S/ ${(v / 1e3).toFixed(0)}K`;
+    return `S/ ${v}`;
+}
+
 // Sanitizar búsqueda (tolerancia a caracteres especiales)
 function sanitizeSearch(text) {
     return text.replace(/[%&$<>"']/g, '').toLowerCase().trim();
@@ -737,6 +952,13 @@ document.getElementById('searchBtn')?.addEventListener('click', applyFilters);
 document.getElementById('activeOnlyToggle')?.addEventListener('change', applyFilters);
 document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
 document.getElementById('searchInput')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilters(); });
+// Nuevos filtros — reaccionan en tiempo real
+['regionSelect', 'agencySelect', 'matchSelect', 'statusSelect'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', applyFilters);
+});
+['budgetMin', 'budgetMax'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', applyFilters);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     loadData();

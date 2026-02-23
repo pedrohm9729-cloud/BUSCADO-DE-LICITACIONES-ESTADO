@@ -5,15 +5,22 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Detalle de Licitación | LICITADOR PE</title>
+    <meta name="description" content="Detalle completo de licitación SEACE para INPROMETAL SAC." />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script>
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
-                    colors: { primary: { DEFAULT: '#135bec', 50: '#eff4ff', 100: '#dbeafe', 600: '#2563eb' } },
+                    colors: {
+                        primary: { DEFAULT: '#135bec', 50: '#eff4ff', 100: '#dbeafe', 600: '#2563eb', 700: '#1d4ed8' },
+                        background: { light: '#f8fafc', dark: '#0f172a' },
+                        surface: { light: '#ffffff', dark: '#1e293b' }
+                    },
                     fontFamily: { sans: ['Public Sans', 'sans-serif'] }
                 }
             }
@@ -24,280 +31,390 @@
             font-family: "Public Sans", sans-serif;
         }
 
-        .tab-active {
-            color: #135bec;
-            border-color: #135bec;
-            font-weight: 700;
-        }
-
-        .tab-inactive {
-            color: #94a3b8;
-            border-color: transparent;
-        }
-
-        .tab-inactive:hover {
-            color: #475569;
-        }
-
-        .timeline-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 3px solid;
-            flex-shrink: 0;
-        }
-
         .timeline-line {
+            position: absolute;
+            left: 9px;
+            top: 20px;
+            bottom: -28px;
             width: 2px;
-            flex-shrink: 0;
+            background: #e2e8f0;
+        }
+
+        .timeline-line.done {
+            background: #22c55e;
+        }
+
+        .timeline-line.active {
+            background: linear-gradient(to bottom, #22c55e, #e2e8f0);
+        }
+
+        @keyframes pulse-ring {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(19, 91, 236, .4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(19, 91, 236, 0);
+            }
+        }
+
+        .pulse-active {
+            animation: pulse-ring 2s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col md:flex-row">
+<body
+    class="bg-background-light text-slate-900 min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
 
-    <!-- Sidebar -->
-    <aside class="w-full md:w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-screen sticky top-0">
-        <div class="h-16 flex items-center px-6 border-b border-slate-100">
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-3xl text-primary">gavel</span>
-                <span class="text-lg font-black tracking-tight text-slate-800">LICITADOR <span
-                        class="text-primary">PE</span></span>
-            </a>
-        </div>
-        <div class="p-5 border-b border-slate-100">
-            <div class="flex items-center gap-3">
-                <div class="bg-primary/10 h-10 w-10 rounded-full flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary text-xl">domain</span>
+    <!-- ===== TOP NAVBAR ===== -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-8">
+                    <a href="index.html" class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-3xl text-primary">gavel</span>
+                        <span class="text-lg font-black tracking-tight text-slate-900">LICITADOR <span
+                                class="text-primary">PE</span></span>
+                    </a>
+                    <nav class="hidden md:flex items-center gap-6">
+                        <a href="index.html"
+                            class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Buscador</a>
+                        <a href="index.html" class="text-sm font-medium text-primary font-bold">Licitaciones</a>
+                    </nav>
                 </div>
-                <div>
-                    <h3 class="text-sm font-black text-slate-800 leading-tight">INPROMETAL SAC</h3>
-                    <p class="text-[10px] text-primary font-bold uppercase tracking-widest">Plan Corporativo</p>
+                <!-- Actions -->
+                <div class="flex items-center gap-3">
+                    <a href="index.html"
+                        class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:border-primary hover:text-primary text-sm font-semibold transition-all">
+                        <span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Volver al Buscador
+                    </a>
+                    <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-xl">domain</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <nav class="flex-1 p-3 space-y-1">
-            <a href="index.html"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-primary transition-all font-semibold text-sm">
-                <span class="material-symbols-outlined text-xl">arrow_back</span>
-                Volver al Buscador
-            </a>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-8">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex mb-6 text-sm text-slate-500">
+            <a href="index.html" class="hover:text-primary transition-colors">Inicio</a>
+            <span class="mx-2 text-slate-300">/</span>
+            <a href="index.html" class="hover:text-primary transition-colors">Búsqueda</a>
+            <span class="mx-2 text-slate-300">/</span>
+            <span class="text-slate-900 font-semibold">Detalle de Licitación</span>
         </nav>
 
-        <!-- Entity Profile (Nuevo: Historial de la Entidad) -->
-        <div class="p-4 border-t border-slate-100">
-            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Perfil del Comprador</h4>
-            <div id="entityProfile" class="space-y-2">
-                <div class="flex justify-between text-xs">
-                    <span class="text-slate-500">Frecuencia:</span>
-                    <span id="entityFreq" class="font-bold text-slate-700">--</span>
-                </div>
-                <div class="flex justify-between text-xs">
-                    <span class="text-slate-500">Historial (12m):</span>
-                    <span id="entityHistory" class="font-bold text-slate-700">--</span>
-                </div>
-                <div class="flex justify-between text-xs">
-                    <span class="text-slate-500">Sector:</span>
-                    <span id="entitySector" class="font-bold text-primary">Infraestructura</span>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto h-screen">
-
-        <!-- Top Bar con Acciones -->
-        <div
-            class="sticky top-0 z-20 bg-white/80 backdrop-blur-xl border-b border-slate-200 px-8 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <span id="statusBadge"
-                    class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Abierta</span>
-                <span id="topTenderId" class="text-xs font-mono text-slate-400">---</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <button id="followBtn" onclick="toggleFollow()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-slate-200 text-slate-500 hover:border-primary hover:text-primary transition-all text-sm font-bold">
-                    <span class="material-symbols-outlined text-lg">bookmark</span>
-                    Seguir Proceso
-                </button>
-                <button
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-600 transition-all shadow-lg shadow-primary/20">
-                    <span class="material-symbols-outlined text-lg">send</span>
-                    Postular
-                </button>
-            </div>
-        </div>
-
-        <div class="max-w-5xl mx-auto px-8 py-8">
-            <!-- Header -->
-            <div class="mb-8">
-                <h1 id="tenderTitle" class="text-3xl font-black text-slate-900 leading-tight mb-3">Cargando...</h1>
-                <div class="flex flex-wrap items-center gap-4 text-sm text-slate-500">
-                    <div class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">account_balance</span>
+        <!-- ===== HERO HEADER ===== -->
+        <div class="mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <span id="statusBadge"
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                            Abierta
+                        </span>
+                        <span class="text-slate-400 text-sm font-mono" id="topTenderId">---</span>
+                        <span id="matchBadge"
+                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined text-sm">target</span>
+                            <span id="matchPct">0%</span> Match INPROMETAL
+                        </span>
+                    </div>
+                    <h1 id="tenderTitle"
+                        class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3">
+                        Cargando...</h1>
+                    <p class="text-base text-slate-500">
                         <span id="tenderAgency" class="font-bold text-slate-700">---</span>
-                    </div>
-                    <span class="text-slate-300">|</span>
-                    <div class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">location_on</span>
-                        <span id="tenderLocation" class="font-medium">---</span>
-                    </div>
-                    <span class="text-slate-300">|</span>
-                    <div class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">calendar_today</span>
-                        <span>Publicado: <span id="tenderPubDate" class="font-medium">---</span></span>
-                    </div>
+                        <span class="mx-2 text-slate-300">•</span>
+                        <span id="tenderLocation">---</span>
+                        <span class="mx-2 text-slate-300">•</span>
+                        <span>Publicado: <span id="tenderPubDate" class="font-medium text-slate-700">---</span></span>
+                    </p>
+                </div>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <button id="followBtn" onclick="toggleFollow()"
+                        class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-semibold hover:bg-slate-50 hover:border-primary hover:text-primary transition-all text-sm">
+                        <span class="material-symbols-outlined text-xl">bookmark_border</span>
+                        <span class="hidden sm:inline">Seguir</span>
+                    </button>
+                    <button onclick="copiarEnlace()"
+                        class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-semibold hover:bg-slate-50 transition-all text-sm">
+                        <span class="material-symbols-outlined text-xl">share</span>
+                        <span class="hidden sm:inline">Compartir</span>
+                    </button>
+                    <button onclick="enviarCRM()"
+                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-700 text-white rounded-lg font-bold shadow-lg shadow-primary/25 transition-all text-sm">
+                        <span>Enviar a CRM</span>
+                        <span class="material-symbols-outlined text-xl">send</span>
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <!-- Tabs de Navegación -->
-            <div class="border-b border-slate-200 mb-8">
-                <nav class="flex gap-8" id="tabNav">
-                    <button onclick="switchTab('resumen')" class="tab-active pb-4 border-b-2 text-sm transition-all"
-                        id="tabResumen">Resumen</button>
-                    <button onclick="switchTab('cronograma')"
-                        class="tab-inactive pb-4 border-b-2 text-sm transition-all"
-                        id="tabCronograma">Cronograma</button>
-                    <button onclick="switchTab('documentos')"
-                        class="tab-inactive pb-4 border-b-2 text-sm transition-all"
-                        id="tabDocumentos">Documentos</button>
-                    <button onclick="switchTab('similares')" class="tab-inactive pb-4 border-b-2 text-sm transition-all"
-                        id="tabSimilares">Similares</button>
-                </nav>
-            </div>
+        <!-- ===== SPLIT LAYOUT ===== -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-            <!-- TAB: Resumen -->
-            <div id="panelResumen" class="tab-panel">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Presupuesto -->
-                        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Presupuesto
-                                Referencial</h2>
-                            <div id="tenderBudget" class="text-4xl font-black text-slate-900 tracking-tighter">S/ 0
+            <!-- ========== LEFT COLUMN ========== -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- Metric Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Budget Card -->
+                    <div
+                        class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-primary/40 transition-colors flex flex-col justify-between group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-green-50 rounded-xl text-green-600">
+                                <span class="material-symbols-outlined">payments</span>
                             </div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Referencial</span>
                         </div>
-                        <!-- Descripción -->
-                        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Objeto del
-                                Proceso</h3>
-                            <p id="tenderDescription" class="text-slate-700 leading-relaxed text-base">Cargando...</p>
-                        </div>
-                        <!-- Requisitos -->
-                        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-5">Requisitos
-                                Técnicos</h3>
-                            <div id="tenderRequirements" class="space-y-3"></div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500 mb-1">Valor del Contrato</p>
+                            <p id="tenderBudget" class="text-3xl font-black text-slate-900 tracking-tight">S/ 0</p>
                         </div>
                     </div>
-                    <!-- Sidebar de IA -->
-                    <div class="space-y-6">
-                        <div class="bg-primary rounded-2xl p-7 text-white shadow-xl shadow-primary/20">
-                            <div
-                                class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-5 opacity-70">
-                                <span class="material-symbols-outlined text-sm">psychology</span> IA Insights
+                    <!-- Deadline Card -->
+                    <div id="deadlineCard"
+                        class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-orange-300 transition-colors flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-orange-50 rounded-xl text-orange-600">
+                                <span class="material-symbols-outlined">hourglass_top</span>
                             </div>
-                            <p class="text-sm font-semibold leading-relaxed mb-3">
-                                Proceso con <span class="bg-white/20 px-2 py-0.5 rounded font-black">ALTA
-                                    AFINIDAD</span> para INPROMETAL.
-                            </p>
-                            <p class="text-xs opacity-70 leading-relaxed">Calza con su especialidad en Fabricaciones
-                                Metálicas y Estructuras Pesadas.</p>
+                            <span id="urgencyBadge"
+                                class="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded-full hidden">⚡
+                                Alta Prioridad</span>
                         </div>
-                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Match
-                                INPROMETAL</h4>
-                            <div id="matchCircle" class="flex items-center gap-4">
-                                <div class="relative w-16 h-16">
-                                    <svg class="w-16 h-16 -rotate-90" viewBox="0 0 36 36">
-                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e2e8f0" stroke-width="3">
-                                        </circle>
-                                        <circle id="matchArc" cx="18" cy="18" r="15.9" fill="none" stroke="#135bec"
-                                            stroke-width="3" stroke-dasharray="0, 100" stroke-linecap="round"></circle>
-                                    </svg>
-                                    <span id="matchPercent"
-                                        class="absolute inset-0 flex items-center justify-center text-sm font-black text-slate-900">0%</span>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-slate-700">Relevancia</p>
-                                    <p class="text-[10px] text-slate-400">Basado en palabras clave</p>
-                                </div>
-                            </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500 mb-1">Fecha Límite</p>
+                            <p id="daysLeft" class="text-3xl font-black text-slate-900 tracking-tight">---</p>
+                            <p id="deadlineFull" class="text-xs text-slate-500 mt-1">---</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- TAB: Cronograma (Timeline Visual) -->
-            <div id="panelCronograma" class="tab-panel hidden">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-black text-slate-900 mb-8">Ciclo de Vida del Proceso</h3>
-                    <div id="timelineContainer" class="space-y-0">
-                        <!-- Inyectado por JS -->
+                <!-- Cronograma -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-base font-black text-slate-900 mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">calendar_month</span> Cronograma
+                    </h2>
+                    <div id="timelineContainer" class="relative pl-6 space-y-8">
+                        <!-- Injected by JS -->
                     </div>
                 </div>
-            </div>
 
-            <!-- TAB: Documentos -->
-            <div id="panelDocumentos" class="tab-panel hidden">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-black text-slate-900 mb-6">Documentos del Proceso</h3>
-                    <div class="space-y-4">
-                        <div
-                            class="flex items-center justify-between p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary/30 transition-all group cursor-pointer">
-                            <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined text-red-500 text-2xl">picture_as_pdf</span>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-800">Bases Administrativas</p>
-                                    <p class="text-[10px] text-slate-400">PDF • Publicado con la convocatoria</p>
-                                </div>
-                            </div>
-                            <span
-                                class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-all">download</span>
-                        </div>
-                        <div
-                            class="flex items-center justify-between p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary/30 transition-all group cursor-pointer">
-                            <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined text-blue-500 text-2xl">folder_zip</span>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-800">Expediente Técnico</p>
-                                    <p class="text-[10px] text-slate-400">ZIP • Incluye planos y especificaciones</p>
-                                </div>
-                            </div>
-                            <span
-                                class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-all">download</span>
-                        </div>
-                        <div
-                            class="flex items-center justify-between p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary/30 transition-all group cursor-pointer">
-                            <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined text-green-500 text-2xl">description</span>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-800">Consultas y Observaciones</p>
-                                    <p class="text-[10px] text-slate-400">PDF • Resueltas por el comité</p>
-                                </div>
-                            </div>
-                            <span
-                                class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-all">download</span>
-                        </div>
-                    </div>
-                    <p class="mt-6 text-xs text-slate-400 text-center italic">Los archivos serán enlazados directamente
-                        desde el portal SEACE en la versión de producción.</p>
+                <!-- Tags -->
+                <div id="tagsRow" class="flex flex-wrap gap-3">
+                    <!-- Injected by JS -->
                 </div>
-            </div>
 
-            <!-- TAB: Similares -->
-            <div id="panelSimilares" class="tab-panel hidden">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-black text-slate-900 mb-6">Licitaciones Similares</h3>
+                <!-- Description -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-base font-black text-slate-900 mb-3">Descripción General</h3>
+                    <p id="tenderDescription" class="text-slate-600 text-sm leading-relaxed">Cargando...</p>
+                    <a id="drawerFullLink" href="#"
+                        class="inline-flex items-center gap-1 text-primary hover:text-primary-700 text-sm font-bold mt-4 transition-colors">
+                        Ver en portal SEACE <span class="material-symbols-outlined text-base">open_in_new</span>
+                    </a>
+                </div>
+
+                <!-- Licitaciones Similares -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-base font-black text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-slate-400">layers</span>
+                        Oportunidades Similares
+                    </h3>
                     <div id="similarContainer" class="space-y-3">
-                        <!-- Inyectado por JS -->
+                        <div class="animate-pulse h-16 bg-slate-100 rounded-xl"></div>
+                        <div class="animate-pulse h-16 bg-slate-100 rounded-xl"></div>
                     </div>
                 </div>
             </div>
 
+            <!-- ========== RIGHT COLUMN (Sticky) ========== -->
+            <div class="lg:col-span-5">
+                <div class="sticky top-24 space-y-5">
+
+                    <!-- Semáforo Financiero -->
+                    <div id="semaforoCard"
+                        class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hidden">
+                        <div class="bg-slate-50 px-5 py-4 border-b border-slate-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">traffic</span>
+                            <h3 class="text-sm font-black text-slate-900">Viabilidad Financiera</h3>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center gap-3">
+                                <span id="semaforoIcon" class="material-symbols-outlined text-2xl">circle</span>
+                                <p id="semaforoText" class="text-sm font-bold text-slate-700">---</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist de Requisitos -->
+                    <div
+                        class="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
+                            <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">fact_check</span>
+                                Checklist de Requisitos
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-1">Valida si INPROMETAL cumple antes de postular.</p>
+                        </div>
+                        <div class="p-6 space-y-5">
+                            <!-- Standard Requirements (always shown) -->
+                            <div>
+                                <h4
+                                    class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">gavel</span> Habilitantes
+                                    Generales
+                                </h4>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3 text-sm text-slate-700">
+                                        <div
+                                            class="w-5 h-5 rounded-full bg-green-100 border-2 border-green-400 flex items-center justify-center shrink-0">
+                                            <span
+                                                class="material-symbols-outlined text-[12px] text-green-600">check</span>
+                                        </div>
+                                        RNP Vigente (Registro Nacional de Proveedores)
+                                    </li>
+                                    <li class="flex items-center gap-3 text-sm text-slate-700">
+                                        <div
+                                            class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0">
+                                            <span
+                                                class="material-symbols-outlined text-[12px] text-slate-300">check</span>
+                                        </div>
+                                        SUNAT al día (Sin deudas coactivas)
+                                    </li>
+                                    <li class="flex items-center gap-3 text-sm text-slate-700">
+                                        <div
+                                            class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0">
+                                            <span
+                                                class="material-symbols-outlined text-[12px] text-slate-300">check</span>
+                                        </div>
+                                        Vigencia de Poder del Representante Legal
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="border-slate-100" />
+                            <!-- Technical Requirements from data -->
+                            <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                                <h4
+                                    class="text-[10px] font-black text-red-600 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">warning</span> Requisitos Técnicos
+                                    Obligatorios
+                                </h4>
+                                <ul id="tenderRequirements" class="space-y-3">
+                                    <!-- Injected by JS -->
+                                </ul>
+                            </div>
+                            <hr class="border-slate-100" />
+                            <!-- Financial / Fianza -->
+                            <div>
+                                <h4
+                                    class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">attach_money</span> Garantías
+                                </h4>
+                                <ul class="space-y-3">
+                                    <li id="fianzaItem" class="flex items-start gap-3 text-sm text-slate-700">
+                                        <div
+                                            class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0 mt-0.5">
+                                            <span
+                                                class="material-symbols-outlined text-[12px] text-slate-300">check</span>
+                                        </div>
+                                        <span>Carta Fianza (10% del valor del contrato)</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 text-sm text-slate-700">
+                                        <div
+                                            class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0 mt-0.5">
+                                            <span
+                                                class="material-symbols-outlined text-[12px] text-slate-300">check</span>
+                                        </div>
+                                        <span>Seguro Complementario de Trabajo de Riesgo</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- CTA -->
+                        <div class="bg-slate-50 p-5 border-t border-slate-100">
+                            <button onclick="enviarCRM()"
+                                class="w-full flex items-center justify-center gap-2 py-3 bg-primary hover:bg-primary-700 text-white rounded-xl font-black text-sm shadow-lg shadow-primary/25 transition-all mb-3">
+                                <span>Enviar a CRM / Pipeline</span>
+                                <span class="material-symbols-outlined text-xl">send</span>
+                            </button>
+                            <p class="text-[10px] text-center text-slate-400">
+                                Los datos se registran en tu Pipeline comercial interno.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Entity Profile -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Perfil del
+                            Comprador</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 flex items-center gap-1.5"><span
+                                        class="material-symbols-outlined text-base text-slate-400">trending_up</span>Frecuencia</span>
+                                <span id="entityFreq" class="font-bold text-slate-800">--</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 flex items-center gap-1.5"><span
+                                        class="material-symbols-outlined text-base text-slate-400">history</span>Historial
+                                    (12m)</span>
+                                <span id="entityHistory" class="font-bold text-slate-800">--</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 flex items-center gap-1.5"><span
+                                        class="material-symbols-outlined text-base text-slate-400">category</span>Sector</span>
+                                <span class="font-bold text-primary">Infraestructura</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Card -->
+                    <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 flex gap-4 items-start">
+                        <div class="p-2 bg-white rounded-full shadow-sm text-primary shrink-0">
+                            <span class="material-symbols-outlined">support_agent</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 mb-1">¿Necesitas revisar las bases?</p>
+                            <p class="text-xs text-slate-600 mb-2">Accede directamente al portal SEACE para descargar el
+                                expediente completo.</p>
+                            <a id="seaceLink" href="https://www.seace.gob.pe" target="_blank"
+                                class="text-xs font-bold text-primary hover:underline">
+                                Ir al portal SEACE →
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- ===== MOBILE FLOATING ACTION BAR ===== -->
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 lg:hidden z-40 flex gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.08)]">
+        <button id="followBtnMobile" onclick="toggleFollow()"
+            class="flex-1 py-3 bg-slate-100 text-slate-900 rounded-xl font-bold border border-slate-200 flex items-center justify-center gap-2 text-sm">
+            <span class="material-symbols-outlined text-lg">bookmark_border</span>
+            Seguir
+        </button>
+        <button onclick="enviarCRM()"
+            class="flex-[2] py-3 bg-primary text-white rounded-xl font-black shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-sm">
+            <span>Enviar a CRM</span>
+            <span class="material-symbols-outlined">send</span>
+        </button>
+    </div>
 
     <script src="detalle.js"></script>
 </body>
