@@ -1,11 +1,30 @@
 // ==========================================
-// SEACE - MOTOR v3.5 (Deep Dive Audit)
-// Drawer, Docs column, Smart suggestions
+// SEACE - MOTOR v4.0 (Enterprise Audit)
+// Tabular nums, relative dates, visited,
+// CSV export, action menu, triage
 // ==========================================
 
 let currentData = [];
+let lastFiltered = []; // Para exportar CSV
 let isSearching = false;
-let currentDrawerId = null; // Track drawer state
+let currentDrawerId = null;
+
+// Track visited rows
+const getVisited = () => JSON.parse(localStorage.getItem('visited') || '[]');
+const markVisited = (id) => {
+    const v = getVisited();
+    if (!v.includes(id)) { v.push(id); localStorage.setItem('visited', JSON.stringify(v)); }
+};
+
+// Track discarded rows
+const getDiscarded = () => JSON.parse(localStorage.getItem('discarded') || '[]');
+const toggleDiscard = (id) => {
+    let d = getDiscarded();
+    if (d.includes(id)) d = d.filter(x => x !== id);
+    else d.push(id);
+    localStorage.setItem('discarded', JSON.stringify(d));
+    applyFilters();
+};
 
 async function loadData() {
     showSkeleton(true);
@@ -31,7 +50,7 @@ function showSkeleton(show) {
     else { sk?.classList.add('hidden'); tb?.classList.remove('hidden'); }
 }
 
-// === NAVEGACIÓN ===
+// === NAV ===
 window.switchView = (v) => {
     document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
     document.getElementById(`${v}View`)?.classList.remove('hidden');
@@ -54,7 +73,7 @@ function updateDashboardStats(data) {
     document.getElementById('statMatch').innerText = `${m}%`;
 }
 
-// === SIDEBAR BADGES ===
+// === BADGES ===
 function updateSidebarBadges(data) {
     const now = new Date();
     const nuevas = data.filter(d => (now - new Date(d.publishDate)) < 48 * 3600000).length;
@@ -63,24 +82,24 @@ function updateSidebarBadges(data) {
     document.getElementById('badgeCierre').innerText = cierre;
 }
 
-// === ALERTAS SIDEBAR ===
+// === ALERTAS ===
 window.filterByAlert = (tipo) => {
     switchView('search');
     const now = new Date();
-    let filtered;
-    if (tipo === 'nuevas') filtered = currentData.filter(d => (now - new Date(d.publishDate)) < 48 * 3600000);
-    else filtered = currentData.filter(d => { const df = (new Date(d.deadline) - now) / 86400000; return df > 0 && df <= 3; });
-    renderTable(filtered);
-    renderMobileCards(filtered);
+    let f;
+    if (tipo === 'nuevas') f = currentData.filter(d => (now - new Date(d.publishDate)) < 48 * 3600000);
+    else f = currentData.filter(d => { const df = (new Date(d.deadline) - now) / 86400000; return df > 0 && df <= 3; });
+    lastFiltered = f;
+    renderTable(f); renderMobileCards(f);
 };
 
-// === SUGERENCIAS DE BÚSQUEDA ===
+// === SUGGEST ===
 window.suggestSearch = (term) => {
     document.getElementById('searchInput').value = term;
     applyFilters();
 };
 
-// === CUSTOM BUDGET TOGGLE ===
+// === CUSTOM BUDGET ===
 const budgetSelect = document.getElementById('budgetSelect');
 budgetSelect?.addEventListener('change', () => {
     const box = document.getElementById('customBudgetInputs');
@@ -89,7 +108,7 @@ budgetSelect?.addEventListener('change', () => {
     applyFilters();
 });
 
-// === FILTRADO PRINCIPAL ===
+// === FILTERS ===
 const applyFilters = () => {
     if (isSearching) return;
     isSearching = true;
@@ -103,8 +122,11 @@ const applyFilters = () => {
         const active = document.getElementById('activeOnlyToggle').checked;
         const budget = budgetSelect.value;
         const sort = document.getElementById('sortSelect').value;
+        const discarded = getDiscarded();
 
         let filtered = currentData.filter(item => {
+            // Excluir descartados
+            if (discarded.includes(item.id)) return false;
             if (active && new Date(item.deadline) < new Date()) return false;
             const txt = `${item.title} ${item.agency} ${item.location} ${item.description || ''}`.toLowerCase();
             if (search && !txt.includes(search)) return false;
@@ -125,20 +147,33 @@ const applyFilters = () => {
         else if (sort === 'Presupuesto (Mayor a Menor)') filtered.sort((a, b) => b.budgetMax - a.budgetMax);
         else if (sort === 'Cierre Próximo') filtered.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
+        lastFiltered = filtered;
         showSkeleton(false);
         renderTable(filtered);
         renderMobileCards(filtered);
         btn.innerHTML = `Buscar`;
         btn.disabled = false;
         isSearching = false;
-    }, 500);
+    }, 400);
 };
 
-// === RENDER TABLE (con columna Docs) ===
+// === RELATIVE DATE ("Quedan 3 días") ===
+function relativeDate(deadline) {
+    const diff = daysDiff(deadline);
+    if (diff < 0) return `<span class="text-slate-400 line-through">${deadline}</span>`;
+    if (diff === 0) return `<span class="text-red-600 font-bold animate-pulse">¡Hoy!</span>`;
+    if (diff === 1) return `<span class="text-orange-600 font-bold">Mañana</span>`;
+    if (diff <= 3) return `<span class="text-orange-500 font-bold">${deadline}<br><span class="text-[10px]">Quedan ${diff} días</span></span>`;
+    if (diff <= 7) return `<span class="text-slate-700">${deadline}<br><span class="text-[10px] text-slate-400">Quedan ${diff} días</span></span>`;
+    return `<span class="text-slate-500">${deadline}<br><span class="text-[10px] text-slate-400">${diff} días restantes</span></span>`;
+}
+
+// === TABLE (Enterprise) ===
 const renderTable = (data) => {
     const tbody = document.getElementById('resultsTableBody');
     const empty = document.getElementById('emptyState');
     const pag = document.getElementById('paginationFooter');
+    const visited = getVisited();
     tbody.innerHTML = '';
     document.getElementById('resultsCount').innerText = `(${data.length} encontrados)`;
 
@@ -158,20 +193,32 @@ const renderTable = (data) => {
         if (diff < 0) badge = `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">Cerrada</span>`;
         else if (diff <= 3) badge = `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-100 text-orange-600 animate-pulse">Cierra pronto</span>`;
 
+        const isVisited = visited.includes(item.id);
         const matchColor = item.match > 50 ? 'text-green-500' : 'text-slate-400';
         const row = document.createElement('tr');
-        row.className = `hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group border-b border-slate-100 dark:border-slate-800 transition-all ${diff < 0 ? 'opacity-50' : ''}`;
-        // Al hacer clic, abre el DRAWER, no una página nueva
-        row.onclick = () => openDrawer(item.id);
+        row.className = `hover:bg-blue-50/50 dark:hover:bg-slate-800/50 cursor-pointer group border-b border-slate-100 dark:border-slate-800 transition-all ${diff < 0 ? 'opacity-40' : ''} ${isVisited ? 'row-visited' : ''}`;
+        row.onclick = (e) => { if (!e.target.closest('.action-trigger')) { markVisited(item.id); row.classList.add('row-visited'); openDrawer(item.id); } };
         row.innerHTML = `
-            <td class="py-4 px-6"><div class="flex flex-col max-w-xs"><span class="text-sm font-bold text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors" title="${item.title}">${item.title}</span><span class="text-[10px] text-slate-400 font-mono mt-1">${item.id}</span></div></td>
+            <td class="py-4 px-6 sticky-col">
+                <div class="flex flex-col max-w-xs">
+                    <span class="text-sm font-bold ${isVisited ? 'text-slate-400' : 'text-slate-900 dark:text-white'} truncate group-hover:text-primary transition-colors" title="${item.title}">${item.title}</span>
+                    <span class="text-[10px] text-slate-400 font-mono mt-1">${item.id}</span>
+                </div>
+            </td>
             <td class="py-4 px-6"><span class="text-xs font-semibold text-slate-600">${item.agency}</span></td>
-            <td class="py-4 px-6"><span class="text-sm font-black">${formatPEN(item.budgetMax)}</span></td>
-            <td class="py-4 px-6 text-sm text-slate-500">${item.deadline}</td>
+            <td class="py-4 px-6 text-right"><span class="text-sm font-black tabular-nums">${formatPEN(item.budgetMax)}</span></td>
+            <td class="py-4 px-6 text-sm">${relativeDate(item.deadline)}</td>
             <td class="py-4 px-6 text-center text-xs font-bold ${matchColor}">${item.match}%</td>
             <td class="py-4 px-6 text-center">${badge}</td>
-            <td class="py-4 px-6 text-center"><span class="material-symbols-outlined text-red-400 hover:text-red-600 text-lg cursor-pointer" title="Descargar Bases" onclick="event.stopPropagation()">picture_as_pdf</span></td>
-            <td class="py-4 px-6 text-right"><span class="material-symbols-outlined text-slate-300 group-hover:text-primary">chevron_right</span></td>`;
+            <td class="py-4 px-6 text-center"><span class="material-symbols-outlined text-red-400 hover:text-red-600 text-lg cursor-pointer" title="Bases PDF" onclick="event.stopPropagation()">picture_as_pdf</span></td>
+            <td class="py-4 px-2 text-right relative action-trigger" tabindex="0">
+                <span class="material-symbols-outlined text-slate-300 hover:text-slate-600 cursor-pointer text-lg" onclick="event.stopPropagation()">more_vert</span>
+                <div class="action-menu bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 w-48 right-0">
+                    <button onclick="event.stopPropagation(); openDrawer('${item.id}')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2"><span class="material-symbols-outlined text-sm">visibility</span>Ver Detalle</button>
+                    <button onclick="event.stopPropagation(); sendToWebhook('${item.id}')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2"><span class="material-symbols-outlined text-sm">send</span>Enviar a CRM</button>
+                    <button onclick="event.stopPropagation(); toggleDiscard('${item.id}')" class="w-full text-left px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-50 flex items-center gap-2"><span class="material-symbols-outlined text-sm">archive</span>Descartar</button>
+                </div>
+            </td>`;
         tbody.appendChild(row);
     });
 };
@@ -189,20 +236,51 @@ const renderMobileCards = (data) => {
             <div class="flex justify-between items-start mb-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${bc}">${bt}</span><span class="text-xs font-bold ${item.match > 50 ? 'text-green-500' : 'text-slate-400'}">${item.match}%</span></div>
             <h3 class="text-sm font-bold text-slate-900 mb-1 leading-snug">${item.title}</h3>
             <p class="text-xs text-slate-500 mb-3">${item.agency} • ${item.location}</p>
-            <div class="flex justify-between items-center"><span class="text-sm font-black">${formatPEN(item.budgetMax)}</span><span class="text-[10px] text-slate-400">${item.deadline}</span></div>
+            <div class="flex justify-between items-center"><span class="text-sm font-black tabular-nums">${formatPEN(item.budgetMax)}</span><span class="text-[10px] text-slate-400">${relativeDate(item.deadline)}</span></div>
         </div>`;
     }).join('');
 };
 
 // =========================
-// DRAWER (Panel Lateral)
+// EXPORT CSV
+// =========================
+window.exportCSV = () => {
+    if (!lastFiltered.length) { alert('No hay datos para exportar.'); return; }
+    const headers = ['ID', 'Título', 'Agencia', 'Región', 'Presupuesto Mín', 'Presupuesto Máx', 'Publicación', 'Cierre', 'Match (%)', 'Estado'];
+    const rows = lastFiltered.map(d => {
+        const diff = daysDiff(d.deadline);
+        const status = diff < 0 ? 'Cerrada' : (diff <= 3 ? 'Cierre Próximo' : 'Abierta');
+        return [d.id, `"${d.title}"`, `"${d.agency}"`, d.location, d.budgetMin, d.budgetMax, d.publishDate, d.deadline, d.match, status];
+    });
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `licitaciones_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+};
+
+// =========================
+// WEBHOOK SIMULATION
+// =========================
+window.sendToWebhook = (id) => {
+    const item = currentData.find(d => d.id === id);
+    if (!item) return;
+    const payload = { id: item.id, title: item.title, agency: item.agency, budget: item.budgetMax, deadline: item.deadline };
+    console.log('Webhook payload:', JSON.stringify(payload, null, 2));
+    // Future: fetch('https://hook.make.com/xxx', { method: 'POST', body: JSON.stringify(payload) });
+    alert(`✅ Datos de "${item.id}" enviados al CRM.\n\nEn producción, esto se conectará a Make.com o su ERP interno.`);
+};
+
+// =========================
+// DRAWER
 // =========================
 window.openDrawer = (id) => {
     const item = currentData.find(d => d.id === id);
     if (!item) return;
     currentDrawerId = id;
+    markVisited(id);
 
-    // Rellenar datos
     document.getElementById('drawerTitle').innerText = item.title;
     document.getElementById('drawerId').innerText = item.id;
     document.getElementById('drawerAgency').innerText = item.agency;
@@ -211,47 +289,30 @@ window.openDrawer = (id) => {
     document.getElementById('drawerDesc').innerText = item.description || 'Sin descripción.';
     document.getElementById('drawerFullLink').href = `detalle.html?id=${id}`;
 
-    // Badge de estado
     const diff = daysDiff(item.deadline);
     const badge = document.getElementById('drawerBadge');
     if (diff < 0) { badge.innerText = 'Cerrada'; badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500'; }
     else if (diff <= 3) { badge.innerText = 'Cierra pronto'; badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-600 animate-pulse'; }
     else { badge.innerText = 'Abierta'; badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700'; }
 
-    // Follow state
     const saved = JSON.parse(localStorage.getItem('seguidos') || '[]');
     updateDrawerFollowBtn(saved.includes(id));
 
-    // Mini Timeline
     const tl = document.getElementById('drawerTimeline');
-    const phases = [
+    tl.innerHTML = [
         { name: 'Convocatoria', date: item.publishDate, done: true },
         { name: 'Consultas', date: '---', done: diff < 10 },
-        { name: 'Presentación de Ofertas', date: item.deadline, done: diff < 0 },
+        { name: 'Presentación', date: item.deadline, done: diff < 0 },
         { name: 'Adjudicación', date: '---', done: false },
-    ];
-    tl.innerHTML = phases.map(p => `
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-sm ${p.done ? 'text-green-500' : 'text-slate-300'}">${p.done ? 'check_circle' : 'radio_button_unchecked'}</span>
-            <span class="text-xs font-semibold ${p.done ? 'text-slate-700' : 'text-slate-400'}">${p.name}</span>
-            <span class="text-[10px] text-slate-400 ml-auto">${p.date}</span>
-        </div>
-    `).join('');
+    ].map(p => `<div class="flex items-center gap-3"><span class="material-symbols-outlined text-sm ${p.done ? 'text-green-500' : 'text-slate-300'}">${p.done ? 'check_circle' : 'radio_button_unchecked'}</span><span class="text-xs font-semibold ${p.done ? 'text-slate-700' : 'text-slate-400'}">${p.name}</span><span class="text-[10px] text-slate-400 ml-auto">${p.date}</span></div>`).join('');
 
-    // Requisitos
     const rq = document.getElementById('drawerRequirements');
-    rq.innerHTML = (item.requirements || []).map(r => `
-        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"><span class="material-symbols-outlined text-primary text-sm">check_circle</span><span class="text-xs font-semibold text-slate-700">${r}</span></div>
-    `).join('');
+    rq.innerHTML = (item.requirements || []).map(r => `<div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"><span class="material-symbols-outlined text-primary text-sm">check_circle</span><span class="text-xs font-semibold text-slate-700">${r}</span></div>`).join('');
 
-    // Animar apertura
     const overlay = document.getElementById('drawerOverlay');
     const panel = document.getElementById('drawerPanel');
     overlay.classList.remove('hidden');
-    setTimeout(() => {
-        overlay.classList.add('opacity-100');
-        panel.classList.remove('translate-x-full');
-    }, 10);
+    setTimeout(() => { overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }, 10);
 };
 
 window.closeDrawer = () => {
@@ -266,11 +327,11 @@ window.closeDrawer = () => {
 window.toggleDrawerFollow = () => {
     if (!currentDrawerId) return;
     let saved = JSON.parse(localStorage.getItem('seguidos') || '[]');
-    const following = saved.includes(currentDrawerId);
-    if (following) saved = saved.filter(s => s !== currentDrawerId);
+    const f = saved.includes(currentDrawerId);
+    if (f) saved = saved.filter(s => s !== currentDrawerId);
     else saved.push(currentDrawerId);
     localStorage.setItem('seguidos', JSON.stringify(saved));
-    updateDrawerFollowBtn(!following);
+    updateDrawerFollowBtn(!f);
 };
 
 function updateDrawerFollowBtn(isFollowing) {
@@ -286,7 +347,6 @@ function updateDrawerFollowBtn(isFollowing) {
     }
 }
 
-// Cerrar con Escape
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
 
 // === UTILS ===
