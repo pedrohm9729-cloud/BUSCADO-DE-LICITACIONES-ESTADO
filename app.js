@@ -85,7 +85,7 @@ const renderTable = (data) => {
 
         const row = document.createElement("tr");
         row.className = "hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group cursor-pointer";
-        row.onclick = () => window.location.href = 'detalle.html';
+        row.onclick = () => window.location.href = `detalle.html?id=${item.id}`;
 
         row.innerHTML = `
             <td class="py-4 px-6">
@@ -175,6 +175,7 @@ const renderChips = (filters) => {
             cubsoSelect.value = "";
             budgetSelect.value = "";
             searchInput.value = "";
+            window.location.hash = "";
             applyFilters();
         };
         activeFiltersContainer.appendChild(clearBtn);

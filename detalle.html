@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Detalle de Licitación | LicitacionesMX</title>
+    <title>Detalle de Licitación | LICITADOR PE</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
         rel="stylesheet" />
     <script src="tailwind.config.js"></script>
     <style>
@@ -53,45 +48,14 @@
                                     fill="currentColor" fill-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <span
-                            class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">LicitacionesMX</span>
-                    </div>
-                    <nav class="hidden md:flex items-center gap-6">
-                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
-                            href="#">Inicio</a>
-                        <a class="text-sm font-medium text-slate-900 dark:text-white transition-colors" href="#">Buscar
-                            Licitaciones</a>
-                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
-                            href="#">Mis Intereses</a>
-                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
-                            href="#">Perfil</a>
-                    </nav>
-                </div>
-                <!-- Search & Actions -->
-                <div class="flex items-center gap-4">
-                    <div class="relative hidden lg:block">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                            <span class="material-symbols-outlined text-xl">search</span>
-                        </span>
-                        <input
-                            class="w-64 py-2 pl-10 pr-4 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 transition-all"
-                            placeholder="Buscar por ID o palabra clave" type="text" />
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            class="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                            <span class="material-symbols-outlined">notifications</span>
-                        </button>
-                        <div
-                            class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-white dark:ring-slate-800 cursor-pointer">
-                            <img alt="User profile" class="w-full h-full object-cover"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGyd6laV7b3JGXTWtSTNuWsp8ThvxgIpHO8_tn2YG_7R9WC1t9Fpkkv7CzN3I0KL0TWJ_hJ8fqvREBcRImwNtPlTae1dH_umvKBB8nm0eBoIwNHpMVZhL_I6K6cSLqFmPNn6cb1bf9JF8nM22AvaTRMkZw_XXB2QvX4bL5Ori9CaIxpQQFSTBVCe--sIwLIhAOamZ4zI0B0LZCVqizezlmvJPCsQZaybk9mpINhw0n8nQaR_Alvxt12r9VVFnOVX_Mh2f4QwkDFBk" />
-                        </div>
+                        <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">LICITADOR
+                            PE</span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
     <!-- Main Content -->
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Breadcrumbs -->
@@ -103,6 +67,7 @@
             <span class="mx-2">/</span>
             <span class="text-slate-900 dark:text-white font-medium">Detalle de Licitación</span>
         </nav>
+
         <!-- Header Section -->
         <div class="mb-8">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
@@ -112,28 +77,15 @@
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
                             Vigente
                         </span>
-                        <span class="text-slate-500 dark:text-slate-400 text-sm font-mono">ID:
-                            LA-019GYR019-E1-2023</span>
+                        <span class="text-slate-500 dark:text-slate-400 text-sm font-mono">ID: <span
+                                id="tenderId">---</span></span>
                     </div>
-                    <h1
+                    <h1 id="tenderTitle"
                         class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-2">
-                        Adquisición de Equipos de Cómputo para Oficinas Centrales 2024
-                    </h1>
-                    <p class="text-lg text-slate-600 dark:text-slate-300">
-                        Secretaría de Educación Pública (SEP) • Dirección General de Recursos Materiales
-                    </p>
+                        Cargando...</h1>
+                    <p id="tenderAgency" class="text-lg text-slate-600 dark:text-slate-300">Cargando agencia...</p>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
-                    <button
-                        class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-                        <span class="hidden sm:inline">Guardar</span>
-                    </button>
-                    <button
-                        class="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">share</span>
-                        <span class="hidden sm:inline">Compartir</span>
-                    </button>
                     <button
                         class="flex items-center justify-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-600 text-white rounded-lg font-bold shadow-lg shadow-primary/25 transition-all transform active:scale-95">
                         <span>Postularme</span>
@@ -142,290 +94,37 @@
                 </div>
             </div>
         </div>
+
         <!-- Split Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- LEFT COLUMN: Essential Info (The 'What' & 'When') -->
-            <div class="lg:col-span-7 flex flex-col gap-6">
-                <!-- Key Metrics Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Budget Card -->
-                    <div
-                        class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col justify-between group hover:border-primary/50 transition-colors">
-                        <div class="flex justify-between items-start mb-4">
-                            <div
-                                class="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-600 dark:text-green-400">
-                                <span class="material-symbols-outlined">payments</span>
-                            </div>
-                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Estimado</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Presupuesto Total</p>
-                            <p class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">$5,000,000
-                                <span class="text-lg font-bold text-slate-400">MXN</span></p>
-                        </div>
-                    </div>
-                    <!-- Deadline Card -->
-                    <div
-                        class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col justify-between group hover:border-orange-400 transition-colors">
-                        <div class="flex justify-between items-start mb-4">
-                            <div
-                                class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400">
-                                <span class="material-symbols-outlined">hourglass_top</span>
-                            </div>
-                            <span
-                                class="text-xs font-semibold text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded-full">Alta
-                                Prioridad</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Fecha Límite</p>
-                            <p class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Faltan 5 días
-                            </p>
-                            <p class="text-xs text-slate-500 mt-1">Cierra el 24 de Noviembre, 2024</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Timeline Visualizer -->
+            <div class="lg:col-span-12 flex flex-col gap-6">
+                <!-- Budget Card -->
                 <div
                     class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">calendar_month</span> Cronograma
-                    </h3>
-                    <div class="relative pl-4 border-l-2 border-slate-100 dark:border-slate-700 space-y-8">
-                        <!-- Step 1: Done -->
-                        <div class="relative">
-                            <div
-                                class="absolute -left-[25px] top-1 w-5 h-5 rounded-full bg-green-500 border-4 border-white dark:border-surface-dark flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-900 dark:text-white">Publicación de Bases
-                                    </p>
-                                    <p class="text-xs text-slate-500">Disponible para descarga</p>
-                                </div>
-                                <span class="text-xs font-mono text-slate-400">01 Nov 2024</span>
-                            </div>
-                        </div>
-                        <!-- Step 2: Active -->
-                        <div class="relative">
-                            <div
-                                class="absolute -left-[25px] top-1 w-5 h-5 rounded-full bg-primary border-4 border-white dark:border-surface-dark ring-2 ring-primary/20">
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
-                                <div>
-                                    <p class="text-sm font-bold text-primary">Junta de Aclaraciones</p>
-                                    <p class="text-xs text-slate-500">Sesión obligatoria para dudas</p>
-                                </div>
-                                <span class="text-xs font-mono text-primary font-bold">20 Nov 2024</span>
-                            </div>
-                        </div>
-                        <!-- Step 3: Pending -->
-                        <div class="relative">
-                            <div
-                                class="absolute -left-[25px] top-1 w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-600 border-4 border-white dark:border-surface-dark">
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
-                                <div>
-                                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Presentación de
-                                        Propuestas</p>
-                                    <p class="text-xs text-slate-400">Entrega física y digital</p>
-                                </div>
-                                <span class="text-xs font-mono text-slate-400">24 Nov 2024</span>
-                            </div>
-                        </div>
-                        <!-- Step 4: Pending -->
-                        <div class="relative">
-                            <div
-                                class="absolute -left-[25px] top-1 w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-600 border-4 border-white dark:border-surface-dark">
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
-                                <div>
-                                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Fallo</p>
-                                    <p class="text-xs text-slate-400">Anuncio de ganadores</p>
-                                </div>
-                                <span class="text-xs font-mono text-slate-400">30 Nov 2024</span>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Presupuesto Referencial</p>
+                    <p id="tenderBudget" class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">---
+                    </p>
                 </div>
-                <!-- Tags & Details -->
-                <div class="flex flex-wrap gap-3">
-                    <div
-                        class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">computer</span> Hardware
-                    </div>
-                    <div
-                        class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">shopping_bag</span> Compra Directa
-                    </div>
-                    <div
-                        class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">map</span> CDMX
-                    </div>
-                    <div
-                        class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">gavel</span> Licitación Pública
-                    </div>
-                </div>
-                <!-- Description Snippet -->
+
+                <!-- Description -->
                 <div
                     class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
                     <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Descripción General</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                        Se convoca a los interesados en participar en la Licitación Pública Nacional para la adquisición
-                        de 500 equipos de cómputo de escritorio y 200 portátiles, incluyendo garantía extendida por 3
-                        años y servicio de soporte técnico en sitio. Los equipos deberán cumplir con las
-                        especificaciones de eficiencia energética NOM-032.
-                    </p>
-                    <a class="inline-flex items-center gap-1 text-primary hover:text-primary-700 text-sm font-semibold mt-4"
-                        href="#">
-                        Ver convocatoria completa <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-                    </a>
+                    <p id="tenderDescription" class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Cargando...</p>
+                </div>
+
+                <!-- Requirements -->
+                <div
+                    class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Checklist de Requisitos</h3>
+                    <span id="tenderRequirements" class="space-y-3 block text-sm"></span>
                 </div>
             </div>
-            <!-- RIGHT COLUMN: Simplified Checklist (The 'How') -->
-            <div class="lg:col-span-5">
-                <div class="sticky top-24 space-y-6">
-                    <!-- Qualification Card -->
-                    <div
-                        class="bg-white dark:bg-surface-dark rounded-xl shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 overflow-hidden">
-                        <div
-                            class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-100 dark:border-slate-700">
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary">fact_check</span>
-                                Checklist de Requisitos
-                            </h3>
-                            <p class="text-xs text-slate-500 mt-1">Valida si tu empresa cumple antes de postular.</p>
-                        </div>
-                        <div class="p-6 space-y-6">
-                            <!-- Section: Legal -->
-                            <div>
-                                <h4
-                                    class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[16px]">gavel</span> Legal
-                                </h4>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                        <div
-                                            class="w-5 h-5 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center shrink-0 mt-0.5 text-white peer-checked:bg-green-500 peer-checked:border-green-500">
-                                            <span
-                                                class="material-symbols-outlined text-[14px] text-slate-300">check</span>
-                                        </div>
-                                        <span>Constancia de Situación Fiscal (Actualizada)</span>
-                                    </li>
-                                    <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                        <div
-                                            class="w-5 h-5 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center shrink-0 mt-0.5">
-                                            <span
-                                                class="material-symbols-outlined text-[14px] text-slate-300">check</span>
-                                        </div>
-                                        <span>Opinión de Cumplimiento SAT (Positiva)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <hr class="border-slate-100 dark:border-slate-700" />
-                            <!-- Section: Technical (Deal Breaker) -->
-                            <div
-                                class="bg-red-50 dark:bg-red-900/10 p-4 rounded-lg border border-red-100 dark:border-red-900/20">
-                                <h4
-                                    class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[16px]">warning</span> Requisitos
-                                    Técnicos Obligatorios
-                                </h4>
-                                <ul class="space-y-3">
-                                    <li
-                                        class="flex items-start gap-3 text-sm text-slate-900 dark:text-slate-100 font-medium">
-                                        <span
-                                            class="material-symbols-outlined text-red-500 shrink-0 text-[20px]">verified</span>
-                                        <span>Experiencia mínima comprobable de 3 años vendiendo a gobierno.</span>
-                                    </li>
-                                    <li
-                                        class="flex items-start gap-3 text-sm text-slate-900 dark:text-slate-100 font-medium">
-                                        <span
-                                            class="material-symbols-outlined text-red-500 shrink-0 text-[20px]">verified</span>
-                                        <span>Certificación ISO 9001 vigente.</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <hr class="border-slate-100 dark:border-slate-700" />
-                            <!-- Section: Financial -->
-                            <div>
-                                <h4
-                                    class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[16px]">attach_money</span> Financiero
-                                </h4>
-                                <ul class="space-y-3">
-                                    <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                        <div
-                                            class="w-5 h-5 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center shrink-0 mt-0.5">
-                                            <span
-                                                class="material-symbols-outlined text-[14px] text-slate-300">check</span>
-                                        </div>
-                                        <span>Capital contable mínimo de $500,000 MXN</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-slate-50 dark:bg-slate-800/50 p-6 border-t border-slate-100 dark:border-slate-700">
-                            <button
-                                class="w-full flex items-center justify-center gap-2 py-3 bg-primary hover:bg-primary-600 text-white rounded-lg font-bold shadow-lg shadow-primary/25 transition-all mb-3">
-                                <span>Iniciar Postulación</span>
-                                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                            </button>
-                            <p class="text-xs text-center text-slate-400">
-                                Al postular, aceptas los <a class="underline hover:text-slate-500" href="#">términos y
-                                    condiciones</a> de la plataforma.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Help Card -->
-                    <div
-                        class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-900/20 flex gap-4 items-start">
-                        <div class="p-2 bg-white dark:bg-surface-dark rounded-full shadow-sm text-primary shrink-0">
-                            <span class="material-symbols-outlined">support_agent</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-900 dark:text-white mb-1">¿Necesitas asesoría?</p>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 mb-2">Nuestros expertos pueden ayudarte
-                                a revisar tu documentación técnica antes de enviarla.</p>
-                            <a class="text-xs font-bold text-primary hover:underline" href="#">Contactar Asesor →</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer for Mobile (Floating Action Button style) -->
-        <div
-            class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-slate-800 p-4 lg:hidden z-40 flex gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-            <button
-                class="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg font-bold border border-slate-200 dark:border-slate-700">
-                Guardar
-            </button>
-            <button class="flex-[2] py-3 bg-primary text-white rounded-lg font-bold shadow-lg shadow-primary/25">
-                Postularme
-            </button>
         </div>
     </main>
-    <!-- Map Section (Lower part of page) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 mt-8">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Ubicación de Entrega</h3>
-        <div class="w-full h-64 bg-slate-200 dark:bg-slate-700 rounded-xl overflow-hidden relative group">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-            <div class="absolute bottom-4 left-4 z-20 text-white">
-                <p class="font-bold text-lg">Oficinas Centrales SEP</p>
-                <p class="text-sm opacity-90">Av. Universidad 1200, Xoco, CDMX</p>
-            </div>
-            <!-- Abstract Map Representation -->
-            <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&amp;w=2074&amp;auto=format&amp;fit=crop')] bg-cover bg-center grayscale opacity-80 group-hover:grayscale-0 transition-all duration-500"
-                data-alt="Aerial map view of Mexico City urban layout" data-location="Mexico City" style=""></div>
-            <button
-                class="absolute top-4 right-4 z-20 bg-white dark:bg-surface-dark text-slate-900 dark:text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-md flex items-center gap-2 hover:bg-slate-50 transition-colors">
-                <span class="material-symbols-outlined text-[18px]">directions</span>
-                Ver en Mapa
-            </button>
-        </div>
-    </section>
+
+    <script src="detalle.js"></script>
 </body>
 
 </html>
