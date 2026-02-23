@@ -1,0 +1,28 @@
+[
+    {
+        "id": "LP-SM-2-2024-MUNI-1",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON PUENTE RETICULADO",
+        "agency": "MUNICIPALIDAD DISTRITAL",
+        "location": "JUNIN",
+        "budgetMin": 850000,
+        "budgetMax": 1200000,
+        "deadline": "2024-11-20",
+        "publishDate": "2026-02-23",
+        "cubso": "7215",
+        "match": 98,
+        "status": "Abierta"
+    },
+    {
+        "id": "AS-SM-15-2024-GR-2",
+        "title": "ADQUISICIÓN DE PERFILES ESTRUCTURALES Y PLANCHAS DE ACERO",
+        "agency": "GOBIERNO REGIONAL",
+        "location": "LIMA",
+        "budgetMin": 45000,
+        "budgetMax": 60000,
+        "deadline": "2024-11-12",
+        "publishDate": "2026-02-23",
+        "cubso": "9514",
+        "match": 95,
+        "status": "Abierta"
+    }
+]
