@@ -2,86 +2,36 @@
 // SEACE - INPROMETAL Lógica de Filtrado Inteligente
 // ==========================================
 
-const mockData = [
-    {
-        id: "LIC-2024-8892",
-        title: "Creación de techado y estructuras metálicas para patio de honor",
-        agency: "Municipalidad Provincial",
-        location: "Callao",
-        budgetMin: 150000,
-        budgetMax: 200000,
-        deadline: "2024-11-15",
-        publishDate: "hace 2 días",
-        cubso: "7215",
-        match: 95,
-        status: "Abierta"
-    },
-    {
-        id: "SEP-JAL-003",
-        title: "Mantenimiento preventivo de equipos de cómputo y redes",
-        agency: "Ministerio de Educación",
-        location: "Lima",
-        budgetMin: 30000,
-        budgetMax: 45000,
-        deadline: "2024-10-20",
-        publishDate: "hoy",
-        cubso: "OTROS",
-        match: 15,
-        status: "Cierre Próximo"
-    },
-    {
-        id: "SCT-NL-442",
-        title: "Construcción de Puente Peatonal con Estructuras de Hierro",
-        agency: "Ministerio de Transportes",
-        location: "Nacional",
-        budgetMin: 1200000,
-        budgetMax: 1800000,
-        deadline: "2024-11-05",
-        publishDate: "ayer",
-        cubso: "7215",
-        match: 88,
-        status: "Abierta"
-    },
-    {
-        id: "CFE-NAC-101",
-        title: "Fabricación y suministro de barandas de fierro negro",
-        agency: "Gobierno Regional",
-        location: "Lima",
-        budgetMin: 60000,
-        budgetMax: 90000,
-        deadline: "2024-10-30",
-        publishDate: "hace 1 semana",
-        cubso: "9514",
-        match: 92,
-        status: "Abierta"
-    },
-    {
-        id: "PJ-QRO-555",
-        title: "Servicios de Limpieza Integral y desinfección",
-        agency: "Poder Judicial",
-        location: "Callao",
-        budgetMin: 1500000,
-        budgetMax: 2200000,
-        deadline: "2024-10-12",
-        publishDate: "hace 3 días",
-        cubso: "OTROS",
-        match: 5,
-        status: "Cierre Próximo"
-    },
-    {
-        id: "MINSA-001",
-        title: "Consultoría para la elaboración del expediente técnico de hospital",
-        agency: "MINSA",
-        location: "Nacional",
-        budgetMin: 80000,
-        budgetMax: 120000,
-        deadline: "2024-12-01",
-        publishDate: "hace 5 días",
-        cubso: "OTROS",
-        match: 10,
-        status: "Abierta"
+let currentData = [];
+
+// Función para cargar los datos del robot (data.json)
+async function loadData() {
+    try {
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error('No se encontró data.json');
+        currentData = await response.json();
+        console.log("Data real cargada del robot SEACE");
+        applyFilters();
+    } catch (error) {
+        console.warn("No se pudo cargar data.json, usando datos de respaldo.");
+        currentData = [
+            {
+                id: "LIC-DEMO-001",
+                title: "Ejemplo: Techado metálico (Esperando primera corrida del robot)",
+                agency: "Institución de Prueba",
+                location: "Lima",
+                budgetMin: 50000,
+                budgetMax: 80000,
+                deadline: "2024-12-30",
+                publishDate: "Hoy",
+                cubso: "7215",
+                match: 100,
+                status: "Abierta"
+            }
+        ];
+        applyFilters();
     }
-];
+}
 
 // Keywords negativas para exclusión
 const negativeKeywords = ["consultoría", "limpieza", "computadoras", "redes", "aire acondicionado"];
@@ -249,7 +199,7 @@ const applyFilters = () => {
 
     renderChips({ region: regionVal, cubso: cubsoVal, budget: budgetVal });
 
-    let filtered = mockData.filter(item => {
+    let filtered = currentData.filter(item => {
         // 1. Text Search
         const searchMatch = item.title.toLowerCase().includes(searchText) || item.id.toLowerCase().includes(searchText);
         if (!searchMatch && searchText !== "") return false;
@@ -298,5 +248,5 @@ searchBtn.addEventListener("click", applyFilters);
 
 // Initial Load
 document.addEventListener("DOMContentLoaded", () => {
-    applyFilters();
+    loadData();
 });
