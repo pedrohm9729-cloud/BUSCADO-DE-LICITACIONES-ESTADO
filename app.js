@@ -28,8 +28,12 @@ function loadProfileUI() {
     const p = getProfile();
     const nameEl = document.getElementById('sidebarCompanyName');
     const planEl = document.getElementById('sidebarPlan');
+    const subtitleEl = document.getElementById('searchSubtitle');
     if (nameEl) nameEl.textContent = p.company || 'Mi Empresa';
     if (planEl) planEl.textContent = p.company ? 'Plan Profesional • Activo' : 'Plan Gratis • Configurar';
+    if (subtitleEl) subtitleEl.textContent = p.company
+        ? `Encuentra oportunidades de gobierno relevantes para ${p.company}.`
+        : 'Encuentra oportunidades de gobierno relevantes para tu empresa.';
 }
 
 window.openOnboarding = () => {
