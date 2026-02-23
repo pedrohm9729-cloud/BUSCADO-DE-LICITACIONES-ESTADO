@@ -2,90 +2,60 @@ import requests
 import json
 import os
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
-# Configuración de búsqueda de INPROMETAL
-KEYWORDS = ["metálica", "fierro", "hierro", "puente", "techo", "metal", "baranda", "estructura"]
-NEGATIVE_KEYWORDS = ["consultoría", "limpieza", "seguridad", "alimento", "transporte de personal"]
-CUBSO_TARGETS = ["7215", "9514"]
+# AJUSTE DE SEGURIDAD BASADO EN ANÁLISIS DE PLAZOS SEACE
+# 30 días garantiza capturar Licitaciones Públicas y Adjudicaciones Simplificadas
+DIAS_DE_ANTIGUEDAD = 30 
+
+CORE_KEYWORDS = ["metálica", "fierro", "hierro", "acero", "puente", "techo", "metal", "baranda", "estructura"]
+BROAD_KEYWORDS = ["mantenimiento", "limpieza", "pintura", "suministro", "obra", "rehabilitación", "cerco", "almacén", "edificación"]
 
 def fetch_seace_data():
-    """
-    En una implementación real, aquí descargaríamos el CSV diario del OSCE.
-    Para este prototipo avanzado, generamos data rica para la vista de detalle.
-    """
-    print("Iniciando extracción de datos SEACE...")
+    print(f"Buscando licitaciones publicadas en los últimos {DIAS_DE_ANTIGUEDAD} días...")
+    fecha_limite = datetime.now() - timedelta(days=DIAS_DE_ANTIGUEDAD)
     
-    real_opportunities = [
+    # Simulación con fechas que ahora sí entrarían
+    raw_data = [
         {
             "id": "LP-SM-2-2024-MUNI-1",
             "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON PUENTE RETICULADO",
             "agency": "MUNICIPALIDAD DISTRITAL DE EL TAMBO",
-            "location": "JUNIN",
-            "budgetMin": 850000,
-            "budgetMax": 1200000,
-            "deadline": "2024-11-20",
-            "publishDate": datetime.now().strftime("%Y-%m-%d"),
-            "cubso": "7215",
-            "description": "Ejecución de obra para el techado y reforzamiento de puente peatonal con estructuras de acero galvanizado. Incluye perfiles H e I.",
-            "match": 98,
-            "status": "Abierta",
-            "requirements": [
-                "Experiencia en obras similares (Puentes o Estructuras Pesadas)",
-                "Capacidad financiera mayor a S/ 500k",
-                "Certificación de calidad de materiales (Acero ASTM A36)"
-            ]
+            "location": "JUNIN", "budgetMax": 1200000, "budgetMin": 850000,
+            "deadline": "2024-11-20", "publishDate": datetime.now().strftime("%Y-%m-%d"),
+            "cubso": "7215", "description": "Obra de metalmecánica para puente.",
+            "requirements": ["Acero ASTM A36"]
         },
         {
-            "id": "AS-SM-15-2024-GR-2",
-            "title": "ADQUISICIÓN DE PERFILES ESTRUCTURALES Y PLANCHAS DE ACERO",
-            "agency": "GOBIERNO REGIONAL DE LIMA - SEDE CENTRAL",
-            "location": "LIMA",
-            "budgetMin": 45000,
-            "budgetMax": 60000,
-            "deadline": "2024-11-12",
-            "publishDate": datetime.now().strftime("%Y-%m-%d"),
-            "cubso": "9514",
-            "description": "Suministro de materiales de fierro negro y perfiles estructurales para el mantenimiento de almacenes regionales.",
-            "match": 95,
-            "status": "Abierta",
-            "requirements": [
-                "Registro Nacional de Proveedores (Bienes)",
-                "Plazo de entrega no mayor a 15 días",
-                "Cotización formal con IGV incluido"
-            ]
-        },
-        {
-            "id": "LIC-2024-3341",
-            "title": "SERVICIO DE FABRICACIÓN DE BARANDAS METÁLICAS PARA PARQUE INDUSTRIAL",
-            "agency": "CORE - GOBIERNO REGIONAL",
-            "location": "CALLAO",
-            "budgetMin": 120000,
-            "budgetMax": 150000,
-            "deadline": "2024-11-25",
-            "publishDate": "2024-10-22",
-            "cubso": "9514",
-            "description": "Fabricación e instalación de 300 metros lineales de barandas de fierro con acabado en pintura epóxica.",
-            "match": 90,
-            "status": "Abierta",
-            "requirements": [
-                "Taller de fabricación propio",
-                "Experiencia mínima de 2 años en servicios metalmecánicos",
-                "Cumplimiento de normas de seguridad industrial"
-            ]
+            "id": "OBRA-VALIOSA-020",
+            "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA COMPLEJO DEPORTIVO",
+            "agency": "MUNICIPALIDAD DE LIMA",
+            "location": "LIMA", "budgetMax": 450000, "budgetMin": 300000,
+            "deadline": "2024-11-25", "publishDate": (datetime.now() - timedelta(days=20)).strftime("%Y-%m-%d"), 
+            "cubso": "7215", "description": "Estructuras ligeras.",
+            "requirements": ["Experiencia 2 años"]
         }
     ]
     
-    return real_opportunities
+    final_opportunities = []
+    for item in raw_data:
+        obj_fecha = datetime.strptime(item["publishDate"], "%Y-%m-%d")
+        if obj_fecha >= fecha_limite:
+            # Cálculo de Match
+            score = sum(25 for kw in CORE_KEYWORDS if kw in item["title"].lower())
+            item["match"] = min(score, 100)
+            final_opportunities.append(item)
+            
+    return final_opportunities
 
 def main():
     try:
         data = fetch_seace_data()
         with open("data.json", "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-        print(f"Éxito: Se encontraron {len(data)} nuevas oportunidades para INPROMETAL.")
+        print(f"Éxito: Motor actualizado con rango de {DIAS_DE_ANTIGUEDAD} días.")
     except Exception as e:
-        print(f"Error en el robot: {e}")
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()

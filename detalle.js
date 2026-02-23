@@ -1,9 +1,8 @@
 // ==========================================
-// Lógica de Detalle de Licitación
+// Lógica de Detalle de Licitación (v1.1)
 // ==========================================
 
 async function loadDetail() {
-    // 1. Obtener ID de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const tenderId = urlParams.get('id');
 
@@ -13,11 +12,8 @@ async function loadDetail() {
     }
 
     try {
-        // 2. Cargar la data
         const response = await fetch('data.json');
         const data = await response.json();
-
-        // 3. Buscar la licitación específica
         const tender = data.find(t => t.id === tenderId);
 
         if (!tender) {
@@ -25,40 +21,33 @@ async function loadDetail() {
             return;
         }
 
-        // 4. Inyectar los datos en el HTML
+        // Inyectar datos básicos
         document.getElementById('tenderTitle').innerText = tender.title;
         document.getElementById('tenderId').innerText = tender.id;
         document.getElementById('tenderAgency').innerText = tender.agency;
-        document.getElementById('tenderDescription').innerText = tender.description || "No hay descripción detallada disponible.";
+        document.getElementById('tenderDescription').innerText = tender.description;
 
-        // Presupuesto
-        const formatCurrency = (amount) => {
-            if (amount >= 1000000) return `S/ ${(amount / 1000000).toFixed(1)}M`;
-            if (amount >= 1000) return `S/ ${(amount / 1000).toFixed(0)}k`;
-            return `S/ ${amount}`;
+        // Formateo de Presupuesto
+        const formatMoney = (amount) => {
+            if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)}M`;
+            if (amount >= 1000) return `${(amount / 1000).toFixed(0)}k`;
+            return amount;
         };
-        document.getElementById('tenderBudget').innerHTML = `${formatCurrency(tender.budgetMin)} - ${formatCurrency(tender.budgetMax)} <span class="text-lg font-bold text-slate-400">S/</span>`;
 
-        // Requisitos
+        const budgetText = `S/ ${formatMoney(tender.budgetMin)} - ${formatMoney(tender.budgetMax)}`;
+        document.getElementById('tenderBudget').innerText = budgetText;
+
+        // Requisitos con Diseño de Checks
         const reqContainer = document.getElementById('tenderRequirements');
         if (tender.requirements && tender.requirements.length > 0) {
-            reqContainer.innerHTML = `
-                <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-lg border border-blue-100 dark:border-blue-900/20">
-                    <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[16px]">info</span> Requisitos del Proceso
-                    </h4>
-                    <ul class="space-y-3">
-                        ${tender.requirements.map(req => `
-                            <li class="flex items-start gap-3 text-sm text-slate-900 dark:text-slate-100 font-medium">
-                                <span class="material-symbols-outlined text-blue-500 shrink-0 text-[20px]">verified</span>
-                                <span>${req}</span>
-                            </li>
-                        `).join('')}
-                    </ul>
+            reqContainer.innerHTML = tender.requirements.map(req => `
+                <div class="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+                    <span class="material-symbols-outlined text-green-500 font-bold">check_circle</span>
+                    <span class="text-slate-700 dark:text-slate-300 font-medium">${req}</span>
                 </div>
-            `;
+            `).join('');
         } else {
-            reqContainer.innerHTML = `<p class="text-sm text-slate-500 italic">No se han especificado requisitos técnicos detallados todavía.</p>`;
+            reqContainer.innerHTML = `<p class="text-slate-400 italic">No hay requisitos específicos listados.</p>`;
         }
 
     } catch (error) {
