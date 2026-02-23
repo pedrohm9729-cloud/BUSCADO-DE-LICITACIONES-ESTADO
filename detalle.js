@@ -1,5 +1,6 @@
 // ==========================================
-// Lógica de Detalle de Licitación (v1.1)
+// Lógica de Detalle de Licitación (v1.2)
+// Corregido: Contraste y visibilidad de requisitos
 // ==========================================
 
 async function loadDetail() {
@@ -21,7 +22,7 @@ async function loadDetail() {
             return;
         }
 
-        // Inyectar datos básicos
+        // Inyectar datos con seguridad
         document.getElementById('tenderTitle').innerText = tender.title;
         document.getElementById('tenderId').innerText = tender.id;
         document.getElementById('tenderAgency').innerText = tender.agency;
@@ -29,25 +30,26 @@ async function loadDetail() {
 
         // Formateo de Presupuesto
         const formatMoney = (amount) => {
-            if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)}M`;
-            if (amount >= 1000) return `${(amount / 1000).toFixed(0)}k`;
-            return amount;
+            return new Intl.NumberFormat('es-PE', {
+                style: 'currency',
+                currency: 'PEN',
+                minimumFractionDigits: 0
+            }).format(amount);
         };
 
-        const budgetText = `S/ ${formatMoney(tender.budgetMin)} - ${formatMoney(tender.budgetMax)}`;
-        document.getElementById('tenderBudget').innerText = budgetText;
+        document.getElementById('tenderBudget').innerText = formatMoney(tender.budgetMax);
 
-        // Requisitos con Diseño de Checks
+        // Requisitos con Diseño de Alto Contraste
         const reqContainer = document.getElementById('tenderRequirements');
         if (tender.requirements && tender.requirements.length > 0) {
             reqContainer.innerHTML = tender.requirements.map(req => `
-                <div class="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span class="material-symbols-outlined text-green-500 font-bold">check_circle</span>
-                    <span class="text-slate-700 dark:text-slate-300 font-medium">${req}</span>
+                <div class="flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
+                    <span class="material-symbols-outlined text-primary font-bold">check_circle</span>
+                    <span class="text-slate-800 dark:text-slate-200 font-bold text-sm tracking-tight">${req}</span>
                 </div>
             `).join('');
         } else {
-            reqContainer.innerHTML = `<p class="text-slate-400 italic">No hay requisitos específicos listados.</p>`;
+            reqContainer.innerHTML = `<p class="p-4 bg-slate-50 rounded-2xl text-slate-500 italic">No hay requisitos específicos listados.</p>`;
         }
 
     } catch (error) {

@@ -9,7 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700" rel="stylesheet" />
-    <script src="tailwind.config.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#135bec',
+                        surface: { dark: '#1e293b' }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
             font-family: "Public Sans", sans-serif;
@@ -18,32 +30,32 @@
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300 min-h-screen flex flex-col md:flex-row overflow-hidden">
+    class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Sidebar (Mismo que Index para consistencia) -->
+    <!-- Sidebar -->
     <aside
-        class="w-full md:w-64 bg-white dark:bg-surface-dark border-r border-slate-200 dark:border-slate-800 flex-shrink-0 flex flex-col h-screen sticky top-0">
-        <div class="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-800">
+        class="w-full md:w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col h-screen sticky top-0">
+        <div class="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-700">
             <div class="flex items-center gap-2 text-primary">
                 <span class="material-symbols-outlined text-3xl">gavel</span>
-                <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">LICITADOR <span
+                <span class="text-lg font-bold tracking-tight text-slate-800 dark:text-white uppercase">Licitador <span
                         class="text-primary">PE</span></span>
             </div>
         </div>
-        <div class="p-4 border-b border-slate-100 dark:border-slate-800">
+        <div class="p-6 border-b border-slate-100 dark:border-slate-700">
             <div class="flex items-center gap-3">
-                <div class="bg-slate-200 dark:bg-slate-700 h-10 w-10 rounded-full bg-cover bg-center"
+                <div class="bg-slate-200 h-10 w-10 rounded-full bg-cover"
                     style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBqGnUZw6TGxeEjeZ22zJNf-Q4AIf3dxxLXK03Y2dlLa9Se8gjG0M-yujkuXVNdtzLD5-Rt4TTI3XJlneiHZYJZAHkRN8gl-XeKiTaEb4Sm2WimT0RPdh48y-Uz5WVX-Dvvvx2rjpqpKPVvNR4CDDFl9kLY1HrRDStCfIRE72p7YnjZRhYfs-yEXXehHWVGHkX5IqhZtvrpNZJ4g6yT4AonT4X15jXTiNJlYkPfJ1HZSITiA9ZJxpCoqH72dPCQ3oExUayd4eTcuuI');">
                 </div>
                 <div class="flex flex-col">
-                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">INPROMETAL SAC</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Plan Corporativo</p>
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-white leading-tight">INPROMETAL SAC</h3>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Plan Corporativo</p>
                 </div>
             </div>
         </div>
-        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1 text-sm font-medium">
+        <nav class="flex-1 p-4">
             <a href="index.html"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary transition-all font-semibold">
                 <span class="material-symbols-outlined">arrow_back</span>
                 <span>Volver al Buscador</span>
             </a>
@@ -51,100 +63,87 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto h-screen bg-background-light dark:bg-background-dark p-8">
-        <div class="max-w-5xl mx-auto">
+    <main class="flex-1 overflow-y-auto h-screen p-8">
+        <div class="max-w-4xl mx-auto">
 
             <!-- Header Section -->
-            <div class="mb-8">
-                <div class="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest mb-3">
+            <div class="mb-10">
+                <div class="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-widest mb-4">
                     <span class="material-symbols-outlined text-sm">verified</span>
-                    <span>Licitación Vigente</span>
-                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                    <span>Proceso Vigente</span>
+                    <span class="text-slate-300">|</span>
                     <span id="tenderId" class="font-mono text-slate-500">Cargando...</span>
                 </div>
                 <h1 id="tenderTitle"
-                    class="text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
-                    Cargando Título...</h1>
-                <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
-                    <div class="flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-xl">account_balance</span>
-                        <span id="tenderAgency" class="font-medium text-slate-800 dark:text-slate-200">Cargando
-                            Agencia...</span>
-                    </div>
+                    class="text-4xl font-black text-slate-900 dark:text-white leading-tight mb-4 -ml-1">Cargando
+                    Título...</h1>
+                <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">account_balance</span>
+                    <span id="tenderAgency" class="text-lg font-bold">Cargando Agencia...</span>
                 </div>
             </div>
 
             <!-- Content Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Left: Main Details -->
-                <div class="lg:col-span-2 space-y-8">
-
-                    <!-- Budget Area -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Presupuesto -->
                     <div
-                        class="bg-white dark:bg-surface-dark p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Presupuesto
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Presupuesto
                             Referencial</h2>
-                        <div class="flex items-baseline gap-2">
-                            <span id="tenderBudget"
-                                class="text-5xl font-black text-slate-900 dark:text-white tabular-nums tracking-tighter">S/
-                                ---</span>
-                        </div>
+                        <div id="tenderBudget"
+                            class="text-5xl font-black text-slate-900 dark:text-white tracking-tighter tabular-nums">S/
+                            0.00</div>
                     </div>
 
-                    <!-- Description -->
+                    <!-- Descripción -->
                     <div
-                        class="bg-white dark:bg-surface-dark p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Descripción del Proceso</h3>
-                        <p id="tenderDescription" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                            Cargando descripción...
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Detalles del
+                            Proceso</h3>
+                        <p id="tenderDescription"
+                            class="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-medium">
+                            Cargando descripción detallada del proceso...
                         </p>
                     </div>
 
-                    <!-- Requirements -->
+                    <!-- Requisitos -->
                     <div
-                        class="bg-white dark:bg-surface-dark p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Checklist de Requisitos</h3>
-                        <div id="tenderRequirements" class="space-y-4">
-                            <!-- Inyectado por JS -->
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest mb-6">Requisitos Técnicos
+                        </h3>
+                        <div id="tenderRequirements" class="space-y-3">
+                            <!-- Inyectado por JS con estilo mejorado -->
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: AI Insights (Valioso para INPROMETAL) -->
+                <!-- Sidebar Derecho -->
                 <div class="space-y-6">
-                    <div class="bg-primary/5 dark:bg-primary/10 p-8 rounded-2xl border border-primary/20">
-                        <div class="flex items-center gap-2 text-primary font-bold mb-4">
-                            <span class="material-symbols-outlined">psychology</span>
+                    <div class="bg-primary p-8 rounded-3xl text-white shadow-xl shadow-primary/20">
+                        <div
+                            class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-6 opacity-80">
+                            <span class="material-symbols-outlined text-sm">psychology</span>
                             <span>IA Insights</span>
                         </div>
-                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-6">
-                            He analizado este proceso para su empresa. Es una licitación de <strong>Metales
-                                Pesados</strong> que calza con sus certificaciones recientes.
+                        <p class="text-sm font-bold leading-relaxed mb-6">
+                            Licitación clasificada con <span class="bg-white text-primary px-2 py-0.5 rounded">ALTA
+                                PRIORIDAD</span> para INPROMETAL. Calza con su especialidad en Estructuras Pesadas.
                         </p>
-                        <ul class="space-y-4 text-xs font-medium">
-                            <li class="flex gap-2">
-                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-                                <span class="text-slate-600 dark:text-slate-400">Viabilidad financiera
-                                    confirmada.</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-                                <span class="text-slate-600 dark:text-slate-400">Palabras clave "Puente"
-                                    detectadas.</span>
-                            </li>
-                        </ul>
+                        <button
+                            class="w-full py-4 bg-white text-primary rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-lg">
+                            Postular Ahora
+                        </button>
                     </div>
 
-                    <button
-                        class="w-full py-4 bg-primary hover:bg-primary-600 text-white rounded-xl font-bold text-lg shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-2">
-                        <span>Postular Ahora</span>
-                        <span class="material-symbols-outlined">send</span>
-                    </button>
-
-                    <p class="text-center text-xs text-slate-400">
-                        Este proceso cierra en 5 días calendario.
-                    </p>
+                    <div
+                        class="bg-slate-100 dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-center text-xs font-bold text-slate-500 uppercase tracking-widest leading-loose">
+                            Cierre de propuestas:<br>
+                            <span class="text-slate-900 dark:text-white">Próximos 12 días calendario</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
