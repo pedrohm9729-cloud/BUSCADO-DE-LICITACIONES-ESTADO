@@ -299,6 +299,14 @@ function showSkeleton(show) {
 window.switchView = (v) => {
     document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
     document.getElementById(`${v}View`)?.classList.remove('hidden');
+
+    // Mostrar/ocultar sección de resultados y header de búsqueda
+    const resultsSection = document.getElementById('searchResultsSection');
+    const searchHeader = document.querySelector('header.flex-shrink-0');
+    const isSearch = v === 'search';
+    if (resultsSection) resultsSection.classList.toggle('hidden', !isSearch);
+    if (searchHeader) searchHeader.classList.toggle('hidden', !isSearch);
+
     ['Dashboard', 'Search', 'Analytics', 'Pipeline'].forEach(id => {
         const el = document.getElementById(`nav${id}`);
         if (!el) return;
