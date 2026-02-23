@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Detalle de Licitación | LICITADOR PE</title>
     <meta name="description" content="Detalle completo de licitación SEACE para INPROMETAL SAC." />
+    <script src="data.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
@@ -353,6 +354,79 @@
                             <p class="text-[10px] text-center text-slate-400">
                                 Los datos se registran en tu Pipeline comercial interno.
                             </p>
+                        </div>
+                    </div>
+
+                    <!-- Calculadora de Rentabilidad (Bid/No-Bid) -->
+                    <div class="bg-slate-900 rounded-2xl shadow-xl border border-slate-800 overflow-hidden">
+                        <div
+                            class="bg-slate-800/50 px-6 py-4 border-b border-slate-700 flex items-center justify-between">
+                            <h3 class="text-sm font-black text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-amber-400">calculate</span>
+                                Evaluación Bid / No-Bid
+                            </h3>
+                            <span
+                                class="text-[10px] font-black bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-full uppercase tracking-widest">Calculadora</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <!-- Inputs -->
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs text-slate-400 font-medium tracking-wide">Costo
+                                        Materiales</label>
+                                    <div class="relative w-32">
+                                        <span
+                                            class="absolute left-2.5 top-1.5 text-[10px] text-slate-500 font-bold">S/</span>
+                                        <input type="number" id="calcMaterials" value="0" oninput="updateProfitCalc()"
+                                            class="w-full pl-7 pr-2 py-1.5 bg-slate-800 border-slate-700 rounded-lg text-xs text-white focus:ring-1 focus:ring-amber-400 transition-all text-right tabular-nums">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs text-slate-400 font-medium tracking-wide">Costo Mano
+                                        Obra</label>
+                                    <div class="relative w-32">
+                                        <span
+                                            class="absolute left-2.5 top-1.5 text-[10px] text-slate-500 font-bold">S/</span>
+                                        <input type="number" id="calcLabor" value="0" oninput="updateProfitCalc()"
+                                            class="w-full pl-7 pr-2 py-1.5 bg-slate-800 border-slate-700 rounded-lg text-xs text-white focus:ring-1 focus:ring-amber-400 transition-all text-right tabular-nums">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs text-slate-400 font-medium tracking-wide">Gtos. Generales
+                                        (20%)</label>
+                                    <div class="relative w-32">
+                                        <span
+                                            class="absolute left-2.5 top-1.5 text-[10px] text-slate-500 font-bold">S/</span>
+                                        <input type="number" id="calcGeneral" value="0" oninput="updateProfitCalc()"
+                                            class="w-full pl-7 pr-2 py-1.5 bg-slate-800/30 border-slate-700 rounded-lg text-xs text-slate-400 cursor-not-allowed text-right tabular-nums"
+                                            readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="border-slate-800">
+
+                            <!-- Visual Results -->
+                            <div class="bg-slate-800/30 p-4 rounded-xl space-y-3">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Margen
+                                        Bruto est.</span>
+                                    <span id="calcProfitPct"
+                                        class="text-xl font-black text-green-400 tabular-nums">100%</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                    <div id="calcProfitBar" class="h-full bg-green-400 transition-all"
+                                        style="width: 100%"></div>
+                                </div>
+                                <p id="calcTotalCostText" class="text-[10px] text-slate-400 text-center italic">Costo
+                                    Total: S/ 0</p>
+                            </div>
+
+                            <!-- Bid/No-Bid Verdict -->
+                            <div id="bidVerdict"
+                                class="p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-green-500/10 text-green-400 border border-green-500/20">
+                                Altamente Rentable (Bid)
+                            </div>
                         </div>
                     </div>
 

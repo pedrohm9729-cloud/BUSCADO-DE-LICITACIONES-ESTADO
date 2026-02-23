@@ -10,14 +10,18 @@ async function loadDetail() {
     currentId = new URLSearchParams(window.location.search).get('id');
     if (!currentId) { window.location.href = 'index.html'; return; }
 
-    // Multi-strategy data load (mirrors app.js)
-    try {
-        const res = await fetch('data.json');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        allData = await res.json();
-    } catch (e) {
-        console.warn('Fetch failed, trying XHR...', e.message);
-        try { allData = await loadXHR(); } catch (e2) { showError(); return; }
+    // Multi-strategy data load
+    if (window.SEACE_DATA && Array.isArray(window.SEACE_DATA)) {
+        allData = window.SEACE_DATA;
+    } else {
+        try {
+            const res = await fetch('data.json');
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            allData = await res.json();
+        } catch (e) {
+            console.warn('Fetch failed, trying XHR...', e.message);
+            try { allData = await loadXHR(); } catch (e2) { showError(); return; }
+        }
     }
 
     const tender = allData.find(t => t.id === currentId);
@@ -109,7 +113,56 @@ function populatePage(tender) {
 
     // === SIMILARES ===
     renderSimilares(tender);
+
+    // === CALCULATOR INITIAL STATE ===
+    const budget = tender.budgetMax || 0;
+    if (budget > 0) {
+        // Initial defaults (Material: 50%, Labor: 30%)
+        sel('calcMaterials').value = Math.round(budget * 0.40);
+        sel('calcLabor').value = Math.round(budget * 0.25);
+        updateProfitCalc();
+    }
 }
+
+window.updateProfitCalc = () => {
+    const budget = allData.find(t => t.id === currentId)?.budgetMax || 0;
+    const materials = parseFloat(sel('calcMaterials').value) || 0;
+    const labor = parseFloat(sel('calcLabor').value) || 0;
+
+    // Auto-calc general expenses (fixed 20%)
+    const general = (materials + labor) * 0.20;
+    sel('calcGeneral').value = Math.round(general);
+
+    const totalCost = materials + labor + general;
+    const profit = budget - totalCost;
+    const marginPct = budget > 0 ? (profit / budget) * 100 : 0;
+
+    // UI Updates
+    sel('calcTotalCostText').innerText = `Costo Total: ${formatPEN(totalCost)}`;
+    sel('calcProfitPct').innerText = `${Math.round(marginPct)}%`;
+
+    const bar = sel('calcProfitBar');
+    const verdict = sel('bidVerdict');
+
+    // Bar and Verdict Styling
+    if (marginPct >= 20) {
+        bar.className = 'h-full bg-green-500 transition-all';
+        sel('calcProfitPct').className = 'text-xl font-black text-green-400 tabular-nums';
+        verdict.innerText = 'Excelente Rentabilidad (BID)';
+        verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-green-500/10 text-green-400 border border-green-500/20';
+    } else if (marginPct >= 5) {
+        bar.className = 'h-full bg-amber-500 transition-all';
+        sel('calcProfitPct').className = 'text-xl font-black text-amber-400 tabular-nums';
+        verdict.innerText = 'Margen Ajustado (Cuidado)';
+        verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    } else {
+        bar.className = 'h-full bg-red-500 transition-all';
+        sel('calcProfitPct').className = 'text-xl font-black text-red-400 tabular-nums';
+        verdict.innerText = 'No Rentable (NO-BID)';
+        verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20';
+    }
+    bar.style.width = `${Math.max(0, Math.min(100, marginPct))}%`;
+};
 
 // ===========================
 // TIMELINE VISUAL
