@@ -4,56 +4,31 @@
         "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON PUENTE RETICULADO",
         "agency": "MUNICIPALIDAD DISTRITAL DE EL TAMBO",
         "location": "JUNIN",
-        "budgetMin": 850000,
         "budgetMax": 1200000,
+        "budgetMin": 850000,
         "deadline": "2024-11-20",
         "publishDate": "2026-02-23",
         "cubso": "7215",
-        "description": "Ejecución de obra para el techado y reforzamiento de puente peatonal con estructuras de acero galvanizado. Incluye perfiles H e I.",
-        "match": 98,
-        "status": "Abierta",
+        "description": "Obra de metalmecánica para puente.",
         "requirements": [
-            "Experiencia en obras similares (Puentes o Estructuras Pesadas)",
-            "Capacidad financiera mayor a S/ 500k",
-            "Certificación de calidad de materiales (Acero ASTM A36)"
-        ]
+            "Acero ASTM A36"
+        ],
+        "match": 25
     },
     {
-        "id": "AS-SM-15-2024-GR-2",
-        "title": "ADQUISICIÓN DE PERFILES ESTRUCTURALES Y PLANCHAS DE ACERO",
-        "agency": "GOBIERNO REGIONAL DE LIMA - SEDE CENTRAL",
+        "id": "OBRA-VALIOSA-020",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA COMPLEJO DEPORTIVO",
+        "agency": "MUNICIPALIDAD DE LIMA",
         "location": "LIMA",
-        "budgetMin": 45000,
-        "budgetMax": 60000,
-        "deadline": "2024-11-12",
-        "publishDate": "2026-02-23",
-        "cubso": "9514",
-        "description": "Suministro de materiales de fierro negro y perfiles estructurales para el mantenimiento de almacenes regionales.",
-        "match": 95,
-        "status": "Abierta",
-        "requirements": [
-            "Registro Nacional de Proveedores (Bienes)",
-            "Plazo de entrega no mayor a 15 días",
-            "Cotización formal con IGV incluido"
-        ]
-    },
-    {
-        "id": "LIC-2024-3341",
-        "title": "SERVICIO DE FABRICACIÓN DE BARANDAS METÁLICAS PARA PARQUE INDUSTRIAL",
-        "agency": "CORE - GOBIERNO REGIONAL",
-        "location": "CALLAO",
-        "budgetMin": 120000,
-        "budgetMax": 150000,
+        "budgetMax": 450000,
+        "budgetMin": 300000,
         "deadline": "2024-11-25",
-        "publishDate": "2024-10-22",
-        "cubso": "9514",
-        "description": "Fabricación e instalación de 300 metros lineales de barandas de fierro con acabado en pintura epóxica.",
-        "match": 90,
-        "status": "Abierta",
+        "publishDate": "2026-02-03",
+        "cubso": "7215",
+        "description": "Estructuras ligeras.",
         "requirements": [
-            "Taller de fabricación propio",
-            "Experiencia mínima de 2 años en servicios metalmecánicos",
-            "Cumplimiento de normas de seguridad industrial"
-        ]
+            "Experiencia 2 años"
+        ],
+        "match": 0
     }
 ]
