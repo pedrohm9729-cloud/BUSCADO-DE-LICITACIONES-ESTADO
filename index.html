@@ -200,17 +200,18 @@
                         class="text-primary">PE</span></span>
             </div>
         </div>
-        <!-- User Profile (Simplified) -->
+        <!-- User Profile (dinámico desde perfil) -->
         <div class="p-4 border-b border-slate-100 dark:border-slate-800">
-            <div class="flex items-center gap-3">
-                <div class="bg-slate-200 dark:bg-slate-700 h-10 w-10 rounded-full bg-cover bg-center"
-                    data-alt="User profile picture of a professional man in a suit"
-                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBqGnUZw6TGxeEjeZ22zJNf-Q4AIf3dxxLXK03Y2dlLa9Se8gjG0M-yujkuXVNdtzLD5-Rt4TTI3XJlneiHZYJZAHkRN8gl-XeKiTaEb4Sm2WimT0RPdh48y-Uz5WVX-Dvvvx2rjpqpKPVvNR4CDDFl9kLY1HrRDStCfIRE72p7YnjZRhYfs-yEXXehHWVGHkX5IqhZtvrpNZJ4g6yT4AonT4X15jXTiNJlYkPfJ1HZSITiA9ZJxpCoqH72dPCQ3oExUayd4eTcuuI');">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="openOnboarding()">
+                <div class="bg-primary/20 h-10 w-10 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-lg">business</span>
                 </div>
-                <div class="flex flex-col">
-                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">INPROMETAL SAC</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Plan Corporativo</p>
+                <div class="flex flex-col flex-1 min-w-0">
+                    <h3 id="sidebarCompanyName" class="text-sm font-bold text-slate-900 dark:text-white truncate">Mi
+                        Empresa</h3>
+                    <p id="sidebarPlan" class="text-xs text-primary font-semibold">Plan Gratis • Configurar</p>
                 </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">edit</span>
             </div>
         </div>
         <!-- Navigation -->
@@ -280,18 +281,25 @@
                 <span class="text-sm">Estructuras Lima</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-slate-100 dark:border-slate-800">
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-                href="#">
+        <!-- Sidebar Footer -->
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800 space-y-1">
+            <button onclick="openPricing()"
+                class="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/5 text-primary hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined text-sm">diamond</span>
+                <span class="text-sm font-bold">Ver Planes</span>
+            </button>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+                onclick="openOnboarding()">
                 <span class="material-symbols-outlined">settings</span>
-                <span class="text-sm font-medium">Configuración</span>
+                <span class="text-sm font-medium">Configurar Perfil</span>
             </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mt-1"
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                 href="#">
                 <span class="material-symbols-outlined">logout</span>
                 <span class="text-sm font-medium">Cerrar Sesión</span>
             </a>
         </div>
+
     </aside>
     <!-- Main Content -->
     <main class="flex-1 flex flex-col h-screen overflow-hidden bg-background-light dark:bg-background-dark relative">
@@ -1007,6 +1015,21 @@
                 <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Requisitos</h4>
                 <div id="drawerRequirements" class="space-y-2"></div>
             </div>
+            <!-- IA BID / NO-BID SCORE -->
+            <div id="bidNoBidPanel" class="rounded-2xl border border-slate-200 overflow-hidden">
+                <button onclick="toggleBidPanel()"
+                    class="w-full flex items-center justify-between px-5 py-4 bg-slate-50 hover:bg-slate-100 transition-colors text-left">
+                    <span class="text-xs font-black text-slate-700 uppercase tracking-widest flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">fact_check</span> Análisis Bid / No-Bid
+                    </span>
+                    <span id="bidScore"
+                        class="text-xs font-black px-3 py-1 rounded-full bg-slate-200 text-slate-500">---</span>
+                </button>
+                <div id="bidNoBidBody" class="hidden px-5 pb-5 pt-3 space-y-3 bg-white">
+                    <div id="bidChecklist" class="space-y-2"></div>
+                    <div id="bidRecommendation" class="mt-3 p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+            </div>
             <!-- IA Insight -->
             <div class="bg-primary rounded-2xl p-5 text-white">
                 <p class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-60">IA Insights</p>
@@ -1032,6 +1055,197 @@
 
     <!-- Toast Container -->
     <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ONBOARDING / COMPANY PROFILE MODAL -->
+    <div id="onboardingModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div class="px-8 pt-8 pb-4">
+                <div class="flex items-center gap-3 mb-1">
+                    <div class="p-2 bg-primary/10 rounded-xl"><span
+                            class="material-symbols-outlined text-primary">business</span></div>
+                    <div>
+                        <h2 class="text-xl font-black text-slate-900 dark:text-white">Perfil de tu Empresa</h2>
+                        <p class="text-xs text-slate-500">Calibra el motor de Match para tu rubro</p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-8 pb-8 space-y-5">
+                <!-- Nombre -->
+                <div>
+                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Nombre de la
+                        Empresa</label>
+                    <input id="profileCompany" type="text" placeholder="Ej: INPROMETAL SAC"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" />
+                </div>
+                <!-- Sector -->
+                <div>
+                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Sector /
+                        Rubro Principal</label>
+                    <select id="profileSector"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
+                        <option value="metal">Metalmecánica / Estructuras Metálicas</option>
+                        <option value="ti">Tecnología de la Información (TI)</option>
+                        <option value="construccion">Construcción Civil</option>
+                        <option value="salud">Insumos Médicos / Salud</option>
+                        <option value="consultoria">Consultoría / Servicios Profesionales</option>
+                        <option value="electricidad">Electricidad / Suministro Eléctrico</option>
+                        <option value="otro">Otro Rubro</option>
+                    </select>
+                </div>
+                <!-- CUBSO / Keywords -->
+                <div>
+                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Palabras
+                        Clave / Códigos CUBSO</label>
+                    <textarea id="profileKeywords" rows="3"
+                        placeholder="Ej: acero, fierro, estructuras, baranda, fabricación metálica..."
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none resize-none"></textarea>
+                    <p class="text-[10px] text-slate-400 mt-1">Estos términos calibran el % de Match mostrado en
+                        resultados.</p>
+                </div>
+                <!-- Capacidad máxima -->
+                <div>
+                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Capacidad
+                        Máx. de Contrato (S/)</label>
+                    <select id="profileCapacity"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
+                        <option value="200000">Hasta S/ 200,000</option>
+                        <option value="500000">Hasta S/ 500,000</option>
+                        <option value="1000000" selected>Hasta S/ 1,000,000</option>
+                        <option value="5000000">Hasta S/ 5,000,000</option>
+                        <option value="99999999">Sin límite</option>
+                    </select>
+                </div>
+                <!-- Webhooks -->
+                <div>
+                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Webhook
+                        (Make.com / Zapier)</label>
+                    <input id="profileWebhook" type="url" placeholder="https://hook.make.com/tu-url"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none font-mono" />
+                    <p class="text-[10px] text-slate-400 mt-1">Se activa automáticamente al mover una licitación a "En
+                        Cotización".</p>
+                </div>
+                <!-- Buttons -->
+                <div class="flex gap-3 pt-2">
+                    <button onclick="closeOnboarding()"
+                        class="flex-1 py-3 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">
+                        Cancelar
+                    </button>
+                    <button onclick="saveProfile()"
+                        class="flex-1 py-3 bg-primary text-white rounded-xl text-sm font-black hover:bg-blue-700 transition-all shadow-lg shadow-primary/20">
+                        Guardar Perfil
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING PLANS MODAL -->
+    <div id="pricingModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div class="px-8 pt-8 pb-4 text-center border-b border-slate-100">
+                <div class="inline-flex items-center gap-2 text-primary mb-2">
+                    <span class="material-symbols-outlined">diamond</span>
+                    <span class="text-xs font-black uppercase tracking-widest">SaaS B2G</span>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">Elige tu Plan</h2>
+                <p class="text-sm text-slate-500 mt-1">Paga el costo de 1 licitación. Gana decenas.</p>
+                <button onclick="closePricing()"
+                    class="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 text-slate-400">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Basico -->
+                <div class="border border-slate-200 rounded-2xl p-6 flex flex-col">
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Básico</p>
+                    <p class="text-3xl font-black text-slate-900 mb-1">Gratis</p>
+                    <p class="text-xs text-slate-500 mb-6">14 días de prueba</p>
+                    <ul class="space-y-2.5 text-sm text-slate-600 flex-1">
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>20 búsquedas
+                            / mes</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Alertas con
+                            24h de retraso</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Match Algortitmico
+                        </li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Pipeline Kanban
+                        </li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Webhooks / CRM
+                        </li>
+                    </ul>
+                    <button
+                        class="mt-6 w-full py-3 border-2 border-slate-200 rounded-xl text-sm font-bold hover:border-primary hover:text-primary transition-all">Empezar
+                        Gratis</button>
+                </div>
+                <!-- Pro -->
+                <div class="border-2 border-primary rounded-2xl p-6 flex flex-col relative shadow-xl shadow-primary/10">
+                    <span
+                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black px-4 py-1 rounded-full">MÁS
+                        POPULAR</span>
+                    <p class="text-xs font-black text-primary uppercase tracking-widest mb-2">Profesional</p>
+                    <div class="flex items-end gap-1 mb-1">
+                        <p class="text-3xl font-black text-slate-900">$69</p>
+                        <span class="text-sm text-slate-400 mb-1">USD/mes</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-6">Por usuario • Facturado anualmente</p>
+                    <ul class="space-y-2.5 text-sm text-slate-600 flex-1">
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Búsquedas
+                            ilimitadas</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Alertas en
+                            tiempo real</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Motor de
+                            Match multi-rubro</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Pipeline
+                            Kanban completo</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>API / Webhooks
+                            avanzados</li>
+                    </ul>
+                    <button
+                        class="mt-6 w-full py-3 bg-primary text-white rounded-xl text-sm font-black hover:bg-blue-700 transition-all shadow-md shadow-primary/25">Suscribirse</button>
+                </div>
+                <!-- Enterprise -->
+                <div class="border border-slate-200 rounded-2xl p-6 flex flex-col bg-slate-900">
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Enterprise</p>
+                    <div class="flex items-end gap-1 mb-1">
+                        <p class="text-3xl font-black text-white">$249+</p>
+                        <span class="text-sm text-slate-400 mb-1">USD/mes</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-6">Múltiples asientos • Marca Blanca</p>
+                    <ul class="space-y-2.5 text-sm text-slate-400 flex-1">
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Todo lo del
+                            Plan Pro</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Extractor IA
+                            de requisitos</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Webhooks a
+                            ERP / CRM</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Matchmaking
+                            de Consorcios</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>API + White
+                            Label Gremios</li>
+                    </ul>
+                    <button
+                        class="mt-6 w-full py-3 border border-slate-700 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-all">Contactar
+                        Ventas</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Offline Banner -->
     <div id="offlineBanner"

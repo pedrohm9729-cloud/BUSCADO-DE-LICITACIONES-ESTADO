@@ -15,6 +15,158 @@ const PIPELINE_KEY = 'seace_pipeline';
 const STAGES = ['evaluar', 'cotizar', 'presentada', 'adjudicada'];
 const STAGE_LABELS = { evaluar: 'Por Evaluar', cotizar: 'En Cotización', presentada: 'Presentada', adjudicada: 'Adjudicada' };
 const STAGE_COLORS = { evaluar: 'blue', cotizar: 'amber', presentada: 'purple', adjudicada: 'green' };
+const PROFILE_KEY = 'seace_company_profile';
+
+// ============================
+// COMPANY PROFILE (Onboarding)
+// ============================
+function getProfile() {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+}
+
+function loadProfileUI() {
+    const p = getProfile();
+    const nameEl = document.getElementById('sidebarCompanyName');
+    const planEl = document.getElementById('sidebarPlan');
+    if (nameEl) nameEl.textContent = p.company || 'Mi Empresa';
+    if (planEl) planEl.textContent = p.company ? 'Plan Profesional • Activo' : 'Plan Gratis • Configurar';
+}
+
+window.openOnboarding = () => {
+    const p = getProfile();
+    const f = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+    f('profileCompany', p.company);
+    f('profileSector', p.sector);
+    f('profileKeywords', p.keywords);
+    f('profileCapacity', p.capacity || '1000000');
+    f('profileWebhook', p.webhookUrl);
+    document.getElementById('onboardingModal').classList.remove('hidden');
+};
+
+window.closeOnboarding = () => {
+    document.getElementById('onboardingModal').classList.add('hidden');
+};
+
+window.saveProfile = () => {
+    const g = (id) => document.getElementById(id)?.value?.trim() || '';
+    const profile = {
+        company: g('profileCompany'),
+        sector: g('profileSector'),
+        keywords: g('profileKeywords'),
+        capacity: parseFloat(g('profileCapacity')) || 1000000,
+        webhookUrl: g('profileWebhook'),
+    };
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    loadProfileUI();
+    closeOnboarding();
+    showToast('success', `Perfil de "${profile.company || 'tu empresa'}" guardado. El motor de Match está calibrado.`);
+};
+
+// First-time onboarding check
+setTimeout(() => {
+    if (!localStorage.getItem(PROFILE_KEY)) openOnboarding();
+    else loadProfileUI();
+}, 1200);
+
+// ============================
+// PRICING MODAL
+// ============================
+window.openPricing = () => document.getElementById('pricingModal').classList.remove('hidden');
+window.closePricing = () => document.getElementById('pricingModal').classList.add('hidden');
+
+// ============================
+// BID / NO-BID ENGINE
+// ============================
+function calcBidScore(item) {
+    const profile = getProfile();
+    const capacity = profile.capacity || 1000000;
+    const keywords = (profile.keywords || 'acero fierro metal').split(/[,\s]+/).map(k => k.toLowerCase()).filter(Boolean);
+    const diff = daysDiff(item.deadline);
+
+    const checks = [
+        {
+            label: 'Plazo suficiente (>7 días)',
+            pass: diff > 7,
+            warn: diff >= 0 && diff <= 7,
+            icon: 'schedule',
+        },
+        {
+            label: `Presupuesto dentro de tu capacidad (S/ ${(capacity / 1000).toFixed(0)}K máx.)`,
+            pass: item.budgetMax <= capacity,
+            warn: item.budgetMax <= capacity * 1.5,
+            icon: 'payments',
+        },
+        {
+            label: `Match ≥ 50% con tu perfil (actual: ${item.match}%)`,
+            pass: item.match >= 50,
+            warn: item.match >= 25,
+            icon: 'target',
+        },
+        {
+            label: 'Palabras clave de tu rubro presentes',
+            pass: keywords.some(k => `${item.title} ${item.description || ''}`.toLowerCase().includes(k)),
+            warn: false,
+            icon: 'label',
+        },
+        {
+            label: 'Proceso abierto (no cerrado)',
+            pass: diff >= 0,
+            warn: false,
+            icon: 'lock_open',
+        },
+    ];
+
+    const passed = checks.filter(c => c.pass).length;
+    const warned = checks.filter(c => !c.pass && c.warn).length;
+    const score = passed >= 4 ? 'GO' : passed >= 3 || (passed === 2 && warned >= 1) ? 'CAUTION' : 'NO-GO';
+
+    return { checks, score, passed };
+}
+
+window.toggleBidPanel = () => {
+    const body = document.getElementById('bidNoBidBody');
+    if (body) body.classList.toggle('hidden');
+};
+
+function renderBidNoBid(item) {
+    const { checks, score } = calcBidScore(item);
+
+    const scoreEl = document.getElementById('bidScore');
+    const listEl = document.getElementById('bidChecklist');
+    const recEl = document.getElementById('bidRecommendation');
+    if (!scoreEl || !listEl) return;
+
+    const scoreStyles = {
+        'GO': 'bg-green-100 text-green-700',
+        'CAUTION': 'bg-amber-100 text-amber-700',
+        'NO-GO': 'bg-red-100 text-red-600',
+    };
+    const recStyles = {
+        'GO': 'bg-green-50 text-green-700 border border-green-200',
+        'CAUTION': 'bg-amber-50 text-amber-700 border border-amber-200',
+        'NO-GO': 'bg-red-50 text-red-600 border border-red-200',
+    };
+    const recText = {
+        'GO': '✅ Esta licitación calza bien con tu perfil. Recomendamos incluirla en el pipeline.',
+        'CAUTION': '⚠️ Hay condiciones que merecen revisión antes de comprometer recursos.',
+        'NO-GO': '🚫 Esta licitación presenta factores de riesgo significativos. Considera descartarla.',
+    };
+
+    scoreEl.textContent = score;
+    scoreEl.className = `text-xs font-black px-3 py-1 rounded-full ${scoreStyles[score]}`;
+
+    listEl.innerHTML = checks.map(c => `
+        <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-sm shrink-0 mt-0.5 ${c.pass ? 'text-green-500' : c.warn ? 'text-amber-500' : 'text-red-400'}">${c.pass ? 'check_circle' : c.warn ? 'warning' : 'cancel'}</span>
+            <span class="text-xs text-slate-700 font-medium">${c.label}</span>
+        </div>`).join('');
+
+    if (recEl) {
+        recEl.className = `mt-3 p-3 rounded-xl text-xs font-semibold ${recStyles[score]}`;
+        recEl.textContent = recText[score];
+    }
+}
+
 
 function getPipeline() {
     return JSON.parse(localStorage.getItem(PIPELINE_KEY) || '{}');
@@ -57,6 +209,21 @@ window.setPipelineStage = (stage) => {
 
     updatePipelineBadge();
     showToast('success', `Licitación movida a "${STAGE_LABELS[stage]}".`);
+
+    // Auto-webhook when entering "En Cotización"
+    if (stage === 'cotizar') {
+        const profile = getProfile();
+        const webhookUrl = profile.webhookUrl;
+        const item = currentData.find(d => d.id === currentDrawerId);
+        if (webhookUrl && item) {
+            const payload = { id: item.id, title: item.title, agency: item.agency, budget: item.budgetMax, deadline: item.deadline, match: item.match, timestamp: new Date().toISOString() };
+            fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                .then(() => showToast('info', `🚀 Webhook disparado a Make.com. Propuesta siendo generada...`))
+                .catch(() => showToast('warning', 'Webhook configurado pero sin respuesta. Verifica tu URL.'));
+        } else if (!webhookUrl) {
+            showToast('info', '💡 Configura tu webhook en “Perfil de Empresa” para auto-generar propuestas.');
+        }
+    }
 };
 
 function updatePipelineBadge() {
@@ -636,6 +803,11 @@ window.openDrawer = (id) => {
 
     const rq = document.getElementById('drawerRequirements');
     rq.innerHTML = (item.requirements || []).map(r => `<div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"><span class="material-symbols-outlined text-primary text-sm">check_circle</span><span class="text-xs font-semibold text-slate-700">${r}</span></div>`).join('');
+
+    // Bid / No-Bid Score
+    renderBidNoBid(item);
+    // Reset panel to collapsed each time
+    document.getElementById('bidNoBidBody')?.classList.add('hidden');
 
     const overlay = document.getElementById('drawerOverlay');
     const panel = document.getElementById('drawerPanel');
