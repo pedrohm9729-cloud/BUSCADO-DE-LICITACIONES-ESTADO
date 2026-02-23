@@ -584,6 +584,40 @@ function updateDashboardStats(data) {
     document.getElementById('statTotal').innerText = t;
     document.getElementById('statBudget').innerText = formatPEN(b);
     document.getElementById('statMatch').innerText = `${m}%`;
+    updateTopMaterials(data);
+}
+
+function updateTopMaterials(data) {
+    const container = document.getElementById('topMaterials');
+    if (!container) return;
+
+    const keywords = [
+        { key: 'acero', label: 'Acero Estructural' },
+        { key: 'fierro', label: 'Fierro Corrugado' },
+        { key: 'puente', label: 'Puentes y Viales' },
+        { key: 'techo', label: 'Coberturas y Techos' },
+        { key: 'mantenimiento', label: 'Mantenimiento Metal' },
+        { key: 'pintura', label: 'Pintura y Acabados' }
+    ];
+
+    const counts = keywords.map(kw => {
+        const matching = data.filter(d => d.title.toLowerCase().includes(kw.key));
+        return { ...kw, count: matching.length };
+    }).sort((a, b) => b.count - a.count);
+
+    container.innerHTML = counts.map(c => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                    ${c.count}
+                </div>
+                <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">${c.label}</span>
+            </div>
+            <div class="h-1.5 w-24 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="h-full bg-primary" style="width: ${Math.min(100, (c.count / data.length) * 500)}%"></div>
+            </div>
+        </div>
+    `).join('');
 }
 
 // === BADGES ===

@@ -96,8 +96,8 @@ function populatePage(tender) {
 
     // Fianza amount
     const fianza = tender.budgetMax * 0.10;
-    sel('fianzaItem').querySelector('span:last-child').innerText =
-        `Carta Fianza estimada: ${formatPEN(fianza)} (10% del contrato)`;
+    const fValueEl = document.getElementById('fianzaValue');
+    if (fValueEl) fValueEl.innerText = `Valor estimado: ${formatPEN(fianza)}`;
 
     // === SEMÁFORO ===
     renderSemaforo(tender.budgetMax);
@@ -143,6 +143,7 @@ window.updateProfitCalc = () => {
 
     const bar = sel('calcProfitBar');
     const verdict = sel('bidVerdict');
+    const qBtn = sel('preQuoteBtn');
 
     // Bar and Verdict Styling
     if (marginPct >= 20) {
@@ -150,16 +151,19 @@ window.updateProfitCalc = () => {
         sel('calcProfitPct').className = 'text-xl font-black text-green-400 tabular-nums';
         verdict.innerText = 'Excelente Rentabilidad (BID)';
         verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-green-500/10 text-green-400 border border-green-500/20';
+        if (qBtn) qBtn.classList.remove('hidden');
     } else if (marginPct >= 5) {
         bar.className = 'h-full bg-amber-500 transition-all';
         sel('calcProfitPct').className = 'text-xl font-black text-amber-400 tabular-nums';
         verdict.innerText = 'Margen Ajustado (Cuidado)';
         verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20';
+        if (qBtn) qBtn.classList.remove('hidden');
     } else {
         bar.className = 'h-full bg-red-500 transition-all';
         sel('calcProfitPct').className = 'text-xl font-black text-red-400 tabular-nums';
         verdict.innerText = 'No Rentable (NO-BID)';
         verdict.className = 'p-3 rounded-lg text-center text-xs font-black uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20';
+        if (qBtn) qBtn.classList.add('hidden');
     }
     bar.style.width = `${Math.max(0, Math.min(100, marginPct))}%`;
 };
@@ -339,6 +343,33 @@ window.copiarEnlace = () => {
 // ===========================
 // TOAST
 // ===========================
+window.generatePreQuote = () => {
+    const tender = allData.find(d => d.id === currentId);
+    if (!tender) return;
+
+    const btn = sel('preQuoteBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Generando...`;
+    btn.disabled = true;
+
+    // Simulate Webhook / IA Generation
+    setTimeout(() => {
+        showToast('✨ Pre-Cotización generada y enviada al equipo de compras.');
+        btn.innerHTML = `<span class="material-symbols-outlined">check_circle</span> Solicitado`;
+        btn.classList.replace('bg-amber-400', 'bg-green-500');
+        btn.classList.add('text-white');
+
+        // Final "Webhook" call (console log for proof)
+        console.log('WEBHOOK TRIGGERED:', {
+            event: 'pre_quote_requested',
+            tenderId: tender.id,
+            budget: tender.budgetMax,
+            estimatedMargin: sel('calcProfitPct').innerText,
+            timestamp: new Date().toISOString()
+        });
+    }, 1500);
+};
+
 function showToast(msg) {
     let t = document.getElementById('detalleToast');
     if (!t) {
