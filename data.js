@@ -1,0 +1,2162 @@
+﻿window.SEACE_DATA = [
+    {
+        "id": "LP-2024-1001",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN ESTADIO MUNICIPAL",
+        "agency": "MUNI LIMA",
+        "location": "CALLAO",
+        "budgetMax": 2028556,
+        "budgetMin": 1690464,
+        "publishDate": "2026-02-11",
+        "deadline": "2026-03-06",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1002",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "CENARES",
+        "location": "NACIONAL",
+        "budgetMax": 3413065,
+        "budgetMin": 2844221,
+        "publishDate": "2026-02-07",
+        "deadline": "2026-03-31",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1003",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "ESSALUD",
+        "location": "JUNIN",
+        "budgetMax": 693692,
+        "budgetMin": 578077,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-03-25",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1004",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE METAL EN HOSPITAL REGIONAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "NACIONAL",
+        "budgetMax": 906345,
+        "budgetMin": 755288,
+        "publishDate": "2026-01-28",
+        "deadline": "2026-03-29",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de metal en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1005",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "MINEDU",
+        "location": "AREQUIPA",
+        "budgetMax": 1575345,
+        "budgetMin": 1312788,
+        "publishDate": "2026-02-01",
+        "deadline": "2026-04-03",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1006",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ALUMINIO EN AVENIDA PRINCIPAL",
+        "agency": "SEDAPAL",
+        "location": "NACIONAL",
+        "budgetMax": 1484126,
+        "budgetMin": 1236772,
+        "publishDate": "2026-02-19",
+        "deadline": "2026-02-26",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de aluminio en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1007",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN HOSPITAL REGIONAL",
+        "agency": "SEDAPAL",
+        "location": "NACIONAL",
+        "budgetMax": 1437907,
+        "budgetMin": 1198256,
+        "publishDate": "2026-02-02",
+        "deadline": "2026-04-05",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1008",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE METAL EN AVENIDA PRINCIPAL",
+        "agency": "ESSALUD",
+        "location": "PUNO",
+        "budgetMax": 1772671,
+        "budgetMin": 1477226,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-04-09",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de metal en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1009",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "ESSALUD",
+        "location": "PIURA",
+        "budgetMax": 3047378,
+        "budgetMin": 2539482,
+        "publishDate": "2026-01-31",
+        "deadline": "2026-04-02",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1010",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ALUMINIO EN ESTADIO MUNICIPAL",
+        "agency": "CENARES",
+        "location": "CUSCO",
+        "budgetMax": 2844943,
+        "budgetMin": 2370786,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-04-01",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en aluminio en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1011",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ACERO EN COLEGIO INTEGRADO",
+        "agency": "ESSALUD",
+        "location": "PIURA",
+        "budgetMax": 4209100,
+        "budgetMin": 3507584,
+        "publishDate": "2026-02-03",
+        "deadline": "2026-03-30",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con acero en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1012",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN FIERRO EN HOSPITAL REGIONAL",
+        "agency": "CENARES",
+        "location": "CALLAO",
+        "budgetMax": 5382381,
+        "budgetMin": 4485318,
+        "publishDate": "2026-01-30",
+        "deadline": "2026-02-26",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en fierro en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1013",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN PUENTE PEATONAL",
+        "agency": "GORE CUSCO",
+        "location": "CALLAO",
+        "budgetMax": 4423330,
+        "budgetMin": 3686109,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-04-02",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1014",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN PUENTE PEATONAL",
+        "agency": "MINEDU",
+        "location": "CUSCO",
+        "budgetMax": 3925935,
+        "budgetMin": 3271613,
+        "publishDate": "2026-02-18",
+        "deadline": "2026-04-03",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1015",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ESTRUCTURAS METÁLICAS EN AVENIDA PRINCIPAL",
+        "agency": "GORE AREQUIPA",
+        "location": "LA LIBERTAD",
+        "budgetMax": 5488030,
+        "budgetMin": 4573359,
+        "publishDate": "2026-01-27",
+        "deadline": "2026-02-27",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal estructuras metálicas en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1016",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN ESTADIO MUNICIPAL",
+        "agency": "MINEDU",
+        "location": "LIMA",
+        "budgetMax": 968316,
+        "budgetMin": 806930,
+        "publishDate": "2026-01-29",
+        "deadline": "2026-03-12",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1017",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE FIERRO EN ALMACÉN CENTRAL",
+        "agency": "PETROPERU",
+        "location": "PUNO",
+        "budgetMax": 1944772,
+        "budgetMin": 1620644,
+        "publishDate": "2026-02-21",
+        "deadline": "2026-03-21",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1018",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE HIERRO NEGRO EN AVENIDA PRINCIPAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "LA LIBERTAD",
+        "budgetMax": 3193909,
+        "budgetMin": 2661591,
+        "publishDate": "2026-02-19",
+        "deadline": "2026-03-10",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de hierro negro en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1019",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA HIERRO NEGRO EN PUENTE PEATONAL",
+        "agency": "CENARES",
+        "location": "LIMA",
+        "budgetMax": 4237652,
+        "budgetMin": 3531377,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-13",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para hierro negro en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1020",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "PIURA",
+        "budgetMax": 3741720,
+        "budgetMin": 3118100,
+        "publishDate": "2026-02-23",
+        "deadline": "2026-03-05",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1021",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ACERO EN PUENTE PEATONAL",
+        "agency": "GORE AREQUIPA",
+        "location": "PUNO",
+        "budgetMax": 3982334,
+        "budgetMin": 3318612,
+        "publishDate": "2026-02-22",
+        "deadline": "2026-03-25",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1022",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN PUENTE PEATONAL",
+        "agency": "GORE CUSCO",
+        "location": "PIURA",
+        "budgetMax": 100092,
+        "budgetMin": 83410,
+        "publishDate": "2026-01-30",
+        "deadline": "2026-04-04",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1023",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ACERO EN HOSPITAL REGIONAL",
+        "agency": "GORE CUSCO",
+        "location": "NACIONAL",
+        "budgetMax": 1520545,
+        "budgetMin": 1267121,
+        "publishDate": "2026-02-18",
+        "deadline": "2026-03-26",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1024",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "CUSCO",
+        "budgetMax": 4722519,
+        "budgetMin": 3935433,
+        "publishDate": "2026-02-05",
+        "deadline": "2026-04-04",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1025",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN COLEGIO INTEGRADO",
+        "agency": "GORE CUSCO",
+        "location": "LIMA",
+        "budgetMax": 2407226,
+        "budgetMin": 2006022,
+        "publishDate": "2026-01-26",
+        "deadline": "2026-03-09",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1026",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ALUMINIO EN PUENTE PEATONAL",
+        "agency": "MINEDU",
+        "location": "CALLAO",
+        "budgetMax": 4994374,
+        "budgetMin": 4161979,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de aluminio en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1027",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN COLEGIO INTEGRADO",
+        "agency": "SEDAPAL",
+        "location": "JUNIN",
+        "budgetMax": 3363552,
+        "budgetMin": 2802960,
+        "publishDate": "2026-02-02",
+        "deadline": "2026-04-07",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1028",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE ACERO EN AVENIDA PRINCIPAL",
+        "agency": "SEDAPAL",
+        "location": "PIURA",
+        "budgetMax": 5471211,
+        "budgetMin": 4559343,
+        "publishDate": "2026-01-31",
+        "deadline": "2026-02-26",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de acero en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1029",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE METAL EN ALMACÉN CENTRAL",
+        "agency": "MINEDU",
+        "location": "NACIONAL",
+        "budgetMax": 1396380,
+        "budgetMin": 1163650,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-03-04",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de metal en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1030",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN HOSPITAL REGIONAL",
+        "agency": "MINEDU",
+        "location": "LIMA",
+        "budgetMax": 5195574,
+        "budgetMin": 4329645,
+        "publishDate": "2026-01-27",
+        "deadline": "2026-04-05",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1031",
+        "title": "REPARACIÓN DE PUENTE PEATONAL HIERRO NEGRO EN ESTADIO MUNICIPAL",
+        "agency": "SEDAPAL",
+        "location": "LA LIBERTAD",
+        "budgetMax": 4087828,
+        "budgetMin": 3406524,
+        "publishDate": "2026-02-18",
+        "deadline": "2026-03-19",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal hierro negro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1032",
+        "title": "REPARACIÓN DE PUENTE PEATONAL HIERRO NEGRO EN ESTADIO MUNICIPAL",
+        "agency": "GORE AREQUIPA",
+        "location": "PUNO",
+        "budgetMax": 1941726,
+        "budgetMin": 1618105,
+        "publishDate": "2026-01-28",
+        "deadline": "2026-04-04",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal hierro negro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1033",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ACERO EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "PIURA",
+        "budgetMax": 5540035,
+        "budgetMin": 4616696,
+        "publishDate": "2026-02-23",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1034",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "NACIONAL",
+        "budgetMax": 4790394,
+        "budgetMin": 3991995,
+        "publishDate": "2026-01-29",
+        "deadline": "2026-03-01",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1035",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "NACIONAL",
+        "budgetMax": 5488834,
+        "budgetMin": 4574029,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-04-06",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1036",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE ALUMINIO EN PUENTE PEATONAL",
+        "agency": "SEDAPAL",
+        "location": "NACIONAL",
+        "budgetMax": 503790,
+        "budgetMin": 419825,
+        "publishDate": "2026-02-07",
+        "deadline": "2026-03-17",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de aluminio en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1037",
+        "title": "REPARACIÓN DE PUENTE PEATONAL FIERRO EN HOSPITAL REGIONAL",
+        "agency": "GORE CUSCO",
+        "location": "AREQUIPA",
+        "budgetMax": 4085563,
+        "budgetMin": 3404636,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-03-18",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal fierro en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1038",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON METAL EN ALMACÉN CENTRAL",
+        "agency": "CENARES",
+        "location": "JUNIN",
+        "budgetMax": 3808419,
+        "budgetMin": 3173683,
+        "publishDate": "2026-02-10",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con metal en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1039",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA METAL EN COLEGIO INTEGRADO",
+        "agency": "MUNI LIMA",
+        "location": "LA LIBERTAD",
+        "budgetMax": 3761400,
+        "budgetMin": 3134500,
+        "publishDate": "2026-02-22",
+        "deadline": "2026-03-15",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para metal en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1040",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN COLEGIO INTEGRADO",
+        "agency": "MINEDU",
+        "location": "CALLAO",
+        "budgetMax": 1904670,
+        "budgetMin": 1587225,
+        "publishDate": "2026-01-25",
+        "deadline": "2026-03-06",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1041",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN HIERRO NEGRO EN ESTADIO MUNICIPAL",
+        "agency": "CENARES",
+        "location": "CALLAO",
+        "budgetMax": 2387194,
+        "budgetMin": 1989329,
+        "publishDate": "2026-02-23",
+        "deadline": "2026-04-06",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en hierro negro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1042",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN METAL EN ESTADIO MUNICIPAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "LA LIBERTAD",
+        "budgetMax": 4825326,
+        "budgetMin": 4021105,
+        "publishDate": "2026-01-28",
+        "deadline": "2026-03-13",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en metal en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1043",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE ESTRUCTURAS METÁLICAS EN HOSPITAL REGIONAL",
+        "agency": "SEDAPAL",
+        "location": "ANCASH",
+        "budgetMax": 4983722,
+        "budgetMin": 4153102,
+        "publishDate": "2026-02-21",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de estructuras metálicas en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1044",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "CENARES",
+        "location": "NACIONAL",
+        "budgetMax": 4252120,
+        "budgetMin": 3543434,
+        "publishDate": "2026-02-12",
+        "deadline": "2026-03-30",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1045",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE METAL EN COLEGIO INTEGRADO",
+        "agency": "SEDAPAL",
+        "location": "PUNO",
+        "budgetMax": 5193520,
+        "budgetMin": 4327934,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de metal en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1046",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "MINEDU",
+        "location": "LIMA",
+        "budgetMax": 1604367,
+        "budgetMin": 1336973,
+        "publishDate": "2026-02-21",
+        "deadline": "2026-03-13",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1047",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA METAL EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "CUSCO",
+        "budgetMax": 3626188,
+        "budgetMin": 3021824,
+        "publishDate": "2026-02-13",
+        "deadline": "2026-03-23",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para metal en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1048",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ACERO EN ESTADIO MUNICIPAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "JUNIN",
+        "budgetMax": 3917028,
+        "budgetMin": 3264190,
+        "publishDate": "2026-02-03",
+        "deadline": "2026-03-05",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en acero en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1049",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ESTRUCTURAS METÁLICAS EN PUENTE PEATONAL",
+        "agency": "GORE AREQUIPA",
+        "location": "LA LIBERTAD",
+        "budgetMax": 2530880,
+        "budgetMin": 2109067,
+        "publishDate": "2026-02-14",
+        "deadline": "2026-03-23",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para estructuras metálicas en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1050",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON HIERRO NEGRO EN COLEGIO INTEGRADO",
+        "agency": "PETROPERU",
+        "location": "CALLAO",
+        "budgetMax": 4894405,
+        "budgetMin": 4078671,
+        "publishDate": "2026-02-22",
+        "deadline": "2026-02-25",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con hierro negro en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1051",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA FIERRO EN ALMACÉN CENTRAL",
+        "agency": "CENARES",
+        "location": "AREQUIPA",
+        "budgetMax": 1033190,
+        "budgetMin": 860992,
+        "publishDate": "2026-02-05",
+        "deadline": "2026-04-04",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1052",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN PUENTE PEATONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "PIURA",
+        "budgetMax": 4322678,
+        "budgetMin": 3602232,
+        "publishDate": "2026-02-02",
+        "deadline": "2026-03-12",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1053",
+        "title": "REPARACIÓN DE PUENTE PEATONAL FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "PIURA",
+        "budgetMax": 3826982,
+        "budgetMin": 3189152,
+        "publishDate": "2026-02-21",
+        "deadline": "2026-03-30",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1054",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "NACIONAL",
+        "budgetMax": 4955641,
+        "budgetMin": 4129701,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-14",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1055",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "LIMA",
+        "budgetMax": 3639788,
+        "budgetMin": 3033157,
+        "publishDate": "2026-02-19",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1056",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA METAL EN COLEGIO INTEGRADO",
+        "agency": "MINEDU",
+        "location": "NACIONAL",
+        "budgetMax": 5786089,
+        "budgetMin": 4821741,
+        "publishDate": "2026-01-26",
+        "deadline": "2026-03-24",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para metal en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1057",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ALUMINIO EN PUENTE PEATONAL",
+        "agency": "MUNI LIMA",
+        "location": "ANCASH",
+        "budgetMax": 1653162,
+        "budgetMin": 1377635,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-06",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de aluminio en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1058",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "ESSALUD",
+        "location": "LIMA",
+        "budgetMax": 4010436,
+        "budgetMin": 3342030,
+        "publishDate": "2026-01-24",
+        "deadline": "2026-03-27",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1059",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "CUSCO",
+        "budgetMax": 4780263,
+        "budgetMin": 3983553,
+        "publishDate": "2026-01-31",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1060",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE METAL EN AVENIDA PRINCIPAL",
+        "agency": "SEDAPAL",
+        "location": "AREQUIPA",
+        "budgetMax": 880936,
+        "budgetMin": 734114,
+        "publishDate": "2026-02-03",
+        "deadline": "2026-03-07",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de metal en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1061",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "AREQUIPA",
+        "budgetMax": 5902801,
+        "budgetMin": 4919001,
+        "publishDate": "2026-01-24",
+        "deadline": "2026-02-28",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1062",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "SEDAPAL",
+        "location": "LA LIBERTAD",
+        "budgetMax": 3373224,
+        "budgetMin": 2811020,
+        "publishDate": "2026-01-30",
+        "deadline": "2026-03-06",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1063",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "ESSALUD",
+        "location": "JUNIN",
+        "budgetMax": 3658857,
+        "budgetMin": 3049048,
+        "publishDate": "2026-02-14",
+        "deadline": "2026-03-29",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1064",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ESTRUCTURAS METÁLICAS EN COLEGIO INTEGRADO",
+        "agency": "CENARES",
+        "location": "LA LIBERTAD",
+        "budgetMax": 2849254,
+        "budgetMin": 2374379,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-04-06",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de estructuras metálicas en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1065",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ACERO EN PUENTE PEATONAL",
+        "agency": "MUNI LIMA",
+        "location": "PIURA",
+        "budgetMax": 1653219,
+        "budgetMin": 1377683,
+        "publishDate": "2026-02-12",
+        "deadline": "2026-04-07",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1066",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE ACERO EN PUENTE PEATONAL",
+        "agency": "SEDAPAL",
+        "location": "PUNO",
+        "budgetMax": 5984706,
+        "budgetMin": 4987255,
+        "publishDate": "2026-02-13",
+        "deadline": "2026-03-03",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1067",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "NACIONAL",
+        "budgetMax": 1458223,
+        "budgetMin": 1215186,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-03-14",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1068",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE ESTRUCTURAS METÁLICAS EN PUENTE PEATONAL",
+        "agency": "GORE AREQUIPA",
+        "location": "PUNO",
+        "budgetMax": 223822,
+        "budgetMin": 186519,
+        "publishDate": "2026-02-01",
+        "deadline": "2026-03-09",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de estructuras metálicas en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1069",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA FIERRO EN AVENIDA PRINCIPAL",
+        "agency": "ESSALUD",
+        "location": "LIMA",
+        "budgetMax": 817972,
+        "budgetMin": 681644,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-04-05",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para fierro en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1070",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN PUENTE PEATONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "PUNO",
+        "budgetMax": 5381877,
+        "budgetMin": 4484898,
+        "publishDate": "2026-02-02",
+        "deadline": "2026-04-03",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1071",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ALUMINIO EN COLEGIO INTEGRADO",
+        "agency": "CENARES",
+        "location": "NACIONAL",
+        "budgetMax": 582667,
+        "budgetMin": 485556,
+        "publishDate": "2026-02-23",
+        "deadline": "2026-03-19",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en aluminio en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1072",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON HIERRO NEGRO EN ALMACÉN CENTRAL",
+        "agency": "MUNI LIMA",
+        "location": "AREQUIPA",
+        "budgetMax": 4376678,
+        "budgetMin": 3647232,
+        "publishDate": "2026-02-22",
+        "deadline": "2026-03-30",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con hierro negro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1073",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN FIERRO EN HOSPITAL REGIONAL",
+        "agency": "ESSALUD",
+        "location": "PIURA",
+        "budgetMax": 2168614,
+        "budgetMin": 1807179,
+        "publishDate": "2026-01-29",
+        "deadline": "2026-03-29",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en fierro en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1074",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ALUMINIO EN PUENTE PEATONAL",
+        "agency": "GORE CUSCO",
+        "location": "NACIONAL",
+        "budgetMax": 310440,
+        "budgetMin": 258700,
+        "publishDate": "2026-01-25",
+        "deadline": "2026-03-17",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal aluminio en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1075",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA FIERRO EN ALMACÉN CENTRAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "ANCASH",
+        "budgetMax": 1114209,
+        "budgetMin": 928508,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1076",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN HIERRO NEGRO EN ALMACÉN CENTRAL",
+        "agency": "GORE AREQUIPA",
+        "location": "CALLAO",
+        "budgetMax": 3901372,
+        "budgetMin": 3251144,
+        "publishDate": "2026-01-26",
+        "deadline": "2026-04-08",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en hierro negro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1077",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE ACERO EN ESTADIO MUNICIPAL",
+        "agency": "MUNI LIMA",
+        "location": "CUSCO",
+        "budgetMax": 1192458,
+        "budgetMin": 993715,
+        "publishDate": "2026-02-19",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de acero en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1078",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ESTRUCTURAS METÁLICAS EN ESTADIO MUNICIPAL",
+        "agency": "CENARES",
+        "location": "AREQUIPA",
+        "budgetMax": 3394978,
+        "budgetMin": 2829149,
+        "publishDate": "2026-02-10",
+        "deadline": "2026-04-07",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para estructuras metálicas en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1079",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ACERO EN HOSPITAL REGIONAL",
+        "agency": "GORE CUSCO",
+        "location": "LA LIBERTAD",
+        "budgetMax": 4896558,
+        "budgetMin": 4080465,
+        "publishDate": "2026-01-24",
+        "deadline": "2026-03-12",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1080",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON HIERRO NEGRO EN ALMACÉN CENTRAL",
+        "agency": "SEDAPAL",
+        "location": "CUSCO",
+        "budgetMax": 2340414,
+        "budgetMin": 1950345,
+        "publishDate": "2026-01-29",
+        "deadline": "2026-03-03",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con hierro negro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1081",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ESTRUCTURAS METÁLICAS EN PUENTE PEATONAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "LA LIBERTAD",
+        "budgetMax": 5134776,
+        "budgetMin": 4278980,
+        "publishDate": "2026-02-19",
+        "deadline": "2026-03-26",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de estructuras metálicas en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1082",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN FIERRO EN ALMACÉN CENTRAL",
+        "agency": "GORE AREQUIPA",
+        "location": "JUNIN",
+        "budgetMax": 5781218,
+        "budgetMin": 4817682,
+        "publishDate": "2026-02-18",
+        "deadline": "2026-04-03",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1083",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN METAL EN AVENIDA PRINCIPAL",
+        "agency": "MUNI LIMA",
+        "location": "NACIONAL",
+        "budgetMax": 3537080,
+        "budgetMin": 2947567,
+        "publishDate": "2026-01-26",
+        "deadline": "2026-02-28",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en metal en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1084",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE ACERO EN PUENTE PEATONAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "PUNO",
+        "budgetMax": 2649039,
+        "budgetMin": 2207533,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1085",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE HIERRO NEGRO EN AVENIDA PRINCIPAL",
+        "agency": "PROVIAS NACIONAL",
+        "location": "CALLAO",
+        "budgetMax": 3516338,
+        "budgetMin": 2930282,
+        "publishDate": "2026-01-30",
+        "deadline": "2026-04-07",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de hierro negro en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1086",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA HIERRO NEGRO EN COLEGIO INTEGRADO",
+        "agency": "SEDAPAL",
+        "location": "PUNO",
+        "budgetMax": 2873922,
+        "budgetMin": 2394935,
+        "publishDate": "2026-01-27",
+        "deadline": "2026-03-15",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para hierro negro en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1087",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ACERO EN COLEGIO INTEGRADO",
+        "agency": "MUNI LIMA",
+        "location": "AREQUIPA",
+        "budgetMax": 4744857,
+        "budgetMin": 3954048,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-20",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en acero en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1088",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "CALLAO",
+        "budgetMax": 2036964,
+        "budgetMin": 1697470,
+        "publishDate": "2026-01-27",
+        "deadline": "2026-03-18",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1089",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN HIERRO NEGRO EN HOSPITAL REGIONAL",
+        "agency": "MUNI LIMA",
+        "location": "LIMA",
+        "budgetMax": 302930,
+        "budgetMin": 252442,
+        "publishDate": "2026-02-01",
+        "deadline": "2026-03-18",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en hierro negro en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1090",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "CENARES",
+        "location": "PIURA",
+        "budgetMax": 3546877,
+        "budgetMin": 2955731,
+        "publishDate": "2026-02-05",
+        "deadline": "2026-03-19",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1091",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE ACERO EN ESTADIO MUNICIPAL",
+        "agency": "ESSALUD",
+        "location": "NACIONAL",
+        "budgetMax": 5419269,
+        "budgetMin": 4516058,
+        "publishDate": "2026-02-05",
+        "deadline": "2026-03-24",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de acero en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1092",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE ACERO EN HOSPITAL REGIONAL",
+        "agency": "MINEDU",
+        "location": "PUNO",
+        "budgetMax": 4979047,
+        "budgetMin": 4149206,
+        "publishDate": "2026-02-15",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de acero en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1093",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA HIERRO NEGRO EN COLEGIO INTEGRADO",
+        "agency": "PETROPERU",
+        "location": "AREQUIPA",
+        "budgetMax": 4140153,
+        "budgetMin": 3450128,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-03-27",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para hierro negro en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1094",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE ACERO EN PUENTE PEATONAL",
+        "agency": "CENARES",
+        "location": "LIMA",
+        "budgetMax": 1110121,
+        "budgetMin": 925101,
+        "publishDate": "2026-02-11",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1095",
+        "title": "REPARACIÓN DE PUENTE PEATONAL FIERRO EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "JUNIN",
+        "budgetMax": 1692064,
+        "budgetMin": 1410054,
+        "publishDate": "2026-01-24",
+        "deadline": "2026-03-31",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal fierro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1096",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE ALUMINIO EN AVENIDA PRINCIPAL",
+        "agency": "GORE AREQUIPA",
+        "location": "AREQUIPA",
+        "budgetMax": 1103866,
+        "budgetMin": 919889,
+        "publishDate": "2026-02-02",
+        "deadline": "2026-03-08",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de aluminio en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1097",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON METAL EN COLEGIO INTEGRADO",
+        "agency": "MUNI TRUJILLO",
+        "location": "PIURA",
+        "budgetMax": 3322758,
+        "budgetMin": 2768965,
+        "publishDate": "2026-02-15",
+        "deadline": "2026-03-07",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con metal en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1098",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "AREQUIPA",
+        "budgetMax": 1688875,
+        "budgetMin": 1407396,
+        "publishDate": "2026-02-07",
+        "deadline": "2026-03-16",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1099",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN HIERRO NEGRO EN PUENTE PEATONAL",
+        "agency": "GORE AREQUIPA",
+        "location": "PIURA",
+        "budgetMax": 3380940,
+        "budgetMin": 2817450,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-03-18",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en hierro negro en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1100",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE ESTRUCTURAS METÁLICAS EN ESTADIO MUNICIPAL",
+        "agency": "ESSALUD",
+        "location": "PIURA",
+        "budgetMax": 4793550,
+        "budgetMin": 3994625,
+        "publishDate": "2026-02-09",
+        "deadline": "2026-04-02",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de estructuras metálicas en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1101",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN ESTADIO MUNICIPAL",
+        "agency": "ESSALUD",
+        "location": "PUNO",
+        "budgetMax": 5864965,
+        "budgetMin": 4887471,
+        "publishDate": "2026-02-20",
+        "deadline": "2026-04-08",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1102",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "PETROPERU",
+        "location": "PIURA",
+        "budgetMax": 436428,
+        "budgetMin": 363690,
+        "publishDate": "2026-02-22",
+        "deadline": "2026-02-28",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1103",
+        "title": "REPARACIÓN DE PUENTE PEATONAL FIERRO EN ALMACÉN CENTRAL",
+        "agency": "MINEDU",
+        "location": "LA LIBERTAD",
+        "budgetMax": 3608262,
+        "budgetMin": 3006885,
+        "publishDate": "2026-01-28",
+        "deadline": "2026-03-24",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1104",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON HIERRO NEGRO EN ALMACÉN CENTRAL",
+        "agency": "MINEDU",
+        "location": "ANCASH",
+        "budgetMax": 5969011,
+        "budgetMin": 4974176,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-03-17",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con hierro negro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1105",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "ESSALUD",
+        "location": "LIMA",
+        "budgetMax": 1744188,
+        "budgetMin": 1453490,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-03-11",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1106",
+        "title": "MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE METAL EN AVENIDA PRINCIPAL",
+        "agency": "MINEDU",
+        "location": "ANCASH",
+        "budgetMax": 4894676,
+        "budgetMin": 4078897,
+        "publishDate": "2026-01-30",
+        "deadline": "2026-02-27",
+        "description": "Este proceso requiere la ejecución de mantenimiento preventivo y correctivo de metal en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1107",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN HOSPITAL REGIONAL",
+        "agency": "PETROPERU",
+        "location": "PIURA",
+        "budgetMax": 3742398,
+        "budgetMin": 3118665,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-10",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1108",
+        "title": "ADQUISICIÓN DE PERFILES Y MATERIALES DE ALUMINIO EN ALMACÉN CENTRAL",
+        "agency": "PETROPERU",
+        "location": "NACIONAL",
+        "budgetMax": 667677,
+        "budgetMin": 556398,
+        "publishDate": "2026-01-26",
+        "deadline": "2026-03-04",
+        "description": "Este proceso requiere la ejecución de adquisición de perfiles y materiales de aluminio en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1109",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ACERO EN PUENTE PEATONAL",
+        "agency": "ESSALUD",
+        "location": "PUNO",
+        "budgetMax": 5958474,
+        "budgetMin": 4965395,
+        "publishDate": "2026-02-18",
+        "deadline": "2026-04-05",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en acero en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1110",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA HIERRO NEGRO EN COLEGIO INTEGRADO",
+        "agency": "PROVIAS NACIONAL",
+        "location": "CUSCO",
+        "budgetMax": 852094,
+        "budgetMin": 710079,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-03-22",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para hierro negro en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1111",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN METAL EN ALMACÉN CENTRAL",
+        "agency": "GORE AREQUIPA",
+        "location": "PUNO",
+        "budgetMax": 2296897,
+        "budgetMin": 1914081,
+        "publishDate": "2026-02-14",
+        "deadline": "2026-04-03",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en metal en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1112",
+        "title": "CONSTRUCCIÓN DE TECHADO METÁLICO PARA ESTRUCTURAS METÁLICAS EN COLEGIO INTEGRADO",
+        "agency": "PROVIAS NACIONAL",
+        "location": "PIURA",
+        "budgetMax": 4010278,
+        "budgetMin": 3341899,
+        "publishDate": "2026-01-27",
+        "deadline": "2026-04-05",
+        "description": "Este proceso requiere la ejecución de construcción de techado metálico para estructuras metálicas en colegio integrado cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1113",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE FIERRO EN ALMACÉN CENTRAL",
+        "agency": "MUNI TRUJILLO",
+        "location": "CALLAO",
+        "budgetMax": 1027730,
+        "budgetMin": 856442,
+        "publishDate": "2026-01-25",
+        "deadline": "2026-03-13",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de fierro en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1114",
+        "title": "MEJORAMIENTO DEL SERVICIO DE TRANSITABILIDAD CON ESTRUCTURAS METÁLICAS EN AVENIDA PRINCIPAL",
+        "agency": "PETROPERU",
+        "location": "PIURA",
+        "budgetMax": 2857474,
+        "budgetMin": 2381229,
+        "publishDate": "2026-01-31",
+        "deadline": "2026-03-14",
+        "description": "Este proceso requiere la ejecución de mejoramiento del servicio de transitabilidad con estructuras metálicas en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1115",
+        "title": "REPARACIÓN DE PUENTE PEATONAL METAL EN AVENIDA PRINCIPAL",
+        "agency": "ESSALUD",
+        "location": "LIMA",
+        "budgetMax": 5330553,
+        "budgetMin": 4442128,
+        "publishDate": "2026-02-20",
+        "deadline": "2026-04-04",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal metal en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1116",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ESTRUCTURAS METÁLICAS EN ALMACÉN CENTRAL",
+        "agency": "PETROPERU",
+        "location": "PIURA",
+        "budgetMax": 4376818,
+        "budgetMin": 3647349,
+        "publishDate": "2026-02-04",
+        "deadline": "2026-03-15",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal estructuras metálicas en almacén central cumpliendo con las normas técnicas vigentes.",
+        "match": 75,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1117",
+        "title": "REHABILITACIÓN DE ESTRUCTURAS EN ESTRUCTURAS METÁLICAS EN AVENIDA PRINCIPAL",
+        "agency": "GORE AREQUIPA",
+        "location": "AREQUIPA",
+        "budgetMax": 3481861,
+        "budgetMin": 2901551,
+        "publishDate": "2026-02-12",
+        "deadline": "2026-03-11",
+        "description": "Este proceso requiere la ejecución de rehabilitación de estructuras en estructuras metálicas en avenida principal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1118",
+        "title": "REPARACIÓN DE PUENTE PEATONAL ALUMINIO EN HOSPITAL REGIONAL",
+        "agency": "MUNI LIMA",
+        "location": "LA LIBERTAD",
+        "budgetMax": 4790030,
+        "budgetMin": 3991692,
+        "publishDate": "2026-02-08",
+        "deadline": "2026-03-11",
+        "description": "Este proceso requiere la ejecución de reparación de puente peatonal aluminio en hospital regional cumpliendo con las normas técnicas vigentes.",
+        "match": 25,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1119",
+        "title": "SUMINISTRO DE PANELES Y CERCOS DE HIERRO NEGRO EN ESTADIO MUNICIPAL",
+        "agency": "GORE CUSCO",
+        "location": "NACIONAL",
+        "budgetMax": 735940,
+        "budgetMin": 613284,
+        "publishDate": "2026-02-16",
+        "deadline": "2026-02-26",
+        "description": "Este proceso requiere la ejecución de suministro de paneles y cercos de hierro negro en estadio municipal cumpliendo con las normas técnicas vigentes.",
+        "match": 0,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    },
+    {
+        "id": "LP-2024-1120",
+        "title": "EQUIPAMIENTO DE ALMACÉN CON RACKS DE METAL EN PUENTE PEATONAL",
+        "agency": "MINEDU",
+        "location": "AREQUIPA",
+        "budgetMax": 4619906,
+        "budgetMin": 3849922,
+        "publishDate": "2026-02-17",
+        "deadline": "2026-03-18",
+        "description": "Este proceso requiere la ejecución de equipamiento de almacén con racks de metal en puente peatonal cumpliendo con las normas técnicas vigentes.",
+        "match": 50,
+        "cubso": "7215",
+        "requirements": [
+            "RNP Vigente",
+            "Experiencia de 2 años",
+            "Certificación ISO opcional"
+        ]
+    }
+];
