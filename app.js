@@ -34,17 +34,19 @@ function loadProfileUI() {
 
 window.openOnboarding = () => {
     const p = getProfile();
-    const f = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
-    f('profileCompany', p.company);
-    f('profileSector', p.sector);
-    f('profileKeywords', p.keywords);
+    const f = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+    f('profileCompany', p.company || '');
+    f('profileSector', p.sector || 'metal');
+    f('profileKeywords', p.keywords || '');
     f('profileCapacity', p.capacity || '1000000');
-    f('profileWebhook', p.webhookUrl);
-    document.getElementById('onboardingModal').classList.remove('hidden');
+    f('profileWebhook', p.webhookUrl || '');
+    const modal = document.getElementById('onboardingModal');
+    if (modal) modal.style.display = 'flex';
 };
 
 window.closeOnboarding = () => {
-    document.getElementById('onboardingModal').classList.add('hidden');
+    const modal = document.getElementById('onboardingModal');
+    if (modal) modal.style.display = 'none';
 };
 
 window.saveProfile = () => {
@@ -59,7 +61,12 @@ window.saveProfile = () => {
     localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
     loadProfileUI();
     closeOnboarding();
-    showToast('success', `Perfil de "${profile.company || 'tu empresa'}" guardado. El motor de Match está calibrado.`);
+    // Recalculate match for all data based on new keywords
+    if (currentData.length && profile.keywords) {
+        recalcMatchScores(profile);
+        applyFilters();
+    }
+    showToast('success', `✅ Perfil de "${profile.company || 'tu empresa'}" guardado. Match recalculado.`);
 };
 
 // First-time onboarding check
@@ -71,8 +78,88 @@ setTimeout(() => {
 // ============================
 // PRICING MODAL
 // ============================
-window.openPricing = () => document.getElementById('pricingModal').classList.remove('hidden');
-window.closePricing = () => document.getElementById('pricingModal').classList.add('hidden');
+window.openPricing = () => {
+    const modal = document.getElementById('pricingModal');
+    if (modal) modal.style.display = 'flex';
+};
+window.closePricing = () => {
+    const modal = document.getElementById('pricingModal');
+    if (modal) modal.style.display = 'none';
+};
+
+// ============================
+// SECTOR KEYWORD SUGGESTIONS (IA)
+// ============================
+const SECTOR_KEYWORDS = {
+    metal: {
+        keywords: 'acero, fierro, estructuras metálicas, fabricación metálica, baranda, tubería, plancha, soldadura, mantenimiento metal, galvanizado, perfiles metálicos',
+        tip: 'Incluye materiales como "acero corrugado", "tubería negra", y servicios como "fabricación", "montaje estructural".'
+    },
+    ti: {
+        keywords: 'software, hardware, licencias, soporte técnico, redes, servidores, ciberseguridad, nube, sistemas de información, desarrollo de software, mantenimiento TI',
+        tip: 'Incluye términos como "ERP", "gestión documental", "ciberseguridad" y marcas específicas que provees.'
+    },
+    construccion: {
+        keywords: 'construcción civil, obras civiles, edificación, concreto, cemento, ladrillo, techado, pavimento, carreteras, saneamiento, excavación, albañilería',
+        tip: 'Diferencia entre obras nuevas, rehabilitación y mantenimiento. Agrega tu especialidad (pistas, edificios, etc.).'
+    },
+    salud: {
+        keywords: 'insumos médicos, medicamentos, equipos médicos, oxígeno medicinal, reactivos, EPP médico, material de laboratorio, instrumental quirúrgico, bioseguridad',
+        tip: 'Incluye los códigos DIGEMID de tus productos y el tipo de establecimiento al que provees.'
+    },
+    consultoria: {
+        keywords: 'consultoría, supervisión, asesoría, estudio de factibilidad, expediente técnico, capacitación, auditoría, servicios profesionales, evaluación',
+        tip: 'Añade tu especialidad: legal, financiera, ambiental, ingeniería, etc. Los códigos CUBSO para servicios empiezan con S.'
+    },
+    electricidad: {
+        keywords: 'electricidad, transformadores, cables eléctricos, tableros eléctricos, luminarias, subestación, medidores, mantenimiento eléctrico, instalaciones eléctricas',
+        tip: 'Incluye voltajes y normativas (CNE, NTP) que maneja tu empresa para mayor precisión del Match.'
+    },
+    otro: {
+        keywords: '',
+        tip: 'Escribe las palabras que mejor describan tus productos o servicios. Piensa en los términos que usa el Estado para comprar lo que tú vendes.'
+    }
+};
+
+window.suggestKeywordsBySector = () => {
+    const sector = document.getElementById('profileSector')?.value || 'metal';
+    const suggestion = SECTOR_KEYWORDS[sector];
+    if (!suggestion) return;
+    const box = document.getElementById('sectorSuggestionBox');
+    const text = document.getElementById('sectorSuggestionText');
+    if (box && text) {
+        text.textContent = `"${suggestion.keywords}" — ${suggestion.tip}`;
+        box.style.display = 'block';
+    }
+};
+
+window.applySuggestion = () => {
+    const sector = document.getElementById('profileSector')?.value || 'metal';
+    const suggestion = SECTOR_KEYWORDS[sector];
+    if (!suggestion) return;
+    const kw = document.getElementById('profileKeywords');
+    if (kw && suggestion.keywords) kw.value = suggestion.keywords;
+    const box = document.getElementById('sectorSuggestionBox');
+    if (box) box.style.display = 'none';
+};
+
+// ============================
+// DYNAMIC MATCH RECALCULATION
+// ============================
+function recalcMatchScores(profile) {
+    if (!profile?.keywords) return;
+    const keywords = profile.keywords.split(/[,\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+    if (!keywords.length) return;
+
+    currentData.forEach(item => {
+        const hay = `${item.title} ${item.agency} ${item.description || ''} ${(item.requirements || []).join(' ')}`.toLowerCase();
+        const hits = keywords.filter(k => hay.includes(k)).length;
+        const ratio = hits / keywords.length;
+        // Score: 0-24 none, 25-49 low, 50-74 medium, 75-100 high
+        item.match = hits === 0 ? 0 : Math.min(100, Math.round(25 + ratio * 75));
+    });
+}
+
 
 // ============================
 // BID / NO-BID ENGINE

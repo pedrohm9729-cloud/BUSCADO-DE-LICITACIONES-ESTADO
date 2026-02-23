@@ -1057,58 +1057,92 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- ONBOARDING / COMPANY PROFILE MODAL -->
-    <div id="onboardingModal"
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div class="px-8 pt-8 pb-4">
-                <div class="flex items-center gap-3 mb-1">
-                    <div class="p-2 bg-primary/10 rounded-xl"><span
-                            class="material-symbols-outlined text-primary">business</span></div>
-                    <div>
-                        <h2 class="text-xl font-black text-slate-900 dark:text-white">Perfil de tu Empresa</h2>
-                        <p class="text-xs text-slate-500">Calibra el motor de Match para tu rubro</p>
+    <div id="onboardingModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
+        style="background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;">
+        <div
+            style="background:#ffffff;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,0.35);width:100%;max-width:540px;max-height:90vh;overflow-y:auto;">
+            <!-- Header -->
+            <div style="padding:28px 32px 16px;border-bottom:1px solid #e2e8f0;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="background:#eff6ff;padding:8px;border-radius:12px;">
+                        <span class="material-symbols-outlined" style="color:#135bec;">business</span>
                     </div>
+                    <div>
+                        <h2 style="font-size:18px;font-weight:900;color:#0f172a;margin:0;">Perfil de tu Empresa</h2>
+                        <p style="font-size:12px;color:#64748b;margin:2px 0 0;">Calibra el motor de Match para tu rubro
+                        </p>
+                    </div>
+                    <button onclick="closeOnboarding()"
+                        style="margin-left:auto;padding:6px;border:none;background:transparent;cursor:pointer;color:#94a3b8;border-radius:8px;"><span
+                            class="material-symbols-outlined">close</span></button>
                 </div>
             </div>
-            <div class="px-8 pb-8 space-y-5">
+            <!-- Body -->
+            <div style="padding:24px 32px 32px;display:flex;flex-direction:column;gap:20px;">
                 <!-- Nombre -->
                 <div>
-                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Nombre de la
-                        Empresa</label>
+                    <label
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px;">Nombre
+                        de la Empresa</label>
                     <input id="profileCompany" type="text" placeholder="Ej: INPROMETAL SAC"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" />
+                        style="width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:600;color:#0f172a;background:#fff;outline:none;box-sizing:border-box;"
+                        onfocus="this.style.borderColor='#135bec'" onblur="this.style.borderColor='#e2e8f0'" />
                 </div>
-                <!-- Sector -->
+                <!-- Sector + AI Suggest -->
                 <div>
-                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Sector /
-                        Rubro Principal</label>
-                    <select id="profileSector"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
-                        <option value="metal">Metalmecánica / Estructuras Metálicas</option>
-                        <option value="ti">Tecnología de la Información (TI)</option>
-                        <option value="construccion">Construcción Civil</option>
-                        <option value="salud">Insumos Médicos / Salud</option>
-                        <option value="consultoria">Consultoría / Servicios Profesionales</option>
-                        <option value="electricidad">Electricidad / Suministro Eléctrico</option>
-                        <option value="otro">Otro Rubro</option>
-                    </select>
+                    <label
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px;">Sector
+                        / Rubro Principal</label>
+                    <div style="display:flex;gap:8px;">
+                        <select id="profileSector" onchange="suggestKeywordsBySector()"
+                            style="flex:1;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:600;color:#0f172a;background:#fff;outline:none;cursor:pointer;">
+                            <option value="metal">Metalmecánica / Estructuras Metálicas</option>
+                            <option value="ti">Tecnología de la Información (TI)</option>
+                            <option value="construccion">Construcción Civil</option>
+                            <option value="salud">Insumos Médicos / Salud</option>
+                            <option value="consultoria">Consultoría / Servicios Profesionales</option>
+                            <option value="electricidad">Electricidad / Suministro Eléctrico</option>
+                            <option value="otro">Otro Rubro</option>
+                        </select>
+                        <button onclick="suggestKeywordsBySector()" title="IA: sugerir keywords para este sector"
+                            style="padding:12px 14px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;cursor:pointer;color:#135bec;font-size:12px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:4px;">
+                            <span class="material-symbols-outlined" style="font-size:16px;">auto_awesome</span> IA
+                        </button>
+                    </div>
+                    <!-- AI Suggestion Box -->
+                    <div id="sectorSuggestionBox"
+                        style="display:none;margin-top:8px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;">
+                        <p style="font-size:11px;font-weight:700;color:#0284c7;margin:0 0 4px;">&#x2728; Sugerencia IA
+                            para tu sector:</p>
+                        <p id="sectorSuggestionText" style="font-size:12px;color:#0369a1;margin:0;"></p>
+                        <button onclick="applySuggestion()"
+                            style="margin-top:8px;padding:4px 12px;background:#0284c7;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">Aplicar
+                            sugerencia</button>
+                    </div>
                 </div>
                 <!-- CUBSO / Keywords -->
                 <div>
-                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Palabras
-                        Clave / Códigos CUBSO</label>
+                    <label
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px;">
+                        Palabras Clave / Códigos CUBSO
+                        <span
+                            style="font-size:10px;font-weight:600;color:#94a3b8;text-transform:none;letter-spacing:0;">
+                            — definen tu % de Match</span>
+                    </label>
                     <textarea id="profileKeywords" rows="3"
                         placeholder="Ej: acero, fierro, estructuras, baranda, fabricación metálica..."
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none resize-none"></textarea>
-                    <p class="text-[10px] text-slate-400 mt-1">Estos términos calibran el % de Match mostrado en
-                        resultados.</p>
+                        style="width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:600;color:#0f172a;background:#fff;outline:none;resize:none;box-sizing:border-box;font-family:inherit;"
+                        onfocus="this.style.borderColor='#135bec'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    <p style="font-size:11px;color:#94a3b8;margin:4px 0 0;">&#128161; El sistema compara estas palabras
+                        con los títulos y descripciones de cada licitación. Más coincidencias = mayor Match %.</p>
                 </div>
                 <!-- Capacidad máxima -->
                 <div>
-                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Capacidad
+                    <label
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px;">Capacidad
                         Máx. de Contrato (S/)</label>
                     <select id="profileCapacity"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
+                        style="width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:600;color:#0f172a;background:#fff;outline:none;cursor:pointer;box-sizing:border-box;">
                         <option value="200000">Hasta S/ 200,000</option>
                         <option value="500000">Hasta S/ 500,000</option>
                         <option value="1000000" selected>Hasta S/ 1,000,000</option>
@@ -1118,134 +1152,234 @@
                 </div>
                 <!-- Webhooks -->
                 <div>
-                    <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Webhook
-                        (Make.com / Zapier)</label>
+                    <label
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px;">Webhook
+                        (Make.com / Zapier) <span style="font-weight:600;color:#94a3b8;text-transform:none;">—
+                            opcional</span></label>
                     <input id="profileWebhook" type="url" placeholder="https://hook.make.com/tu-url"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none font-mono" />
-                    <p class="text-[10px] text-slate-400 mt-1">Se activa automáticamente al mover una licitación a "En
-                        Cotización".</p>
+                        style="width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:13px;font-weight:600;color:#0f172a;background:#fff;outline:none;font-family:monospace;box-sizing:border-box;"
+                        onfocus="this.style.borderColor='#135bec'" onblur="this.style.borderColor='#e2e8f0'" />
+                    <p style="font-size:11px;color:#94a3b8;margin:4px 0 0;">Se activa automáticamente al mover una
+                        licitación a "En Cotización".</p>
                 </div>
                 <!-- Buttons -->
-                <div class="flex gap-3 pt-2">
+                <div style="display:flex;gap:12px;padding-top:4px;">
                     <button onclick="closeOnboarding()"
-                        class="flex-1 py-3 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">
-                        Cancelar
-                    </button>
+                        style="flex:1;padding:14px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:700;color:#475569;background:#fff;cursor:pointer;transition:background .2s;"
+                        onmouseover="this.style.background='#f8fafc'"
+                        onmouseout="this.style.background='#fff'">Cancelar</button>
                     <button onclick="saveProfile()"
-                        class="flex-1 py-3 bg-primary text-white rounded-xl text-sm font-black hover:bg-blue-700 transition-all shadow-lg shadow-primary/20">
-                        Guardar Perfil
-                    </button>
+                        style="flex:1;padding:14px;background:#135bec;border:none;border-radius:12px;font-size:14px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(19,91,236,0.3);transition:background .2s;"
+                        onmouseover="this.style.background='#1d4ed8'"
+                        onmouseout="this.style.background='#135bec'">Guardar Perfil</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="px-8 pt-8 pb-4">
+        <div class="flex items-center gap-3 mb-1">
+            <div class="p-2 bg-primary/10 rounded-xl"><span
+                    class="material-symbols-outlined text-primary">business</span></div>
+            <div>
+                <h2 class="text-xl font-black text-slate-900 dark:text-white">Perfil de tu Empresa</h2>
+                <p class="text-xs text-slate-500">Calibra el motor de Match para tu rubro</p>
+            </div>
+        </div>
+    </div>
+    <div class="px-8 pb-8 space-y-5">
+        <!-- Nombre -->
+        <div>
+            <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Nombre de la
+                Empresa</label>
+            <input id="profileCompany" type="text" placeholder="Ej: INPROMETAL SAC"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" />
+        </div>
+        <!-- Sector -->
+        <div>
+            <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Sector /
+                Rubro Principal</label>
+            <select id="profileSector"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
+                <option value="metal">Metalmecánica / Estructuras Metálicas</option>
+                <option value="ti">Tecnología de la Información (TI)</option>
+                <option value="construccion">Construcción Civil</option>
+                <option value="salud">Insumos Médicos / Salud</option>
+                <option value="consultoria">Consultoría / Servicios Profesionales</option>
+                <option value="electricidad">Electricidad / Suministro Eléctrico</option>
+                <option value="otro">Otro Rubro</option>
+            </select>
+        </div>
+        <!-- CUBSO / Keywords -->
+        <div>
+            <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Palabras
+                Clave / Códigos CUBSO</label>
+            <textarea id="profileKeywords" rows="3"
+                placeholder="Ej: acero, fierro, estructuras, baranda, fabricación metálica..."
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none resize-none"></textarea>
+            <p class="text-[10px] text-slate-400 mt-1">Estos términos calibran el % de Match mostrado en
+                resultados.</p>
+        </div>
+        <!-- Capacidad máxima -->
+        <div>
+            <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Capacidad
+                Máx. de Contrato (S/)</label>
+            <select id="profileCapacity"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-white">
+                <option value="200000">Hasta S/ 200,000</option>
+                <option value="500000">Hasta S/ 500,000</option>
+                <option value="1000000" selected>Hasta S/ 1,000,000</option>
+                <option value="5000000">Hasta S/ 5,000,000</option>
+                <option value="99999999">Sin límite</option>
+            </select>
+        </div>
+        <!-- Webhooks -->
+        <div>
+            <label class="text-xs font-black text-slate-500 uppercase tracking-widest block mb-1.5">Webhook
+                (Make.com / Zapier)</label>
+            <input id="profileWebhook" type="url" placeholder="https://hook.make.com/tu-url"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none font-mono" />
+            <p class="text-[10px] text-slate-400 mt-1">Se activa automáticamente al mover una licitación a "En
+                Cotización".</p>
+        </div>
+        <!-- Buttons -->
+        <div class="flex gap-3 pt-2">
+            <button onclick="closeOnboarding()"
+                class="flex-1 py-3 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">
+                Cancelar
+            </button>
+            <button onclick="saveProfile()"
+                class="flex-1 py-3 bg-primary text-white rounded-xl text-sm font-black hover:bg-blue-700 transition-all shadow-lg shadow-primary/20">
+                Guardar Perfil
+            </button>
+        </div>
+    </div>
+    </div>
+    </div>
+
     <!-- PRICING PLANS MODAL -->
-    <div id="pricingModal"
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div class="px-8 pt-8 pb-4 text-center border-b border-slate-100">
-                <div class="inline-flex items-center gap-2 text-primary mb-2">
+    <div id="pricingModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4"
+        style="background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;">
+        <div
+            style="background:#ffffff;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,0.35);width:100%;max-width:860px;max-height:90vh;overflow-y:auto;position:relative;">
+            <!-- Header -->
+            <div style="padding:28px 32px 20px;text-align:center;border-bottom:1px solid #e2e8f0;position:relative;">
+                <div style="display:inline-flex;align-items:center;gap:8px;color:#135bec;margin-bottom:8px;">
                     <span class="material-symbols-outlined">diamond</span>
-                    <span class="text-xs font-black uppercase tracking-widest">SaaS B2G</span>
+                    <span style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;">SaaS
+                        B2G</span>
                 </div>
-                <h2 class="text-2xl font-black text-slate-900">Elige tu Plan</h2>
-                <p class="text-sm text-slate-500 mt-1">Paga el costo de 1 licitación. Gana decenas.</p>
+                <h2 style="font-size:22px;font-weight:900;color:#0f172a;margin:0;">Elige tu Plan</h2>
+                <p style="font-size:14px;color:#64748b;margin:4px 0 0;">Paga el costo de 1 licitación. Gana decenas.</p>
                 <button onclick="closePricing()"
-                    class="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 text-slate-400">
+                    style="position:absolute;top:20px;right:20px;padding:6px;border:none;background:#f8fafc;border-radius:8px;cursor:pointer;color:#94a3b8;">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Plans Grid -->
+            <div style="padding:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
                 <!-- Basico -->
-                <div class="border border-slate-200 rounded-2xl p-6 flex flex-col">
-                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Básico</p>
-                    <p class="text-3xl font-black text-slate-900 mb-1">Gratis</p>
-                    <p class="text-xs text-slate-500 mb-6">14 días de prueba</p>
-                    <ul class="space-y-2.5 text-sm text-slate-600 flex-1">
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>20 búsquedas
-                            / mes</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Alertas con
-                            24h de retraso</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Match Algortitmico
-                        </li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Pipeline Kanban
-                        </li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>Webhooks / CRM
-                        </li>
+                <div
+                    style="border:1.5px solid #e2e8f0;border-radius:16px;padding:24px;display:flex;flex-direction:column;background:#fff;">
+                    <p
+                        style="font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;">
+                        Básico</p>
+                    <p style="font-size:28px;font-weight:900;color:#0f172a;margin:0 0 2px;">Gratis</p>
+                    <p style="font-size:12px;color:#64748b;margin:0 0 20px;">14 días de prueba</p>
+                    <ul
+                        style="list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px;flex:1;">
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>20 búsquedas / mes</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>Alertas con 24h de retraso</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1;"><span
+                                class="material-symbols-outlined"
+                                style="color:#cbd5e1;font-size:16px;">cancel</span>Match Algorítmico</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1;"><span
+                                class="material-symbols-outlined"
+                                style="color:#cbd5e1;font-size:16px;">cancel</span>Pipeline Kanban</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1;"><span
+                                class="material-symbols-outlined"
+                                style="color:#cbd5e1;font-size:16px;">cancel</span>Webhooks / CRM</li>
                     </ul>
                     <button
-                        class="mt-6 w-full py-3 border-2 border-slate-200 rounded-xl text-sm font-bold hover:border-primary hover:text-primary transition-all">Empezar
+                        style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:12px;font-size:13px;font-weight:700;color:#475569;background:#fff;cursor:pointer;">Empezar
                         Gratis</button>
                 </div>
                 <!-- Pro -->
-                <div class="border-2 border-primary rounded-2xl p-6 flex flex-col relative shadow-xl shadow-primary/10">
+                <div
+                    style="border:2px solid #135bec;border-radius:16px;padding:24px;display:flex;flex-direction:column;background:#fff;position:relative;box-shadow:0 8px 30px rgba(19,91,236,0.12);">
                     <span
-                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black px-4 py-1 rounded-full">MÁS
+                        style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#135bec;color:#fff;font-size:10px;font-weight:800;padding:3px 14px;border-radius:20px;white-space:nowrap;">MÁS
                         POPULAR</span>
-                    <p class="text-xs font-black text-primary uppercase tracking-widest mb-2">Profesional</p>
-                    <div class="flex items-end gap-1 mb-1">
-                        <p class="text-3xl font-black text-slate-900">$69</p>
-                        <span class="text-sm text-slate-400 mb-1">USD/mes</span>
+                    <p
+                        style="font-size:11px;font-weight:800;color:#135bec;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;">
+                        Profesional</p>
+                    <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:2px;">
+                        <p style="font-size:28px;font-weight:900;color:#0f172a;margin:0;">$69</p>
+                        <span style="font-size:13px;color:#94a3b8;margin-bottom:3px;">USD/mes</span>
                     </div>
-                    <p class="text-xs text-slate-500 mb-6">Por usuario • Facturado anualmente</p>
-                    <ul class="space-y-2.5 text-sm text-slate-600 flex-1">
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Búsquedas
-                            ilimitadas</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Alertas en
-                            tiempo real</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Motor de
-                            Match multi-rubro</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-500 text-sm">check_circle</span>Pipeline
-                            Kanban completo</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-slate-300 text-sm">cancel</span>API / Webhooks
-                            avanzados</li>
+                    <p style="font-size:12px;color:#64748b;margin:0 0 20px;">Por usuario • Facturado anualmente</p>
+                    <ul
+                        style="list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px;flex:1;">
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>Búsquedas ilimitadas</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>Alertas en tiempo real</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>Motor de Match multi-rubro</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;"><span
+                                class="material-symbols-outlined"
+                                style="color:#22c55e;font-size:16px;">check_circle</span>Pipeline Kanban completo</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1;"><span
+                                class="material-symbols-outlined" style="color:#cbd5e1;font-size:16px;">cancel</span>API
+                            / Webhooks avanzados</li>
                     </ul>
                     <button
-                        class="mt-6 w-full py-3 bg-primary text-white rounded-xl text-sm font-black hover:bg-blue-700 transition-all shadow-md shadow-primary/25">Suscribirse</button>
+                        style="width:100%;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;color:#fff;background:#135bec;cursor:pointer;box-shadow:0 4px 14px rgba(19,91,236,0.3);">Suscribirse</button>
                 </div>
                 <!-- Enterprise -->
-                <div class="border border-slate-200 rounded-2xl p-6 flex flex-col bg-slate-900">
-                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Enterprise</p>
-                    <div class="flex items-end gap-1 mb-1">
-                        <p class="text-3xl font-black text-white">$249+</p>
-                        <span class="text-sm text-slate-400 mb-1">USD/mes</span>
+                <div
+                    style="border:1.5px solid #1e293b;border-radius:16px;padding:24px;display:flex;flex-direction:column;background:#0f172a;">
+                    <p
+                        style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;">
+                        Enterprise</p>
+                    <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:2px;">
+                        <p style="font-size:28px;font-weight:900;color:#ffffff;margin:0;">$249+</p>
+                        <span style="font-size:13px;color:#64748b;margin-bottom:3px;">USD/mes</span>
                     </div>
-                    <p class="text-xs text-slate-500 mb-6">Múltiples asientos • Marca Blanca</p>
-                    <ul class="space-y-2.5 text-sm text-slate-400 flex-1">
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Todo lo del
-                            Plan Pro</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Extractor IA
-                            de requisitos</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Webhooks a
-                            ERP / CRM</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>Matchmaking
-                            de Consorcios</li>
-                        <li class="flex items-center gap-2"><span
-                                class="material-symbols-outlined text-green-400 text-sm">check_circle</span>API + White
-                            Label Gremios</li>
+                    <p style="font-size:12px;color:#475569;margin:0 0 20px;">Múltiples asientos • Marca Blanca</p>
+                    <ul
+                        style="list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px;flex:1;">
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8;"><span
+                                class="material-symbols-outlined"
+                                style="color:#4ade80;font-size:16px;">check_circle</span>Todo lo del Plan Pro</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8;"><span
+                                class="material-symbols-outlined"
+                                style="color:#4ade80;font-size:16px;">check_circle</span>Extractor IA de requisitos</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8;"><span
+                                class="material-symbols-outlined"
+                                style="color:#4ade80;font-size:16px;">check_circle</span>Webhooks a ERP / CRM</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8;"><span
+                                class="material-symbols-outlined"
+                                style="color:#4ade80;font-size:16px;">check_circle</span>Matchmaking de Consorcios</li>
+                        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:#94a3b8;"><span
+                                class="material-symbols-outlined"
+                                style="color:#4ade80;font-size:16px;">check_circle</span>API + White Label Gremios</li>
                     </ul>
                     <button
-                        class="mt-6 w-full py-3 border border-slate-700 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-all">Contactar
+                        style="width:100%;padding:12px;border:1px solid #334155;border-radius:12px;font-size:13px;font-weight:700;color:#e2e8f0;background:transparent;cursor:pointer;">Contactar
                         Ventas</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Offline Banner -->
     <div id="offlineBanner"
