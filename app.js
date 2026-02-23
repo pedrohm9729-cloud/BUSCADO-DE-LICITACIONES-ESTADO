@@ -26,18 +26,29 @@ const toggleDiscard = (id) => {
     applyFilters();
 };
 
-async function loadData() {
+async function loadData(retryCount = 0) {
     showSkeleton(true);
     try {
+        if (!navigator.onLine) throw new Error('offline');
         const resp = await fetch('data.json');
-        if (!resp.ok) throw new Error('No data');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         currentData = await resp.json();
+        showToast('success', `${currentData.length} licitaciones cargadas correctamente.`);
         updateDashboardStats(currentData);
         updateSidebarBadges(currentData);
         updateTopMaterials(currentData);
         applyFilters();
     } catch (e) {
-        console.warn("Demo:", e);
+        if (e.message === 'offline') {
+            showToast('error', 'Sin conexión a internet.');
+            document.getElementById('offlineBanner')?.classList.remove('hidden');
+        } else if (retryCount < 2) {
+            showToast('warning', `Error al cargar datos. Reintentando en 5s... (${retryCount + 1}/3)`);
+            setTimeout(() => loadData(retryCount + 1), 5000);
+            return;
+        } else {
+            showToast('error', 'No se pudo conectar con el SEACE. Verifique su conexión.');
+        }
         currentData = [];
         applyFilters();
     }
@@ -126,11 +137,19 @@ const applyFilters = () => {
         const discarded = getDiscarded();
 
         let filtered = currentData.filter(item => {
-            // Excluir descartados
             if (discarded.includes(item.id)) return false;
             if (active && new Date(item.deadline) < new Date()) return false;
             const txt = `${item.title} ${item.agency} ${item.location} ${item.description || ''}`.toLowerCase();
-            if (search && !txt.includes(search)) return false;
+            // Búsqueda exacta con comillas: "fierro negro" busca la frase completa
+            if (search) {
+                const rawInput = document.getElementById('searchInput').value.trim();
+                if (rawInput.startsWith('"') && rawInput.endsWith('"')) {
+                    const exactPhrase = rawInput.slice(1, -1).toLowerCase();
+                    if (!txt.includes(exactPhrase)) return false;
+                } else {
+                    if (!txt.includes(search)) return false;
+                }
+            }
             if (region && item.location !== region) return false;
             const avg = (item.budgetMin + item.budgetMax) / 2;
             if (budget === 'viable' && (avg < 50000 || avg > 1000000)) return false;
@@ -202,7 +221,7 @@ const renderTable = (data) => {
         row.innerHTML = `
             <td class="py-4 px-6 sticky-col">
                 <div class="flex flex-col max-w-xs">
-                    <span class="text-sm font-bold ${isVisited ? 'text-slate-400' : 'text-slate-900 dark:text-white'} truncate group-hover:text-primary transition-colors" title="${item.title}">${item.title}</span>
+                    <span class="text-sm font-bold ${isVisited ? 'text-slate-400' : 'text-slate-900 dark:text-white'} truncate group-hover:text-primary transition-colors" title="${item.title}">${item.title}</span>${getProductionBadge(item)}
                     <span class="text-[10px] text-slate-400 font-mono mt-1">${item.id}</span>
                 </div>
             </td>
@@ -289,6 +308,12 @@ window.openDrawer = (id) => {
     document.getElementById('drawerBudget').innerText = formatPEN(item.budgetMax);
     document.getElementById('drawerDesc').innerText = item.description || 'Sin descripción.';
     document.getElementById('drawerFullLink').href = `detalle.html?id=${id}`;
+    updateSemaforo(item.budgetMax);
+    // Reset calculator
+    const calcM = document.getElementById('calcMateriales'); if (calcM) calcM.value = '';
+    const calcO = document.getElementById('calcManoObra'); if (calcO) calcO.value = '';
+    const calcR = document.getElementById('calcMargenText'); if (calcR) { calcR.innerText = '---'; calcR.className = 'text-2xl font-black text-slate-300'; }
+
 
     const diff = daysDiff(item.deadline);
     const badge = document.getElementById('drawerBadge');
@@ -479,6 +504,74 @@ window.generarPreCotizacion = () => {
     alert(`✅ Pre-Cotización generada para:\n\n"${item.title}"\n\nPresupuesto: ${formatPEN(item.budgetMax)}\nCosto Estimado: ${formatPEN(materiales + manoObra)}\nMargen: ${payload.costeo.margenEstimado}\n\nEn producción, esto se enviará automáticamente a su ERP/CRM.`);
 };
 
+// =========================
+// TOAST NOTIFICATIONS
+// =========================
+function showToast(type, message) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    const icons = { error: 'error', success: 'check_circle', warning: 'warning', info: 'info' };
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span class="material-symbols-outlined text-sm">${icons[type]}</span>${message}`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4500);
+}
+
+// =========================
+// SEMÁFORO FINANCIERO (Drawer)
+// =========================
+function updateSemaforo(budget) {
+    const el = document.getElementById('drawerSemaforo');
+    const icon = document.getElementById('semaforoIcon');
+    const text = document.getElementById('semaforoText');
+    if (!el) return;
+
+    if (!budget || budget === 0) { el.classList.add('hidden'); return; }
+    el.classList.remove('hidden');
+
+    const fianza = budget * 0.10; // 10% carta fianza estándar
+
+    if (fianza <= 50000) {
+        icon.className = 'material-symbols-outlined text-sm semaforo-verde';
+        text.className = 'font-bold semaforo-verde';
+        text.innerText = `Fianza estimada: ${formatPEN(fianza)} — Viable sin financiamiento`;
+    } else if (fianza <= 300000) {
+        icon.className = 'material-symbols-outlined text-sm semaforo-amarillo';
+        text.className = 'font-bold semaforo-amarillo';
+        text.innerText = `Fianza estimada: ${formatPEN(fianza)} — Evaluar liquidez disponible`;
+    } else {
+        icon.className = 'material-symbols-outlined text-sm semaforo-rojo';
+        text.className = 'font-bold semaforo-rojo';
+        text.innerText = `Fianza estimada: ${formatPEN(fianza)} — Requiere consorcio o SGR`;
+    }
+}
+
+// =========================
+// BADGE "MATCH EXACTO" en filas
+// =========================
+function getProductionBadge(item) {
+    const exactTerms = ['fierro negro', 'acero estructural', 'encofrado', 'perfil metálico', 'plancha de acero', 'soldadura'];
+    const txt = `${item.title} ${item.description || ''}`.toLowerCase();
+    const found = exactTerms.filter(t => txt.includes(t));
+    if (found.length > 0) {
+        return `<span class="px-1.5 py-0.5 bg-purple-100 text-purple-700 text-[9px] font-bold rounded-full ml-1" title="Coincide con: ${found.join(', ')}">MATCH EXACTO</span>`;
+    }
+    return '';
+}
+
+// =========================
+// DETECCIÓN ONLINE/OFFLINE
+// =========================
+window.addEventListener('online', () => {
+    document.getElementById('offlineBanner')?.classList.add('hidden');
+    showToast('success', 'Conexión restaurada.');
+});
+window.addEventListener('offline', () => {
+    document.getElementById('offlineBanner')?.classList.remove('hidden');
+    showToast('error', 'Conexión perdida.');
+});
+
 // === EVENTS ===
 document.getElementById('searchBtn')?.addEventListener('click', applyFilters);
 document.getElementById('activeOnlyToggle')?.addEventListener('change', applyFilters);
@@ -486,4 +579,3 @@ document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
 document.getElementById('searchInput')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilters(); });
 
 document.addEventListener('DOMContentLoaded', loadData);
-
