@@ -1,13 +1,131 @@
 // ==========================================
-// SEACE - MOTOR v5.0 (Operatividad Comercial)
-// Calculadora, Materiales, Pre-Cotización,
-// Edge cases, Sanitización
+// SEACE - MOTOR v6.0 (Pipeline + Kanban)
+// Pipeline comercial, Kanban, Webhook, UX
 // ==========================================
 
 let currentData = [];
 let lastFiltered = []; // Para exportar CSV
 let isSearching = false;
 let currentDrawerId = null;
+
+// ============================
+// PIPELINE (Kanban)
+// ============================
+const PIPELINE_KEY = 'seace_pipeline';
+const STAGES = ['evaluar', 'cotizar', 'presentada', 'adjudicada'];
+const STAGE_LABELS = { evaluar: 'Por Evaluar', cotizar: 'En Cotización', presentada: 'Presentada', adjudicada: 'Adjudicada' };
+const STAGE_COLORS = { evaluar: 'blue', cotizar: 'amber', presentada: 'purple', adjudicada: 'green' };
+
+function getPipeline() {
+    return JSON.parse(localStorage.getItem(PIPELINE_KEY) || '{}');
+}
+
+function savePipeline(data) {
+    localStorage.setItem(PIPELINE_KEY, JSON.stringify(data));
+}
+
+window.setPipelineStage = (stage) => {
+    if (!currentDrawerId) return;
+    const item = currentData.find(d => d.id === currentDrawerId);
+    if (!item) return;
+
+    const pipeline = getPipeline();
+    pipeline[currentDrawerId] = {
+        stage,
+        id: item.id,
+        title: item.title,
+        agency: item.agency,
+        budget: item.budgetMax,
+        deadline: item.deadline,
+        match: item.match,
+        addedAt: pipeline[currentDrawerId]?.addedAt || new Date().toISOString()
+    };
+    savePipeline(pipeline);
+
+    // Highlight active button
+    document.querySelectorAll('.pipeline-stage-btn').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-1', 'ring-blue-400', 'ring-amber-400', 'ring-purple-400', 'ring-green-400');
+    });
+    const activeBtn = document.querySelector(`[onclick="setPipelineStage('${stage}')"]`);
+    if (activeBtn) activeBtn.classList.add('ring-2', 'ring-offset-1', `ring-${STAGE_COLORS[stage]}-400`);
+
+    const status = document.getElementById('drawerPipelineStatus');
+    if (status) {
+        status.textContent = `✓ Agregado a "${STAGE_LABELS[stage]}"`;
+        status.classList.remove('hidden');
+    }
+
+    updatePipelineBadge();
+    showToast('success', `Licitación movida a "${STAGE_LABELS[stage]}".`);
+};
+
+function updatePipelineBadge() {
+    const count = Object.keys(getPipeline()).length;
+    const badge = document.getElementById('badgePipeline');
+    if (badge) badge.textContent = count;
+}
+
+function renderKanban() {
+    const pipeline = getPipeline();
+    const byStage = { evaluar: [], cotizar: [], presentada: [], adjudicada: [] };
+
+    Object.values(pipeline).forEach(item => {
+        if (byStage[item.stage]) byStage[item.stage].push(item);
+    });
+
+    STAGES.forEach(stage => {
+        const col = document.getElementById(`kanban${stage.charAt(0).toUpperCase() + stage.slice(1)}`);
+        const counter = document.getElementById(`count${stage.charAt(0).toUpperCase() + stage.slice(1)}`);
+        if (!col) return;
+
+        const items = byStage[stage];
+        if (counter) counter.textContent = items.length;
+
+        if (!items.length) {
+            col.innerHTML = `<p class="text-[11px] text-slate-300 text-center pt-6 italic">Sin procesos aquí</p>`;
+            return;
+        }
+
+        col.innerHTML = items.map(item => {
+            const diff = daysDiff(item.deadline);
+            const urgent = diff >= 0 && diff <= 3;
+            const closed = diff < 0;
+            return `
+            <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                onclick="openDrawer('${item.id}'); switchView('search');">
+                <p class="text-[10px] font-mono text-slate-400 mb-1">${item.id}</p>
+                <p class="text-xs font-bold text-slate-800 leading-snug mb-2 group-hover:text-primary transition-colors">${item.title}</p>
+                <p class="text-[10px] text-slate-500 mb-3">${item.agency}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-black tabular-nums text-slate-700">${formatPEN(item.budget)}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${urgent ? 'bg-orange-100 text-orange-600' : closed ? 'bg-slate-100 text-slate-400' : 'bg-green-100 text-green-700'}">
+                        ${closed ? 'Cerrada' : urgent ? '⚡ ' + diff + 'd' : diff + ' días'}
+                    </span>
+                </div>
+                <button onclick="event.stopPropagation(); removePipelineItem('${item.id}')" 
+                    class="mt-2 w-full text-[10px] text-slate-300 hover:text-red-400 transition-colors text-center">
+                    Quitar del pipeline
+                </button>
+            </div>`;
+        }).join('');
+    });
+
+    const total = Object.keys(pipeline).length;
+    const totalEl = document.getElementById('pipelineTotal');
+    if (totalEl) totalEl.textContent = `${total} proceso${total !== 1 ? 's' : ''} activo${total !== 1 ? 's' : ''}`;
+}
+
+window.removePipelineItem = (id) => {
+    const pipeline = getPipeline();
+    delete pipeline[id];
+    savePipeline(pipeline);
+    renderKanban();
+    updatePipelineBadge();
+    showToast('info', 'Licitación eliminada del pipeline.');
+};
+
+// Recarga el kanban al abrir la vista
+const _origSwitchView = window.switchView;
 
 // Track visited rows
 const getVisited = () => JSON.parse(localStorage.getItem('visited') || '[]');
@@ -26,32 +144,89 @@ const toggleDiscard = (id) => {
     applyFilters();
 };
 
+function onDataLoaded(data) {
+    currentData = data;
+    showSkeleton(false);
+    showToast('success', `${currentData.length} licitaciones cargadas correctamente.`);
+    updateDashboardStats(currentData);
+    updateSidebarBadges(currentData);
+    updateTopMaterials(currentData);
+    applyFilters();
+}
+
+function loadDataViaXHR() {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.overrideMimeType('application/json');
+        xhr.open('GET', 'data.json', true);
+        xhr.onload = () => {
+            if (xhr.status === 200 || xhr.status === 0) {
+                try { resolve(JSON.parse(xhr.responseText)); } catch (e) { reject(e); }
+            } else { reject(new Error(`XHR ${xhr.status}`)); }
+        };
+        xhr.onerror = () => reject(new Error('XHR failed'));
+        xhr.send();
+    });
+}
+
 async function loadData(retryCount = 0) {
     showSkeleton(true);
+
+    // Strategy 1: If data was pre-loaded via script tag (window.SEACE_DATA)
+    if (window.SEACE_DATA && Array.isArray(window.SEACE_DATA)) {
+        onDataLoaded(window.SEACE_DATA);
+        return;
+    }
+
+    // Strategy 2: fetch API (works on servers / GitHub Pages)
     try {
-        if (!navigator.onLine) throw new Error('offline');
         const resp = await fetch('data.json');
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        currentData = await resp.json();
-        showToast('success', `${currentData.length} licitaciones cargadas correctamente.`);
-        updateDashboardStats(currentData);
-        updateSidebarBadges(currentData);
-        updateTopMaterials(currentData);
-        applyFilters();
-    } catch (e) {
-        if (e.message === 'offline') {
-            showToast('error', 'Sin conexión a internet.');
-            document.getElementById('offlineBanner')?.classList.remove('hidden');
-        } else if (retryCount < 2) {
-            showToast('warning', `Error al cargar datos. Reintentando en 5s... (${retryCount + 1}/3)`);
-            setTimeout(() => loadData(retryCount + 1), 5000);
-            return;
-        } else {
-            showToast('error', 'No se pudo conectar con el SEACE. Verifique su conexión.');
-        }
-        currentData = [];
-        applyFilters();
+        const data = await resp.json();
+        onDataLoaded(data);
+        return;
+    } catch (fetchErr) {
+        console.warn('Fetch failed, trying XHR fallback...', fetchErr.message);
     }
+
+    // Strategy 3: XMLHttpRequest (works with file:// in some browsers)
+    try {
+        const data = await loadDataViaXHR();
+        onDataLoaded(data);
+        return;
+    } catch (xhrErr) {
+        console.warn('XHR fallback failed, trying script injection...', xhrErr.message);
+    }
+
+    // Strategy 4: Script tag injection
+    try {
+        await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'data.js';
+            script.onload = () => {
+                if (window.SEACE_DATA && Array.isArray(window.SEACE_DATA)) {
+                    resolve();
+                } else { reject(new Error('data.js loaded but SEACE_DATA not found')); }
+            };
+            script.onerror = () => reject(new Error('data.js not found'));
+            document.head.appendChild(script);
+        });
+        onDataLoaded(window.SEACE_DATA);
+        return;
+    } catch (scriptErr) {
+        console.warn('Script injection fallback failed:', scriptErr.message);
+    }
+
+    // All strategies failed
+    if (retryCount < 1) {
+        showToast('warning', `Reintentando carga de datos... (${retryCount + 1}/2)`);
+        setTimeout(() => loadData(retryCount + 1), 3000);
+        return;
+    }
+    showToast('error', 'No se pudo cargar datos. Verifique su conexión o abra desde un servidor.');
+    currentData = [];
+    showSkeleton(false);
+    applyFilters();
 }
 
 // === SKELETON ===
@@ -66,13 +241,14 @@ function showSkeleton(show) {
 window.switchView = (v) => {
     document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
     document.getElementById(`${v}View`)?.classList.remove('hidden');
-    ['Dashboard', 'Search', 'Analytics'].forEach(id => {
+    ['Dashboard', 'Search', 'Analytics', 'Pipeline'].forEach(id => {
         const el = document.getElementById(`nav${id}`);
         if (!el) return;
         el.className = id.toLowerCase() === v
             ? 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors cursor-pointer'
             : 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors group cursor-pointer';
     });
+    if (v === 'pipeline') renderKanban();
 };
 
 // === DASHBOARD ===
@@ -150,7 +326,7 @@ const applyFilters = () => {
                     if (!txt.includes(search)) return false;
                 }
             }
-            if (region && item.location !== region) return false;
+            if (region && item.location.toLowerCase() !== region.toLowerCase()) return false;
             const avg = (item.budgetMin + item.budgetMax) / 2;
             if (budget === 'viable' && (avg < 50000 || avg > 1000000)) return false;
             if (budget === 'high' && avg <= 1000000) return false;
@@ -309,10 +485,21 @@ window.openDrawer = (id) => {
     document.getElementById('drawerDesc').innerText = item.description || 'Sin descripción.';
     document.getElementById('drawerFullLink').href = `detalle.html?id=${id}`;
     updateSemaforo(item.budgetMax);
-    // Reset calculator
-    const calcM = document.getElementById('calcMateriales'); if (calcM) calcM.value = '';
-    const calcO = document.getElementById('calcManoObra'); if (calcO) calcO.value = '';
-    const calcR = document.getElementById('calcMargenText'); if (calcR) { calcR.innerText = '---'; calcR.className = 'text-2xl font-black text-slate-300'; }
+
+    // Reset & sync pipeline stage buttons
+    const pipeline = getPipeline();
+    const currentStage = pipeline[id]?.stage || null;
+    document.querySelectorAll('.pipeline-stage-btn').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-1', 'ring-blue-400', 'ring-amber-400', 'ring-purple-400', 'ring-green-400');
+    });
+    const statusEl = document.getElementById('drawerPipelineStatus');
+    if (currentStage) {
+        const activeBtn = document.querySelector(`[onclick="setPipelineStage('${currentStage}')"]`);
+        if (activeBtn) activeBtn.classList.add('ring-2', 'ring-offset-1', `ring-${STAGE_COLORS[currentStage]}-400`);
+        if (statusEl) { statusEl.textContent = `✓ En "${STAGE_LABELS[currentStage]}"`; statusEl.classList.remove('hidden'); }
+    } else {
+        if (statusEl) statusEl.classList.add('hidden');
+    }
 
 
     const diff = daysDiff(item.deadline);
@@ -393,33 +580,41 @@ function sanitizeSearch(text) {
 }
 
 // =========================
-// CALCULADORA RÁPIDA DE RENTABILIDAD
+// COPIAR DATOS AL PORTAPAPELES
 // =========================
-window.calcMargen = () => {
-    const materiales = parseFloat(document.getElementById('calcMateriales')?.value) || 0;
-    const manoObra = parseFloat(document.getElementById('calcManoObra')?.value) || 0;
-    const budgetText = document.getElementById('drawerBudget')?.innerText || '0';
-    const presupuesto = parseFloat(budgetText.replace(/[^0-9]/g, '')) || 0;
+window.copiarDatos = () => {
+    if (!currentDrawerId) return;
+    const item = currentData.find(d => d.id === currentDrawerId);
+    if (!item) return;
+    const texto = `ID: ${item.id}\nTítulo: ${item.title}\nEntidad: ${item.agency}\nRegión: ${item.location}\nPresupuesto: ${formatPEN(item.budgetMax)}\nCierre: ${item.deadline}\nMatch: ${item.match}%`;
+    navigator.clipboard.writeText(texto).then(() => {
+        showToast('info', 'Datos copiados al portapapeles.');
+    }).catch(() => showToast('error', 'No se pudo copiar.'));
+};
 
-    const costoTotal = materiales + manoObra;
-    const resultado = document.getElementById('calcMargenText');
-
-    if (costoTotal === 0 || presupuesto === 0) {
-        resultado.innerText = '---';
-        resultado.className = 'text-2xl font-black text-slate-300';
-        return;
-    }
-
-    const margen = ((presupuesto - costoTotal) / presupuesto) * 100;
-    resultado.innerText = `${margen.toFixed(1)}%`;
-
-    if (margen >= 25) {
-        resultado.className = 'text-2xl font-black text-green-600';
-    } else if (margen >= 10) {
-        resultado.className = 'text-2xl font-black text-amber-500';
-    } else {
-        resultado.className = 'text-2xl font-black text-red-500';
-    }
+// =========================
+// WEBHOOK (SIMULADO — listo para conectar)
+// =========================
+window.enviarWebhook = () => {
+    if (!currentDrawerId) return;
+    const item = currentData.find(d => d.id === currentDrawerId);
+    if (!item) return;
+    const payload = {
+        tipo: 'LICITACION_CRM',
+        fecha: new Date().toISOString(),
+        id: item.id,
+        titulo: item.title,
+        agencia: item.agency,
+        region: item.location,
+        presupuesto: item.budgetMax,
+        cierre: item.deadline,
+        match: item.match,
+        empresa: 'INPROMETAL SAC'
+    };
+    // TODO: Conectar a Make.com/Zapier:
+    // fetch('https://hook.make.com/TU_WEBHOOK', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    console.log('📤 Webhook payload:', JSON.stringify(payload, null, 2));
+    showToast('success', `"${item.id}" enviado al CRM. (Modo simulación)`);
 };
 
 // =========================
@@ -432,7 +627,7 @@ function updateTopMaterials(data) {
     const keywords = [
         { term: 'acero', label: 'Acero Estructural', icon: '🔩' },
         { term: 'fierro', label: 'Fierro Negro', icon: '⚙️' },
-        { term: 'metál', label: 'Estructuras Metálicas', icon: '🏗️' },
+        { term: 'metal', label: 'Estructuras Metálicas', icon: '🏗️' },
         { term: 'puente', label: 'Puentes / Reticulados', icon: '🌉' },
         { term: 'techo', label: 'Techados / Coberturas', icon: '🏠' },
         { term: 'baranda', label: 'Barandas / Cercos', icon: '🚧' },
@@ -467,42 +662,7 @@ function updateTopMaterials(data) {
     }).join('');
 }
 
-// =========================
-// GENERAR PRE-COTIZACIÓN (Webhook)
-// =========================
-window.generarPreCotizacion = () => {
-    if (!currentDrawerId) return;
-    const item = currentData.find(d => d.id === currentDrawerId);
-    if (!item) return;
 
-    const materiales = parseFloat(document.getElementById('calcMateriales')?.value) || 0;
-    const manoObra = parseFloat(document.getElementById('calcManoObra')?.value) || 0;
-
-    const payload = {
-        tipo: 'PRE_COTIZACION',
-        fecha: new Date().toISOString(),
-        proyecto: {
-            id: item.id,
-            titulo: item.title,
-            agencia: item.agency,
-            region: item.location,
-            presupuesto: item.budgetMax,
-            cierre: item.deadline,
-            match: item.match,
-        },
-        costeo: {
-            materiales: materiales,
-            manoObra: manoObra,
-            costoTotal: materiales + manoObra,
-            margenEstimado: item.budgetMax > 0 ? (((item.budgetMax - materiales - manoObra) / item.budgetMax) * 100).toFixed(1) + '%' : 'N/A'
-        },
-        empresa: 'INPROMETAL SAC'
-    };
-
-    console.log('📋 Pre-Cotización generada:', JSON.stringify(payload, null, 2));
-    // Future: fetch('https://hook.make.com/xxx', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    alert(`✅ Pre-Cotización generada para:\n\n"${item.title}"\n\nPresupuesto: ${formatPEN(item.budgetMax)}\nCosto Estimado: ${formatPEN(materiales + manoObra)}\nMargen: ${payload.costeo.margenEstimado}\n\nEn producción, esto se enviará automáticamente a su ERP/CRM.`);
-};
 
 // =========================
 // TOAST NOTIFICATIONS
@@ -578,4 +738,7 @@ document.getElementById('activeOnlyToggle')?.addEventListener('change', applyFil
 document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
 document.getElementById('searchInput')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilters(); });
 
-document.addEventListener('DOMContentLoaded', loadData);
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    updatePipelineBadge();
+});
