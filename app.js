@@ -1,7 +1,7 @@
 // ==========================================
-// SEACE - MOTOR v4.0 (Enterprise Audit)
-// Tabular nums, relative dates, visited,
-// CSV export, action menu, triage
+// SEACE - MOTOR v5.0 (Operatividad Comercial)
+// Calculadora, Materiales, Pre-Cotización,
+// Edge cases, Sanitización
 // ==========================================
 
 let currentData = [];
@@ -34,6 +34,7 @@ async function loadData() {
         currentData = await resp.json();
         updateDashboardStats(currentData);
         updateSidebarBadges(currentData);
+        updateTopMaterials(currentData);
         applyFilters();
     } catch (e) {
         console.warn("Demo:", e);
@@ -117,7 +118,7 @@ const applyFilters = () => {
     btn.disabled = true;
 
     setTimeout(() => {
-        const search = document.getElementById('searchInput').value.toLowerCase();
+        const search = sanitizeSearch(document.getElementById('searchInput').value);
         const region = document.getElementById('regionSelect').value;
         const active = document.getElementById('activeOnlyToggle').checked;
         const budget = budgetSelect.value;
@@ -349,9 +350,134 @@ function updateDrawerFollowBtn(isFollowing) {
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
 
-// === UTILS ===
-function formatPEN(v) { return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 }).format(v); }
+// =========================
+// UTILIDADES (con edge cases)
+// =========================
+function formatPEN(v) {
+    // Edge case: presupuesto nulo, undefined o 0
+    if (v === null || v === undefined || isNaN(v) || v === 0) {
+        return 'Valor Reservado';
+    }
+    return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 0 }).format(v);
+}
 function daysDiff(d) { return Math.ceil((new Date(d) - new Date()) / 86400000); }
+
+// Sanitizar búsqueda (tolerancia a caracteres especiales)
+function sanitizeSearch(text) {
+    return text.replace(/[%&$<>"']/g, '').toLowerCase().trim();
+}
+
+// =========================
+// CALCULADORA RÁPIDA DE RENTABILIDAD
+// =========================
+window.calcMargen = () => {
+    const materiales = parseFloat(document.getElementById('calcMateriales')?.value) || 0;
+    const manoObra = parseFloat(document.getElementById('calcManoObra')?.value) || 0;
+    const budgetText = document.getElementById('drawerBudget')?.innerText || '0';
+    const presupuesto = parseFloat(budgetText.replace(/[^0-9]/g, '')) || 0;
+
+    const costoTotal = materiales + manoObra;
+    const resultado = document.getElementById('calcMargenText');
+
+    if (costoTotal === 0 || presupuesto === 0) {
+        resultado.innerText = '---';
+        resultado.className = 'text-2xl font-black text-slate-300';
+        return;
+    }
+
+    const margen = ((presupuesto - costoTotal) / presupuesto) * 100;
+    resultado.innerText = `${margen.toFixed(1)}%`;
+
+    if (margen >= 25) {
+        resultado.className = 'text-2xl font-black text-green-600';
+    } else if (margen >= 10) {
+        resultado.className = 'text-2xl font-black text-amber-500';
+    } else {
+        resultado.className = 'text-2xl font-black text-red-500';
+    }
+};
+
+// =========================
+// MATERIALES MÁS DEMANDADOS (Dashboard)
+// =========================
+function updateTopMaterials(data) {
+    const container = document.getElementById('topMaterials');
+    if (!container) return;
+
+    const keywords = [
+        { term: 'acero', label: 'Acero Estructural', icon: '🔩' },
+        { term: 'fierro', label: 'Fierro Negro', icon: '⚙️' },
+        { term: 'metál', label: 'Estructuras Metálicas', icon: '🏗️' },
+        { term: 'puente', label: 'Puentes / Reticulados', icon: '🌉' },
+        { term: 'techo', label: 'Techados / Coberturas', icon: '🏠' },
+        { term: 'baranda', label: 'Barandas / Cercos', icon: '🚧' },
+        { term: 'tuber', label: 'Tuberías', icon: '🔧' },
+        { term: 'panel', label: 'Paneles / Revestimiento', icon: '📐' },
+    ];
+
+    const counts = keywords.map(k => {
+        const count = data.filter(d =>
+            `${d.title} ${d.description || ''}`.toLowerCase().includes(k.term)
+        ).length;
+        return { ...k, count };
+    }).filter(k => k.count > 0).sort((a, b) => b.count - a.count).slice(0, 5);
+
+    const maxCount = counts[0]?.count || 1;
+
+    container.innerHTML = counts.map(k => {
+        const pct = Math.round((k.count / maxCount) * 100);
+        return `
+        <div class="flex items-center gap-3">
+            <span class="text-lg">${k.icon}</span>
+            <div class="flex-1">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-bold text-slate-700">${k.label}</span>
+                    <span class="text-[10px] font-bold text-slate-400">${k.count} procesos</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all" style="width: ${pct}%"></div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// =========================
+// GENERAR PRE-COTIZACIÓN (Webhook)
+// =========================
+window.generarPreCotizacion = () => {
+    if (!currentDrawerId) return;
+    const item = currentData.find(d => d.id === currentDrawerId);
+    if (!item) return;
+
+    const materiales = parseFloat(document.getElementById('calcMateriales')?.value) || 0;
+    const manoObra = parseFloat(document.getElementById('calcManoObra')?.value) || 0;
+
+    const payload = {
+        tipo: 'PRE_COTIZACION',
+        fecha: new Date().toISOString(),
+        proyecto: {
+            id: item.id,
+            titulo: item.title,
+            agencia: item.agency,
+            region: item.location,
+            presupuesto: item.budgetMax,
+            cierre: item.deadline,
+            match: item.match,
+        },
+        costeo: {
+            materiales: materiales,
+            manoObra: manoObra,
+            costoTotal: materiales + manoObra,
+            margenEstimado: item.budgetMax > 0 ? (((item.budgetMax - materiales - manoObra) / item.budgetMax) * 100).toFixed(1) + '%' : 'N/A'
+        },
+        empresa: 'INPROMETAL SAC'
+    };
+
+    console.log('📋 Pre-Cotización generada:', JSON.stringify(payload, null, 2));
+    // Future: fetch('https://hook.make.com/xxx', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    alert(`✅ Pre-Cotización generada para:\n\n"${item.title}"\n\nPresupuesto: ${formatPEN(item.budgetMax)}\nCosto Estimado: ${formatPEN(materiales + manoObra)}\nMargen: ${payload.costeo.margenEstimado}\n\nEn producción, esto se enviará automáticamente a su ERP/CRM.`);
+};
 
 // === EVENTS ===
 document.getElementById('searchBtn')?.addEventListener('click', applyFilters);
@@ -360,3 +486,4 @@ document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
 document.getElementById('searchInput')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilters(); });
 
 document.addEventListener('DOMContentLoaded', loadData);
+
