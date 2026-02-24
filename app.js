@@ -28,24 +28,33 @@ function loadProfileUI() {
     const p = getProfile();
     const nameEl = document.getElementById('sidebarCompanyName');
     const planEl = document.getElementById('sidebarPlan');
+    const badgeEl = document.getElementById('planBadge');
     const subtitleEl = document.getElementById('searchSubtitle');
+
     if (nameEl) nameEl.textContent = p.company || 'Mi Empresa';
     if (planEl) planEl.textContent = p.company ? 'Plan Profesional • Activo' : 'Plan Gratis • Configurar';
+    if (badgeEl) {
+        badgeEl.textContent = p.company ? 'PLAN PROFESIONAL' : 'PLAN GRATUITO';
+        badgeEl.className = p.company
+            ? 'px-3 py-1 bg-green-500 text-white text-[10px] font-black rounded-lg shadow-lg'
+            : 'px-3 py-1 bg-primary text-white text-[10px] font-black rounded-lg';
+    }
     if (subtitleEl) subtitleEl.textContent = p.company
-        ? `Encuentra oportunidades de gobierno relevantes para ${p.company}.`
-        : 'Encuentra oportunidades de gobierno relevantes para tu empresa.';
+        ? `Consultor de IA configurado para ${p.company}.`
+        : 'Consultor Inteligente de Licitaciones y Estrategia B2G.';
 }
 
 window.openOnboarding = () => {
     const p = getProfile();
     const f = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
     f('profileCompany', p.company || '');
+    f('profileRuc', p.ruc || '');
     f('profileSector', p.sector || 'metal');
     f('profileKeywords', p.keywords || '');
     f('profileCapacity', p.capacity || '1000000');
     f('profileWebhook', p.webhookUrl || '');
     const modal = document.getElementById('onboardingModal');
-    if (modal) modal.style.display = 'flex';
+    if (modal) { modal.style.display = 'flex'; modal.classList.remove('hidden'); }
 };
 
 window.closeOnboarding = () => {
@@ -57,6 +66,7 @@ window.saveProfile = () => {
     const g = (id) => document.getElementById(id)?.value?.trim() || '';
     const profile = {
         company: g('profileCompany'),
+        ruc: g('profileRuc'),
         sector: g('profileSector'),
         keywords: g('profileKeywords'),
         capacity: parseFloat(g('profileCapacity')) || 1000000,
@@ -65,6 +75,8 @@ window.saveProfile = () => {
     localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
     loadProfileUI();
     closeOnboarding();
+    if (window.closePaywall) closePaywall();
+    showToast('success', 'Perfil corporativo activado. Plan Profesional habilitado.');
     // Recalculate match for all data based on new keywords
     if (currentData.length && profile.keywords) {
         recalcMatchScores(profile);
@@ -934,12 +946,131 @@ window.openDrawer = (id) => {
     // Reset panel to collapsed each time
     document.getElementById('bidNoBidBody')?.classList.add('hidden');
 
+    // Reiniciar Pestañas
+    switchDrawerTab('info');
+
     const overlay = document.getElementById('drawerOverlay');
     const panel = document.getElementById('drawerPanel');
     overlay.classList.remove('hidden');
     setTimeout(() => { overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }, 10);
 };
 
+// ============================
+// AI CONSULTANT ENGINE (Tabs & Paywall)
+// ============================
+window.switchDrawerTab = (tab) => {
+    // UI Tabs underline
+    document.querySelectorAll('.drawer-tab').forEach(t => {
+        t.classList.remove('border-primary', 'text-primary');
+        t.classList.add('border-transparent', 'text-slate-400');
+    });
+    const activeTab = document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+    if (activeTab) {
+        activeTab.classList.remove('border-transparent', 'text-slate-400');
+        activeTab.classList.add('border-primary', 'text-primary');
+    }
+
+    // Sections visibility
+    document.querySelectorAll('.drawer-section').forEach(s => s.classList.add('hidden'));
+    document.getElementById(`section${tab.charAt(0).toUpperCase() + tab.slice(1)}`)?.classList.remove('hidden');
+};
+
+window.checkPremiumAccess = (feature) => {
+    const profile = getProfile();
+    if (!profile.company) {
+        document.getElementById('paywallModal').classList.remove('hidden');
+        document.getElementById('paywallModal').classList.add('flex');
+        return;
+    }
+    switchDrawerTab(feature);
+    if (feature === 'prices') runPriceIntelligenceIA();
+};
+
+window.closePaywall = () => {
+    const modal = document.getElementById('paywallModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+};
+
+// ============================
+// SIMULATED EXTRACTION (Market Pricing)
+// ============================
+function runPriceIntelligenceIA() {
+    if (!currentDrawerId) return;
+    const item = currentData.find(d => d.id === currentDrawerId);
+    if (!item) return;
+
+    const avgPriceEl = document.getElementById('avgPriceIA');
+    const container = document.getElementById('extractedItems');
+
+    // Simulate thinking
+    avgPriceEl.textContent = "Calculando...";
+    container.innerHTML = `<div class="animate-pulse space-y-2"><div class="h-8 bg-slate-100 rounded"></div><div class="h-8 bg-slate-100 rounded"></div></div>`;
+
+    setTimeout(() => {
+        // Price guessing (85-95% of budget)
+        const suggested = item.budgetMax * (0.85 + Math.random() * 0.1);
+        avgPriceEl.textContent = formatPEN(suggested);
+
+        // Mock Item Extraction
+        const keyword = item.title.toLowerCase();
+        let items = [];
+        if (keyword.includes('puente')) items = [{ n: 'Estructura metálica', q: '1 Und.' }, { n: 'Pintura Epóxica', q: '450 m2' }];
+        else if (keyword.includes('rack')) items = [{ n: 'Racks de Aluminio', q: '120 Und.' }, { n: 'Anclajes inox', q: '480 Und.' }];
+        else items = [{ n: 'Bienes/Servicios Generales', q: 'Según bases' }, { n: 'Garantía de cumplimiento', q: '1 Añoo' }];
+
+        container.innerHTML = items.map(i => `
+            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span class="text-xs font-bold text-slate-700">${i.n}</span>
+                <span class="text-[10px] font-black px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-500">${i.q}</span>
+            </div>
+        `).join('');
+    }, 800);
+}
+
+// ============================
+// CHAT IA CON EL EXPEDIENTE (Simulado)
+// ============================
+window.sendMessageAI = () => {
+    const input = document.querySelector('#sectionChat input');
+    const history = document.getElementById('chatHistory');
+    const text = input.value.trim();
+    if (!text) return;
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'flex justify-end mb-3';
+    userMsg.innerHTML = `<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-xs max-w-[85%] font-medium">${text}</div>`;
+    history.appendChild(userMsg);
+    input.value = '';
+    history.scrollTop = history.scrollHeight;
+
+    // AI thinking
+    const thinking = document.createElement('div');
+    thinking.className = 'flex gap-2 mb-3 items-center opacity-50';
+    thinking.innerHTML = `<div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay:0.2s"></div>`;
+    history.appendChild(thinking);
+
+    setTimeout(() => {
+        thinking.remove();
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'flex gap-2 mb-3';
+
+        // Logical responses based on keywords
+        let response = "He revisado el archivo y no encontré mención específica a eso. Generalmente se rige por la Ley de Contrataciones del Estado.";
+        const q = text.toLowerCase();
+        if (q.includes('penal')) response = "El Expediente Técnico indica en la Cláusula 12 que la penalidad por mora es de 0.10 de la UIT por cada día de retraso, con un tope del 10% del contrato.";
+        else if (q.includes('experiencia')) response = "Se requiere que el postor acredite una facturación acumulada 2 veces el valor referencial en los últimos 8 años en servicios similares.";
+        else if (q.includes('partida')) response = "He identificado 4 partidas críticas: Acero (Partida 04.01), Pintura (Partida 08.02) y Movilización de Maquinaria.";
+        else if (q.includes('plazo')) response = "El plazo de entrega estipulado es de 45 días calendario tras la firma del acta de entrega de terreno.";
+
+        aiMsg.innerHTML = `<div class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center shrink-0">🤖</div><div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-xs text-slate-700 max-w-[85%] border border-slate-200">
+            ${response}
+        </div>`;
+        history.appendChild(aiMsg);
+        history.scrollTop = history.scrollHeight;
+    }, 1500);
+};
 
 window.closeDrawer = () => {
     const overlay = document.getElementById('drawerOverlay');
@@ -1280,6 +1411,11 @@ document.getElementById('searchInput')?.addEventListener('keydown', (e) => { if 
 });
 ['budgetMin', 'budgetMax'].forEach(id => {
     document.getElementById(id)?.addEventListener('input', applyFilters);
+});
+
+// Event listener para el Enter en el Chat
+document.querySelector('#sectionChat input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessageAI();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
