@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SubscriptionStatus {
+  TRIAL_ING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+model User {
+  id                 String             @id @default(cuid())
+  clerkId            String             @unique
+  email              String             @unique
+  companyName        String?
+  ruc                String?
+  
+  // Control de Suscripción / Trial (Walled Garden)
+  stripeCustomerId   String?            @unique
+  subscription_status SubscriptionStatus @default(TRIAL_ING)
+  trial_start        DateTime           @default(now())
+  trial_end          DateTime           @default(dbgenerated("NOW() + interval '15 days'"))
+  
+  isActive           Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
