@@ -704,7 +704,7 @@ const applyFilters = () => {
 
             // Búsqueda texto
             const rawInput = document.getElementById('searchInput')?.value.trim() || '';
-            const txt = `${item.title} ${item.agency} ${item.location} ${item.description || ''}`.toLowerCase();
+            const txt = `${item.title} ${item.agency} ${item.location} ${item.description || ''} ${(item.requirements || []).join(' ')}`.toLowerCase();
             if (search) {
                 if (rawInput.startsWith('"') && rawInput.endsWith('"')) {
                     const exactPhrase = rawInput.slice(1, -1).toLowerCase();
@@ -940,6 +940,7 @@ window.openDrawer = (id) => {
     setTimeout(() => { overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }, 10);
 };
 
+
 window.closeDrawer = () => {
     const overlay = document.getElementById('drawerOverlay');
     const panel = document.getElementById('drawerPanel');
@@ -1119,6 +1120,10 @@ window.enviarWebhook = () => {
     if (!currentDrawerId) return;
     const item = currentData.find(d => d.id === currentDrawerId);
     if (!item) return;
+
+    const profile = getProfile();
+    const webhookUrl = profile.webhookUrl;
+
     const payload = {
         tipo: 'LICITACION_CRM',
         fecha: new Date().toISOString(),
@@ -1129,12 +1134,24 @@ window.enviarWebhook = () => {
         presupuesto: item.budgetMax,
         cierre: item.deadline,
         match: item.match,
-        empresa: 'INPROMETAL SAC'
+        empresa: profile.company || 'INPROMETAL SAC'
     };
-    // TODO: Conectar a Make.com/Zapier:
-    // fetch('https://hook.make.com/TU_WEBHOOK', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    console.log('📤 Webhook payload:', JSON.stringify(payload, null, 2));
-    showToast('success', `"${item.id}" enviado al CRM. (Modo simulación)`);
+
+    if (webhookUrl) {
+        fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors', // Para evitar errores de CORS en navegadores si el hook no tiene cabeceras
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            showToast('success', `Datos enviados con éxito a ${new URL(webhookUrl).hostname}`);
+        }).catch(() => {
+            showToast('error', 'Error al conectar con el Webhook.');
+        });
+    } else {
+        console.log('📤 Webhook payload (Simulado):', JSON.stringify(payload, null, 2));
+        showToast('info', `Simulación: "${item.id}" enviado al CRM.`);
+    }
 };
 
 // =========================
@@ -1167,15 +1184,15 @@ function updateTopMaterials(data) {
     container.innerHTML = counts.map(k => {
         const pct = Math.round((k.count / maxCount) * 100);
         return `
-        <div class="flex items-center gap-3">
-            <span class="text-lg">${k.icon}</span>
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="suggestSearch('${k.term}')">
+            <span class="text-lg group-hover:scale-110 transition-transform">${k.icon}</span>
             <div class="flex-1">
                 <div class="flex justify-between items-center mb-1">
-                    <span class="text-xs font-bold text-slate-700">${k.label}</span>
+                    <span class="text-xs font-bold text-slate-700 group-hover:text-primary transition-colors">${k.label}</span>
                     <span class="text-[10px] font-bold text-slate-400">${k.count} procesos</span>
                 </div>
                 <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary rounded-full transition-all" style="width: ${pct}%"></div>
+                    <div class="h-full bg-primary rounded-full transition-all group-hover:bg-blue-600" style="width: ${pct}%"></div>
                 </div>
             </div>
         </div>`;
